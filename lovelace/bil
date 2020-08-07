@@ -1,0 +1,48 @@
+Kort med bilde av bilen:
+
+----------------
+
+aspect_ratio: 50%
+entity: input_number.dp35126_kmstand
+image: local/images/dp35126.jpg
+name: Toyota Avensis - DP35126
+type: picture-entity
+
+----------------
+
+Kort med informasjon som jeg har under:
+
+----------------
+
+entities:
+  - entities:
+      - entity: input_datetime.dp35126_eu_kontroll_dato
+      - entity: input_datetime.dp35126_forsikring_dato
+      - entity: automation.bil_oppdater_dager_eu_kontroll
+      - entity: automation.bil_oppdater_dager_forsikring
+    head:
+      label: Datoer
+      type: section
+    type: 'custom:fold-entity-row'
+  - entities:
+      - entity: input_number.dp35126_kmstand
+      - entity: input_number.dp35126_forsikring_kmstand
+      - entity: input_number.dp35126_service_kmstand
+    head:
+      label: KM
+      type: section
+    type: 'custom:fold-entity-row'
+  - entities:
+      - entity: sensor.eukontroll_dp35126
+      - entity: sensor.forsikring_dp35126
+      - entity: sensor.dp35126_kmstand
+      - entity: sensor.dp35126_kmstand_igjen
+      - entity: sensor.dp35126_kmstand_service_igjen
+    head:
+      label: Toyota Avensis - DP35126
+      type: section
+    open: true
+    type: 'custom:fold-entity-row'
+show_header_toggle: false
+title: DP35126
+type: entities
