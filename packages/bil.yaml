@@ -1,0 +1,230 @@
+################################################################
+## Packages / Bil
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'Bil'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    sensor.dp35126_kmstand:
+      icon: mdi:car
+    sensor.dp35126_kmstand_igjen:
+      icon: mdi:car
+    sensor.dp35126_kmstand_service_igjen:
+      icon: mdi:update
+    sensor.jv14453_kmstand:
+      icon: mdi:car
+    sensor.jv14453_kmstand_igjen:
+      icon: mdi:car
+    sensor.jv14453_kmstand_service_igjen:
+      icon: mdi:update
+
+################################################
+## INPUT DATETIME
+################################################
+
+input_datetime:
+  dp35126_eu_kontroll_dato:
+    name: "Dato EU-kontroll"
+    has_date: true
+    has_time: false
+    icon: mdi:car
+
+  dp35126_forsikring_dato:
+    name: "Dato forsikringsperiode"
+    has_date: true
+    has_time: false
+    icon: mdi:car
+
+  jv14453_eu_kontroll_dato:
+    name: "Dato EU-kontroll"
+    has_date: true
+    has_time: false
+    icon: mdi:car
+
+  jv14453_forsikring_dato:
+    name: "Dato forsikringsperiode"
+    has_date: true
+    has_time: false
+    icon: mdi:car
+
+################################################
+## INPUT NUMBERS
+################################################
+
+input_number:
+  dp35126_service_kmstand:
+    name: "KM neste service"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+    
+  dp35126_kmstand:
+    name: "KM-stand"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+
+  dp35126_forsikring_kmstand:
+    name: "KM forsikringsperiode"
+    min: 0
+    max: 300000
+    step: 100
+    mode: box
+    icon: mdi:map-marker-distance
+
+  jv14453_service_kmstand:
+    name: "KM neste service"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+    
+  jv14453_kmstand:
+    name: "KM-stand"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+
+  jv14453_forsikring_kmstand:
+    name: "KM forsikringsperiode"
+    min: 0
+    max: 300000
+    step: 100
+    mode: box
+    icon: mdi:map-marker-distance
+
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  #DP35126 KM-stand
+  - platform: template
+    sensors:
+      dp35126_kmstand:
+        friendly_name: 'KM-stand'
+        entity_id:
+          - input_number.dp35126_kmstand
+        value_template: "{{ states.input_number.dp35126_kmstand.state | round(0) }}"
+        unit_of_measurement: "km"
+
+  #DP35126 KM-stand igjen
+  - platform: template
+    sensors:
+      dp35126_kmstand_igjen:
+        friendly_name: 'KM igjen på forsikring'
+        entity_id:
+          - input_number.dp35126_kmstand
+          - input_number.dp35126_forsikring_kmstand
+        value_template: "{{ (states.input_number.dp35126_forsikring_kmstand.state | round(0)) - (states.input_number.dp35126_kmstand.state | round(0)) }}"
+        unit_of_measurement: "km"
+
+  #DP35126 KM-stand service igjen
+  - platform: template
+    sensors:
+      dp35126_kmstand_service_igjen:
+        friendly_name: 'KM igjen til service'
+        entity_id:
+          - input_number.dp35126_kmstand
+          - input_number.dp35126_service_kmstand
+        value_template: "{{ (states.input_number.dp35126_service_kmstand.state | round(0)) - (states.input_number.dp35126_kmstand.state | round(0)) }}"
+        unit_of_measurement: "km"
+
+  #JV14453 KM-stand
+  - platform: template
+    sensors:
+      jv14453_kmstand:
+        friendly_name: 'KM-stand'
+        entity_id:
+          - input_number.jv14453_kmstand
+        value_template: "{{ states.input_number.jv14453_kmstand.state | round(0) }}"
+        unit_of_measurement: "km"
+
+  #JV14453 KM-stand igjen
+  - platform: template
+    sensors:
+      jv14453_kmstand_igjen:
+        friendly_name: 'KM igjen på forsikring'
+        entity_id:
+          - input_number.jv14453_kmstand
+          - input_number.jv14453_forsikring_kmstand
+        value_template: "{{ (states.input_number.jv14453_forsikring_kmstand.state | round(0)) - (states.input_number.jv14453_kmstand.state | round(0)) }}"
+        unit_of_measurement: "km"
+
+  #JV14453 KM-stand service igjen
+  - platform: template
+    sensors:
+      jv14453_kmstand_service_igjen:
+        friendly_name: 'KM igjen til service'
+        entity_id:
+          - input_number.jv14453_kmstand
+          - input_number.jv14453_service_kmstand
+        value_template: "{{ (states.input_number.jv14453_service_kmstand.state | round(0)) - (states.input_number.jv14453_kmstand.state | round(0)) }}"
+        unit_of_measurement: "km"
+
+################################################
+## AUTOMATION
+################################################
+
+automation:
+  - alias: Bil - Oppdater dager EU-kontroll
+    initial_state: on
+    trigger:
+      - platform: time
+        at: '00:00:01'
+      - platform: homeassistant
+        event: start
+    action:
+      - service: python_script.eu_kontroll
+        data_template:
+          name: DP35126
+          type: EUkontroll
+          date: '{{ states.input_datetime.dp35126_eu_kontroll_dato.state }}'
+      - service: python_script.eu_kontroll
+        data_template:
+          name: JV14453
+          type: EUkontroll
+          date: '{{ states.input_datetime.jv14453_eu_kontroll_dato.state }}'
+
+  - alias: Bil - Oppdater dager forsikring
+    initial_state: on
+    trigger:
+      - platform: time
+        at: '00:00:01'
+      - platform: homeassistant
+        event: start
+    action:
+      - service: python_script.forsikring
+        data_template:
+          name: DP35126
+          type: Forsikring
+          date: '{{ states.input_datetime.dp35126_forsikring_dato.state }}'
+      - service: python_script.forsikring
+        data_template:
+          name: JV14453
+          type: Forsikring
+          date: '{{ states.input_datetime.jv14453_forsikring_dato.state }}'
