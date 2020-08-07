@@ -1,8 +1,52 @@
 ################################################################
 ## Packages / Bil
+##
+## Her er min oversikt for bilene mine. 
+## En gang i året må jeg legge inn ny dato for forsikring / nytt makstak på KM
+## Etter EU-kontroll må jeg endre dato for neste EU-kontroll
+##
+## Manuelt legger jeg inn KM-stand når jeg husker det...
+##
+## Har ikke lagt inn noen alarmer enda, kommer kanskje senere...
+##
+## Enjoy and share - Tor Gaute Lien 2020
+##
 ################################################################
 
-## Trenger forsikring.py og eu_kontroll.py i mappen python_scripts for at dette skal fungere!
+################################################################
+## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
+## 
+## You need to use the package feature in Home Assistant
+## https://www.home-assistant.io/docs/configuration/packages/
+##
+## Add a folder in your config-folder named "packages"
+## 
+## Add following line in configuration.yaml:
+## packages: !include_dir_named packages
+## 
+## Next step is to store the package in the folder "packages"
+## When it is stored or changed, you need to then reboot HA
+##
+################################################################
+
+################################################################
+## VERSIONLOG
+##
+## VERSJON 1.0 - NEW
+## 7/8-20
+##
+## Created infotext and instructions
+## 
+################################################################
+
+################################################################
+## CHANGES YOU NEED TO DO
+## 
+## Du trenger å lage en mappe i config-folderet ditt som heter "python_scripts"
+## I denne mappen kopierer du forsikring.py og eu_kontroll.py
+## 
+################################################################
+
 
 ################################################
 ## Customize
