@@ -24,4 +24,6 @@ When it is stored or changed, you need to then reboot HA
 
 packages/posten.yaml - Lager en sensor som forteller deg de neste leveringsdatoene for Posten og en binær sensor som forteller om posten blir levert i dag
 
-packages/vaskemaskin.yaml - Creates a sensor that tells you what state the Washing Machine is in, and sends a message when the load is done!
+packages/vaskemaskin.yaml - Creates a sensor that tells you what state the Washing Machine is in, a binary sensor that changes label according to stages and when the machine is sone, you get a message!
+
+packages/oppvaskmaskin.yaml - Creates a sensor that tells you what state the Dishwacher is in, a binary sensor that changes label according to stages and when the machine is sone, you get a message!
