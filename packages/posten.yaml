@@ -17,15 +17,19 @@
 ################################################################
 
 ################################################################
-## WHAT YOU NEED TO MAKE IT WORK:
+## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
 ## 
-## A folder in your config-folder named "packages"
+## You need to use the package feature in Home Assistant
+## https://www.home-assistant.io/docs/configuration/packages/
+##
+## Add a folder in your config-folder named "packages"
 ## 
-## Following linje in configuration.yaml:
+## Add following line in configuration.yaml:
 ## packages: !include_dir_named packages
 ## 
-## Next step is to store this file in the folder "packages"
-## then reboot Home Assistant
+## Next step is to store the package in the folder "packages"
+## When it is stored or changed, you need to then reboot HA
+##
 ################################################################
 
 ################################################################
