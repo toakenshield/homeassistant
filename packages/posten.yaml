@@ -1,0 +1,91 @@
+################################################################
+## Packages / Posten
+##
+## Her får du to sensorer som henter informasjon fra Posten over
+## når posten blir levert til din postadresse
+## 
+## sensor.posten vil ha attributes som forteller de neste dagene
+## Posten blir levert hos deg
+##
+## binary_sensor.posten vil endre farge (aktiveres) om 
+## posten blir levert i dag
+##
+## Du må endre 2847 til ditt postnummer så er du i gang!
+## 
+## scan_interval er hvor ofte den sjekker i sekunder (16 timer)
+##
+################################################################
+
+################################################################
+## WHAT YOU NEED TO MAKE IT WORK:
+## 
+## A folder in your config-folder named "packages"
+## 
+## Following linje in configuration.yaml:
+## packages: !include_dir_named packages
+## 
+## Next step is to store this file in the folder "packages"
+## then reboot Home Assistant
+################################################################
+
+################################################################
+## VERSIONLOG
+##
+## VERSJON  1.0 - Posten
+## 7/8-20
+## Kopiert fra sensor laget av Erlend Sellie fra forumet
+## "Home Asssitant Norge" på Facebook
+## 
+## Lagt inn som pakke og skrevet hjelpetekster
+## 
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'Posten'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    sensor.posten:
+      icon: mdi:bugle
+
+    binary_sensor.posten:
+      icon: mdi:bugle
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+# HER MÅ DU ENDRE TIL DITT POSTNUMMER FRA 2847
+  - platform: command_line
+    command: >-
+        curl 'https://www.posten.no/levering-av-post-2020/_/component/main/1/leftRegion/1?postCode=2847' \
+          -H 'x-requested-with: XMLHttpRequest' \
+          --compressed
+    name: Posten
+    json_attributes:
+      - nextDeliveryDays
+    value_template: "{{'i dag' in (value_json.nextDeliveryDays | string) }}"
+    scan_interval: 57600
+    command_timeout: 30
+    
+binary_sensor:
+  - platform: template
+    sensors:
+      posten:
+        friendly_name: "Posten"
+        value_template: "{{ is_state('sensor.posten', 'True') }}"
