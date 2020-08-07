@@ -5,6 +5,8 @@ Welcome to my Home Assistant page! Some of my content will be available here so 
 
 Some integrations will be in norwegian as they are regional packages and not usually needed outside Norway.
 
+You can see examples of packages in the folder Images.
+
 # WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
 
 You need to use the package feature in Home Assistant
