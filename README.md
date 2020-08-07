@@ -5,7 +5,6 @@ Welcome to my Home Assistant page! Some of my content will be available here so 
 
 Some integrations will be in norwegian as they are regional packages and not usually needed outside Norway.
 
-################################################################
 ## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
 ## 
 ## You need to use the package feature in Home Assistant
@@ -18,12 +17,7 @@ Some integrations will be in norwegian as they are regional packages and not usu
 ## 
 ## Next step is to store the package in the folder "packages"
 ## When it is stored or changed, you need to then reboot HA
-##
-################################################################
 
-################################################################
 ## MY CONTENT:
 ## 
 ## packages/posten.yaml - Lager en sensor som forteller deg de neste leveringsdatoene for Posten og en binær sensor som forteller om posten blir levert i dag
-## 
-################################################################
