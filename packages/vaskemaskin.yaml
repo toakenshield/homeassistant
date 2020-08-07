@@ -64,7 +64,7 @@ homeassistant:
         homebridge_hidden: false
 
 ################################################
-## Vaskemaskin
+## INPUT SELECT
 ################################################
 
 input_select:
