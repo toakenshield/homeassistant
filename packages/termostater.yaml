@@ -1,0 +1,555 @@
+################################################################
+## Packages / Termostater / Thermostats
+##
+## ENGLISH
+##
+## Package that sets temperature (regular, saving and away) on thermostats to given times. Day and night saving on weekdays and only night on weekend / holidays. Opertunity to override all automations and uses home / away switches too. 
+## 
+## Explanation switches: 
+## 
+## Aktiver: Activates automation. If off, nothing will work. 
+## Aktiver Dagsenk: Activates automation on day savings. If off, day savings is disabled.
+## Aktiver Nattsenk: Activates automation on night savings. If off, night savings is disabled.
+## 
+## In addition you must use my vacation package with two switches: 
+## 
+## Hjemmemodus (Home mode): Turns on regular temperature (if Klima is activated), all else is then deactivated. 
+## Feriemodus (Away mode): Turns on away temperature (if Klima is activated), all else is then deactivated.
+##
+## NORSK
+## 
+## Pakke som stiller inn temperatur (vanlig, nattsenk og borte) på termostater til gitte klokkeslett. Mulighet for dagsenk og nattsenk i ukedager og nattsenk i helger. Man kan overstyre all automatikk og bruker hjemme / borte brytere også.
+## 
+## Forklaring brytere:
+## 
+## Aktiver: Aktiverer automatikken. Slår man av denne vil ingenting virke
+## Aktiver Dagsenk: Aktiverer automatikken på dagsenk. Slår man av denne vil dagsenk bli deaktivert
+## Aktiver Nattsenk: Aktiverer automatikken på nattsenk. Slår man av denne vil nattsenk bli deaktivert
+## 
+## I tillegg er min pakke vacation inne her med to brytere:
+## 
+## Hjemmemodus: Slår på vanlig temperatur (om klima er aktivert), alt annet er deaktivert
+## Feriemodus: Slår på bortetemperatur (om klima er aktivert), alt annet er deaktivert
+## 
+## Enjoy and share - Tor Gaute Lien 2020
+##
+################################################################
+
+################################################################
+## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
+## 
+## You need to use the package feature in Home Assistant
+## https://www.home-assistant.io/docs/configuration/packages/
+##
+## Add a folder in your config-folder named "packages"
+## 
+## Add following line in configuration.yaml:
+## packages: !include_dir_named packages
+## 
+## Next step is to store the package in the folder "packages"
+## When it is stored or changed, you need to then reboot HA
+##
+################################################################
+
+################################################################
+## VERSIONLOG
+##
+## VERSJON 1.0 - NEW
+## 9/8-20
+##
+## Lagt inn automasjon kun på soverom og brytere etc på Smiubakken
+## 
+################################################################
+
+################################################################
+## CHANGES YOU NEED TO DO
+## 
+## Alot, this is only for inspiration. 
+## You need my package vacation to make it work.
+## 
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'Pakke-Termostater'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+    
+################################################
+## TERMOSTATER
+################################################ 
+
+climate:
+
+  ################################################
+  ## STUE TEST2
+  ################################################ 
+
+  - platform: generic_thermostat
+    name: Stue TEST2
+    heater: zwave.stue_testplugg
+    target_sensor: sensor.stue_sensor_temperature
+    away_temp: 17
+    
+  ################################################
+  ## SOVEROM
+  ################################################ 
+
+  - platform: generic_thermostat
+    name: Soverom
+    heater: switch.soverom_varmeovn_switch
+    target_sensor: sensor.soverom_rv_temperature
+    away_temp: 17
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
+
+  ################################################
+  ## KJØKKEN
+  ################################################ 
+
+  - platform: generic_thermostat
+    name: Kjøkken
+    heater: switch.kjokken_varmeovn_switch
+    target_sensor: sensor.kjokken_sensor_temperature
+    away_temp: 17
+
+  ################################################
+  ## LEKEROM
+  ################################################ 
+
+  - platform: generic_thermostat
+    name: Lekerom
+    heater: switch.volekerom
+    target_sensor: sensor.lekerom_sensor_temperature
+    away_temp: 17
+
+  ################################################
+  ## MATHIAS
+  ################################################ 
+
+  - platform: generic_thermostat
+    name: Mathias
+    heater: switch.mathias_varmeovn_switch
+    target_sensor: sensor.mathias_rv_temperature
+    away_temp: 17
+  
+  ################################################
+  ## SOFIE
+  ################################################ 
+
+  - platform: generic_thermostat
+    name: Sofie
+    heater: switch.sofie_varmeovn_switch
+    target_sensor: sensor.sofie_rv_temperature
+    away_temp: 17
+
+################################################
+## BINARY SENSOR
+################################################
+
+binary_sensor:
+  # BARE TEST, KAN FJERNES - ONLY TESTING, CAN BE REMOVED
+  - platform: template
+    sensors:
+      soverom_varmeovn_styring_varm:
+        value_template: "{{ (states.climate.soverom.attributes.temperature + 1.5) < states.climate.soverom.attributes.current_temperature }}"
+        friendly_name: 'Soverom varmt'
+
+  # BARE TEST, KAN FJERNES - ONLY TESTING, CAN BE REMOVED
+  - platform: template
+    sensors:
+      soverom_varmeovn_styring_kald:
+        value_template: "{{ states.climate.soverom.attributes.current_temperature < (states.climate.soverom.attributes.temperature - 1.5) }}"
+        friendly_name: 'Soverom kaldt'
+
+  # DAGSENSOR - To check if its weekdays or weekend / holidays
+  - platform: workday
+    country: "NO"
+    name: "Dagsensor"
+    workdays: [mon, tue, thu, fri]
+    excludes: [wed, sat, sun, holiday]
+
+################################################
+## INPUTS
+################################################
+
+input_number:
+
+  ################################################################
+  ## KLIMA SOVEROM
+  ################################################################
+  
+  klima_soverom_grader:
+    name: Temperatur
+    min: 14
+    max: 28
+    step: 0.5
+    icon: mdi:temperature-celsius
+  klima_soverom_grader_nattsenk:
+    name: Nattsenk
+    min: 14
+    max: 28
+    step: 0.5
+    icon: mdi:temperature-celsius
+  klima_soverom_grader_away:
+    name: Borte
+    min: 14
+    max: 28
+    step: 0.5
+    icon: mdi:temperature-celsius
+    
+  ################################################################
+  ## KLIMA SMIUBAKKEN
+  ################################################################
+  
+  klima_smiubakken_grader:
+    name: Temperatur
+    min: 14
+    max: 28
+    step: 0.5
+    icon: mdi:temperature-celsius
+  klima_smiubakken_grader_nattsenk:
+    name: "Natt / dagsenk"
+    min: 14
+    max: 28
+    step: 0.5
+    icon: mdi:temperature-celsius
+  klima_smiubakken_grader_away:
+    name: Borte
+    min: 14
+    max: 28
+    step: 0.5
+    icon: mdi:temperature-celsius
+
+input_boolean:
+
+  ################################################################
+  ## KLIMA SOVEROM
+  ################################################################
+
+  klima_soverom_enable:
+    name: "Klima: Soverom - Aktiver"
+    icon: mdi:thermometer
+  klima_soverom_nattsenk_enable:
+    name: "Klima: Soverom - Aktiver Nattsenk"
+    icon: mdi:thermometer-minus
+  klima_soverom_dagsenk_enable:
+    name: "Klima: Soverom - Aktiver Dagsenk"
+    icon: mdi:thermometer-minus
+
+  ################################################################
+  ## KLIMA SMIUBAKKEN
+  ################################################################
+
+  klima_smiubakken_enable:
+    name: "Klima: Smiubakken - Aktiver"
+    icon: mdi:thermometer
+  klima_smiubakken_nattsenk_enable:
+    name: "Klima: Smiubakken - Aktiver Nattsenk"
+    icon: mdi:thermometer-minus
+  klima_smiubakken_dagsenk_enable:
+    name: "Klima: Smiubakken - Aktiver Dagsenk"
+    icon: mdi:thermometer-minus
+
+input_datetime:
+
+  ################################################################
+  ## KLIMA SOVEROM
+  ################################################################
+
+  klima_soverom_ukedager:
+    name: "Slå av nattsenk"
+    has_date: false
+    has_time: true
+  klima_soverom_ukedager_2:
+    name: "Slå på dagsenk"
+    has_date: false
+    has_time: true
+  klima_soverom_ukedager_3:
+    name: "Slå av dagsenk"
+    has_date: false
+    has_time: true
+  klima_soverom_ukedager_4:
+    name: "Slå på nattsenk"
+    has_date: false
+    has_time: true
+  klima_soverom_helg:
+    name: "Slå av nattsenk"
+    has_date: false
+    has_time: true
+  klima_soverom_helg_2:
+    name: "Slå på nattsenk"
+    has_date: false
+    has_time: true
+
+  ################################################################
+  ## KLIMA SMIUBAKKEN
+  ################################################################
+
+  klima_smiubakken_ukedager:
+    name: "Slå av nattsenk"
+    has_date: false
+    has_time: true
+  klima_smiubakken_ukedager_2:
+    name: "Slå på dagsenk"
+    has_date: false
+    has_time: true
+  klima_smiubakken_ukedager_3:
+    name: "Slå av dagsenk"
+    has_date: false
+    has_time: true
+  klima_smiubakken_ukedager_4:
+    name: "Slå på nattsenk"
+    has_date: false
+    has_time: true
+  klima_smiubakken_helg:
+    name: "Slå av nattsenk"
+    has_date: false
+    has_time: true
+  klima_smiubakken_helg_2:
+    name: "Slå på nattsenk"
+    has_date: false
+    has_time: true
+
+
+################################################
+## SCRIPT
+################################################
+
+script:
+
+  ################################################################
+  ## KLIMA SOVEROM
+  ################################################################
+  
+  # KLIMA SOVEROM GRADER AWAY
+  klima_soverom_grader_away_script:
+    alias: "Klima: Soverom Grader Borte"
+    sequence:
+      - service: climate.set_temperature
+        data_template:
+          entity_id: climate.soverom
+          temperature: "{{ states('input_number.klima_soverom_grader_away') }}"
+          hvac_mode: heat
+
+  # KLIMA SOVEROM GRADER UKEDAG
+  klima_soverom_grader_script:
+    alias: "Klima: Soverom Grader"
+    sequence:
+      - service: climate.set_temperature
+        data_template:
+          entity_id: climate.soverom
+          temperature: "{{ states('input_number.klima_soverom_grader') }}"
+          hvac_mode: heat
+
+  # KLIMA SOVEROM GRADER UKEDAG NATTSENK
+  klima_soverom_grader_nattsenk_script:
+    alias: "Klima: Soverom Grader Nattsenk"
+    sequence:
+      - service: climate.set_temperature
+        data_template:
+          entity_id: climate.soverom
+          temperature: "{{ states('input_number.klima_soverom_grader_nattsenk') }}"
+          hvac_mode: heat
+
+
+################################################
+## AUTOMATION
+################################################
+
+automation:
+
+  ################################################################
+  ## KLIMA SOVEROM
+  ################################################################
+
+  # KLIMA SOVEROM BORTE
+  - id: klima_soverom_grader_away
+    alias: "Klima: Soverom Borte"
+    trigger:
+      platform: state
+      entity_id: input_boolean.vacation_mode
+      to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.klima_soverom_enable
+        state: 'on'
+    action:
+      service: script.klima_soverom_grader_away_script
+
+  # KLIMA SOVEROM ETTER BORTE
+  - id: klima_soverom_grader_home
+    alias: "Klima: Soverom Hjemme"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.vacation_mode
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.home_mode
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.klima_soverom_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+    action:
+      service: script.klima_soverom_grader_script
+
+  # KLIMA SOVEROM UKEDAG VANLIG
+  - id: klima_soverom_grader_ukedag
+    alias: "Klima: Soverom Vanlig"
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.klima_soverom_ukedager.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.klima_soverom_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.home_mode
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.dagsensor
+        state: 'on'
+    action:
+      service: script.klima_soverom_grader_script
+
+  # KLIMA SOVEROM UKEDAG DAGSENK PÅ
+  - id: klima_soverom_grader_dagsenk_on
+    alias: "Klima: Soverom Grader Dagsenk På"
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (states.input_datetime.klima_soverom_ukedager_2.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.klima_soverom_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.klima_soverom_dagsenk_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.home_mode
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.dagsensor
+        state: 'on'
+    action:
+      service: script.klima_soverom_grader_nattsenk_script
+
+  # KLIMA SOVEROM UKEDAG DAGSENK AV
+  - id: klima_soverom_grader_dagsenk_off
+    alias: "Klima: Soverom Grader Dagsenk Av"
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (states.input_datetime.klima_soverom_ukedager_3.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.klima_soverom_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.klima_soverom_dagsenk_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.home_mode
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.dagsensor
+        state: 'on'
+    action:
+      service: script.klima_soverom_grader_script
+
+  # KLIMA SOVEROM UKEDAG NATTSENK
+  - id: klima_soverom_grader_nattsenk
+    alias: "Klima: Soverom Nattsenk"
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (states.input_datetime.klima_soverom_ukedager_4.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.klima_soverom_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.klima_soverom_nattsenk_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.home_mode
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.dagsensor
+        state: 'on'
+    action:
+      service: script.klima_soverom_grader_nattsenk_script
+
+  # KLIMA SOVEROM HELG VANLIG
+  - id: klima_soverom_grader_helg
+    alias: "Klima: Soverom Vanlig"
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.klima_soverom_helg.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.klima_soverom_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.home_mode
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.dagsensor
+        state: 'off'
+    action:
+      service: script.klima_soverom_grader_script
+
+  # KLIMA SOVEROM HELG NATTSENK
+  - id: klima_soverom_grader_helg_nattsenk
+    alias: "Klima: Soverom Nattsenk"
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == (states.input_datetime.klima_soverom_helg_2.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.klima_soverom_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.klima_soverom_nattsenk_enable
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.vacation_mode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.home_mode
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.dagsensor
+        state: 'off'
+    action:
+      service: script.klima_soverom_grader_nattsenk_script
