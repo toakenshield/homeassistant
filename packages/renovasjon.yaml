@@ -7,6 +7,8 @@
 ## 
 ## Det sendes også beskjeder på Sonos og melding dagen før og samme dag
 ##
+## Du trenger også mappen custom_components og min_renovasjon og filene der
+##
 ## Hentet fra eyesoft
 ## https://github.com/eyesoft/home-assistant-custom-components
 ##
