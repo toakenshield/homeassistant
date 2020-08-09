@@ -26,6 +26,8 @@ packages/alarmer.yaml - Her er forskjellige alarmer, blant annet vekking, buss o
 
 packages/posten.yaml - Lager en sensor som forteller deg de neste leveringsdatoene for Posten og en binær sensor som forteller om posten blir levert i dag
 
+packages/termostater.yaml - Thermostat controll with day / night savings and a lot of automations
+
 packages/renovasjon.yaml - Lager 5 sensorer som forteller deg når neste hentedag for renovasjon er
 
 packages/vacation.yaml - Creates input booleans called vacation and home to be used in automations
