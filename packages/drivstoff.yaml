@@ -1,0 +1,110 @@
+################################################################
+## Packages / Drifstoff
+##
+## Førse forsøk på SCRAPE sensor
+## Jørgen Bakke Pedersen skrev YX-sensoren
+##
+## Drivstoffpriser YX og Driv hentet fra nettsidene hver 2. time
+##
+## Enjoy and share - Tor Gaute Lien 2020
+##
+################################################################
+
+################################################################
+## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
+## 
+## You need to use the package feature in Home Assistant
+## https://www.home-assistant.io/docs/configuration/packages/
+##
+## Add a folder in your config-folder named "packages"
+## 
+## Add following line in configuration.yaml:
+## packages: !include_dir_named packages
+## 
+## Next step is to store the package in the folder "packages"
+## When it is stored or changed, you need to then reboot HA
+##
+################################################################
+
+################################################################
+## VERSIONLOG
+##
+## VERSJON 1.0 - NEW
+## 9/8-20
+## 
+################################################################
+
+################################################################
+## CHANGES YOU NEED TO DO
+## 
+## Mange, bruk denne til inspirasjon eventuelt!
+## 
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'pakker-ladestasjoner'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  - platform: scrape
+    resource: https://yx.no/privat/drivstoffpriser
+    name: "YX 95 blyfri"
+    select: '#main > div > div > div > section.fuel-prices > ul > li:nth-child(1) > div:nth-child(2) > span.price-value'
+    unit_of_measurement: 'kr/l'
+    verify_ssl: false
+    scan_interval: 7200
+  - platform: scrape
+    resource: https://yx.no/privat/drivstoffpriser
+    name: "YX Diesel"
+    select: '#main > div > div > div > section.fuel-prices > ul > li:nth-child(2) > div:nth-child(2) > span.price-value'
+    unit_of_measurement: 'kr/l'
+    verify_ssl: false 
+    scan_interval: 7200
+  - platform: scrape
+    resource: https://yx.no/privat/drivstoffpriser
+    name: "YX 95 blyfri (sist oppdatert)"
+    select: '#main > div > div > div > section.fuel-prices > ul > li:nth-child(1) > div:nth-child(1) > span'
+    verify_ssl: false 
+    scan_interval: 7200
+  - platform: scrape
+    resource: https://yx.no/privat/drivstoffpriser
+    name: "YX Diesel (sist oppdatert)"
+    select: '#main > div > div > div > section.fuel-prices > ul > li:nth-child(2) > div:nth-child(1) > span'
+    verify_ssl: false
+    scan_interval: 7200
+
+  - platform: scrape
+    resource: https://drivenergi.no/produkter-og-priser/
+    name: "Driv 95 blyfri"
+    select: '.price-raw'
+    index: 1
+    unit_of_measurement: 'kr/l'
+    verify_ssl: false 
+    scan_interval: 7200
+  - platform: scrape
+    resource: https://drivenergi.no/produkter-og-priser/
+    name: "Driv Diesel"
+    select: '.price-raw'
+    index: 5
+    unit_of_measurement: 'kr/l'
+    verify_ssl: false 
+    scan_interval: 7200
