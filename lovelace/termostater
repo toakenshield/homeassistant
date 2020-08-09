@@ -1,0 +1,57 @@
+Ett kort:
+
+----------------------------------------
+
+entities:
+  - entities:
+      - entity: climate.soverom
+        name: Styring
+      - attribute: current_temperature
+        entity: climate.soverom
+        name: Romtemperatur
+        unit: °C
+      - attribute: temperature
+        entity: climate.soverom
+        name: Setpunkt
+        unit: °C
+    entity: switch.soverom_varmeovn_switch
+    name: Varme
+    secondary_info:
+      entity: sensor.soverom_varmeovn_power
+      name: Effekt
+    state_header: Varmeovn
+    type: 'custom:multiple-entity-row'
+  - entity: climate.soverom
+  - entity: input_boolean.home_mode
+  - entity: input_boolean.vacation_mode
+show_header_toggle: false
+title: Soverom
+type: entities
+
+----------------------------------------
+
+Styringskort
+
+----------------------------------------
+
+entities:
+  - text: Soverom
+    type: 'custom:text-divider-row'
+  - entity: input_boolean.klima_soverom_enable
+  - entity: input_boolean.klima_soverom_dagsenk_enable
+  - entity: input_boolean.klima_soverom_nattsenk_enable
+  - entity: input_number.klima_soverom_grader
+  - entity: input_number.klima_soverom_grader_nattsenk
+  - entity: input_number.klima_soverom_grader_away
+  - text: Soverom Ukedager
+    type: 'custom:text-divider-row'
+  - entity: input_datetime.klima_soverom_ukedager
+  - entity: input_datetime.klima_soverom_ukedager_2
+  - entity: input_datetime.klima_soverom_ukedager_3
+  - entity: input_datetime.klima_soverom_ukedager_4
+  - text: Soverom Helg
+    type: 'custom:text-divider-row'
+  - entity: input_datetime.klima_soverom_helg
+  - entity: input_datetime.klima_soverom_helg_2
+show_header_toggle: false
+type: entities
