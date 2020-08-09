@@ -1,0 +1,69 @@
+Kort hvor man stiller inn parametere
+
+--------------
+
+entities:
+  - text: Leggetid Mathias
+    type: 'custom:text-divider-row'
+  - entity: input_boolean.leggetid_mathias_enable
+  - entity: input_boolean.leggetid_ukedager_mathias
+  - entity: input_datetime.leggetid_ukedager_mathias
+  - entity: input_boolean.leggetid_helg_mathias
+  - entity: input_datetime.leggetid_helg_mathias
+show_header_toggle: false
+type: entities
+
+--------------
+
+Kort hvor man stiller inn parametere
+
+--------------
+
+entities:
+  - text: Leggetid Sofie
+    type: 'custom:text-divider-row'
+  - entity: input_boolean.leggetid_sofie_enable
+  - entity: input_boolean.leggetid_ukedager_sofie
+  - entity: input_datetime.leggetid_ukedager_sofie
+  - entity: input_boolean.leggetid_helg_sofie
+  - entity: input_datetime.leggetid_helg_sofie
+show_header_toggle: false
+type: entities
+
+--------------
+
+Kort hvor man stiller inn parametere
+
+--------------
+
+entities:
+  - text: Leggetid Voksne
+    type: 'custom:text-divider-row'
+  - entity: input_boolean.leggetid_voksne_enable
+  - entity: input_boolean.leggetid_ukedager_voksne
+  - entity: input_datetime.leggetid_ukedager_voksne
+  - entity: input_boolean.leggetid_helg_voksne
+  - entity: input_datetime.leggetid_helg_voksne
+show_header_toggle: false
+type: entities
+
+--------------
+
+Kort hvor man stiller inn parametere
+
+--------------
+
+entities:
+  - text: Alarmer skole og buss
+    type: 'custom:text-divider-row'
+  - entity: input_boolean.skoletid_enable
+  - entity: input_boolean.skoletid_mathias
+  - entity: input_datetime.skoletid_mathias
+  - entity: input_boolean.skoletid_buss_mathias
+  - entity: input_datetime.skoletid_buss_mathias
+  - entity: input_boolean.skoletid_sofie
+  - entity: input_datetime.skoletid_sofie
+  - entity: input_boolean.skoletid_buss_sofie
+  - entity: input_datetime.skoletid_buss_sofie
+show_header_toggle: false
+type: entities
