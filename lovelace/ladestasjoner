@@ -1,0 +1,24 @@
+entities:
+  - text: Ladestasjon Stue
+    type: 'custom:text-divider-row'
+  - entity: input_boolean.ladestasjon_stue_enable
+  - entity: input_datetime.ladestasjon_stue_on_1
+  - entity: input_datetime.ladestasjon_stue_off_1
+  - entity: input_datetime.ladestasjon_stue_on_2
+  - entity: input_datetime.ladestasjon_stue_off_2
+  - text: Ladestasjon TG
+    type: 'custom:text-divider-row'
+  - entity: input_boolean.ladestasjon_tg_enable
+  - entity: input_datetime.ladestasjon_tg_on_1
+  - entity: input_datetime.ladestasjon_tg_off_1
+  - entity: input_datetime.ladestasjon_tg_on_2
+  - entity: input_datetime.ladestasjon_tg_off_2
+  - text: Ladestasjon Sijle
+    type: 'custom:text-divider-row'
+  - entity: input_boolean.ladestasjon_silje_enable
+  - entity: input_datetime.ladestasjon_silje_on_1
+  - entity: input_datetime.ladestasjon_silje_off_1
+  - entity: input_datetime.ladestasjon_silje_on_2
+  - entity: input_datetime.ladestasjon_silje_off_2
+show_header_toggle: false
+type: entities
