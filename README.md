@@ -28,6 +28,10 @@ packages/posten.yaml - Lager en sensor som forteller deg de neste leveringsdatoe
 
 packages/termostater.yaml - Thermostat controll with day / night savings and a lot of automations
 
+packages/drivstoff.yaml - Henter priser 95 og diesel fra YX og Driv
+
+packages/ladestasjoner.yaml - Tidsstyring på ladestasjoner med to av/på tidspunkt og ukedagoversikt
+
 packages/renovasjon.yaml - Lager 5 sensorer som forteller deg når neste hentedag for renovasjon er
 
 packages/vacation.yaml - Creates input booleans called vacation and home to be used in automations
