@@ -22,9 +22,13 @@ When it is stored or changed, you need to then reboot HA
 
 # MY CONTENT:
 
+packages/alarmer.yaml - Her er forskjellige alarmer, blant annet vekking, buss og på tide å legge seg alarm
+
 packages/posten.yaml - Lager en sensor som forteller deg de neste leveringsdatoene for Posten og en binær sensor som forteller om posten blir levert i dag
 
 packages/renovasjon.yaml - Lager 5 sensorer som forteller deg når neste hentedag for renovasjon er
+
+packages/vacation.yaml - Creates input booleans called vacation and home to be used in automations
 
 packages/vaskemaskin.yaml - Creates a sensor that tells you what state the Washing Machine is in, a binary sensor that changes label according to stages and when the machine is sone, you get a message!
 
