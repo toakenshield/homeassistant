@@ -4,6 +4,8 @@
 ## Lagt inn to klokkeslett for å starte ladestasjonene og
 ## to klokkeslett for å stoppe de om dagen / natta
 ##
+## På helg vil stuen ikke slå seg av på tid off_1
+##
 ## Enjoy and share - Tor Gaute Lien 2020
 ##
 ################################################################
@@ -57,6 +59,20 @@ homeassistant:
         <<: *customize
         haaska_hidden: false
         homebridge_hidden: false
+
+################################################
+## BINARY SENSOR
+################################################
+
+binary_sensor:
+
+  # LADESENSOR - To check if its weekdays or weekend / holidays
+  - platform: workday
+    country: "NO"
+    name: "Ladesensor"
+    workdays: [mon, tue, thu, fri]
+    excludes: [wed, sat, sun, holiday]
+
 
 ################################################
 ## INPUTS
@@ -223,7 +239,7 @@ automation:
     action:
       service: script.ladestasjon_stue_on_script
 
-  # AV
+  # AV DAGTID
   - id: ladestasjon_stue_off
     alias: "Ladestasjon Stue: Av"
     trigger:
@@ -235,6 +251,25 @@ automation:
       - condition: state
         entity_id: input_boolean.ladestasjon_stue_enable
         state: 'on'
+      - condition: state
+        entity_id: binary_sensor.ladesensor
+        state: 'on'    
+    action:
+      service: script.ladestasjon_stue_off_script
+
+  # AV HELG
+  - id: ladestasjon_stue_off
+    alias: "Ladestasjon Stue: Av"
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.ladestasjon_stue_off_2.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.ladestasjon_stue_enable
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.ladesensor
+        state: 'off'
     action:
       service: script.ladestasjon_stue_off_script
       
