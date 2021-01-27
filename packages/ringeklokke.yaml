@@ -1,0 +1,148 @@
+################################################################
+## Packages / Ringeklokke
+################################################################
+
+################################################################
+## VERSJONSLOGG
+##
+## HVA TRENGER DU FOR Å FÅ DETTE TIL Å VIRKE:
+## 
+## En mappe i config-mappen som heter "packages"
+## 
+## Følgende linje i configuration.yaml:
+## packages: !include_dir_named packages
+## 
+## Denne bruker Ring som utgangspunkt og du må ha den tjenesten også
+## 
+## Du må lagre denne filen i mappen packages, så omstart av HA
+## 
+## 
+## VERSJON 1.0 - NY
+## 15/4-20
+##
+## Du har en knapp for å slå av automasjon (varsel ved ring og bevegelse)
+## Du har en knapp for å slå av varsel ved bevegele
+## 
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'pakker-ringeklokke'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## INPUT
+################################################
+
+input_boolean:
+  disable_doorbell:
+    name: "Ringeklokke: Slå av automasjon"
+    icon: mdi:bell-off
+  disable_doorbell_varsling:
+    name: "Ringeklokke: Slå av varsling"
+    icon: mdi:comment-text-outline
+
+################################################
+## SCRIPT
+################################################
+
+script:
+
+  ################################################
+  ## Ringeklokke blir trykket på
+  ################################################
+  
+  ringeklokke:
+    alias: "Ringeklokke: Knapp trykket"
+    sequence:
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.sonos
+          media_content_id: https://www.xxx.duckdns.org:8129/local/doorchime.mp3
+          media_content_type: music
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.smiubakken
+          media_content_id: https://www.xxx.duckdns.org:8129/local/doorchime.mp3
+          media_content_type: music
+      - service: notify.notify
+        data:
+          title: "Noen ringer på"
+          message: "Hvem kan det være?"
+
+  ################################################
+  ## Bevegelse utenfor varsling
+  ################################################
+
+  ringeklokke_bevegelse_utenfor_varsling:
+    alias: "Ringeklokke: Bevegelse utenfor"
+    sequence:
+      - service: notify.notify
+        data:
+          title: "Noen er utenfor"
+          message: "Hvem kan det være?"
+
+################################################
+## AUTOMATION
+################################################
+
+automation:
+
+  ################################################
+  ## Ringeklokke: Noen ringer på
+  ################################################
+
+  - alias: "Ringeklokke: Noen ringer på"
+
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.inngangsdor_ding
+        from: 'off'
+        to: 'on'
+
+    condition:
+      - condition: state
+        entity_id: input_boolean.disable_doorbell
+        state: 'off'
+
+    action:
+      - service: script.turn_on
+        entity_id: script.ringeklokke
+
+  ################################################
+  ## Ringeklokke: Bevegelse utenfor
+  ################################################
+
+  - alias: "Ringeklokke: Bevegelse utenfor"
+  
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.inngangsdor_motion
+        from: 'off'
+        to: 'on'
+    
+    condition:
+      - condition: state
+        entity_id: input_boolean.disable_doorbell
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.disable_doorbell_varsling
+        state: 'off'
+      
+    action:
+    - service: script.turn_on
+      entity_id: script.ringeklokke_bevegelse_utenfor_varsling
