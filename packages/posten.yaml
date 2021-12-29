@@ -3,30 +3,33 @@
 ##
 ## Her får du to sensorer som henter informasjon fra Posten over
 ## når posten blir levert til din postadresse
-## 
+##
 ## sensor.posten vil ha attributes som forteller de neste dagene
 ## Posten blir levert hos deg
 ##
-## binary_sensor.posten vil endre farge (aktiveres) om 
+## binary_sensor.posten vil endre farge (aktiveres) om
 ## posten blir levert i dag
 ##
+## Under automation vil den klokken 12:13:14 de dagene det er post
+## sende notifikasjon til alle under notify
+##
 ## Du må endre 2847 til ditt postnummer så er du i gang!
-## 
+##
 ## scan_interval er hvor ofte den sjekker i sekunder (16 timer)
 ##
 ################################################################
 
 ################################################################
 ## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
-## 
+##
 ## You need to use the package feature in Home Assistant
 ## https://www.home-assistant.io/docs/configuration/packages/
 ##
 ## Add a folder in your config-folder named "packages"
-## 
+##
 ## Add following line in configuration.yaml:
 ## packages: !include_dir_named packages
-## 
+##
 ## Next step is to store the package in the folder "packages"
 ## When it is stored or changed, you need to then reboot HA
 ##
@@ -39,9 +42,9 @@
 ## 7/8-20
 ## Kopiert fra sensor laget av Erlend Sellie fra forumet
 ## "Home Asssitant Norge" på Facebook
-## 
+##
 ## Lagt inn som pakke og skrevet hjelpetekster
-## 
+##
 ################################################################
 
 ################################################
@@ -56,7 +59,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'Posten'
+        package: "Posten"
 
       expose: &expose
         <<: *customize
@@ -74,22 +77,41 @@ homeassistant:
 ################################################
 
 sensor:
-# HER MÅ DU ENDRE TIL DITT POSTNUMMER FRA 2847
+  # HER MÅ DU ENDRE TIL DITT POSTNUMMER FRA 2847
   - platform: command_line
     command: >-
-        curl 'https://www.posten.no/levering-av-post-2020/_/component/main/1/leftRegion/1?postCode=2847' \
-          -H 'x-requested-with: XMLHttpRequest' \
-          --compressed
+      curl 'https://www.posten.no/levering-av-post-2020/_/component/main/1/leftRegion/1?postCode=2847' \
+        -H 'x-requested-with: XMLHttpRequest' \
+        --compressed
     name: Posten
     json_attributes:
       - nextDeliveryDays
     value_template: "{{'i dag' in (value_json.nextDeliveryDays | string) }}"
-    scan_interval: 57600
+    scan_interval: 28800
     command_timeout: 30
-    
+
 binary_sensor:
   - platform: template
     sensors:
       posten:
         friendly_name: "Posten"
         value_template: "{{ is_state('sensor.posten', 'True') }}"
+
+################################################
+## AUTOMATION
+################################################
+
+automation:
+  - alias: "Posten: Posten kommer i dag"
+    trigger:
+      - at: "12:13:14"
+        platform: time
+    condition:
+      - condition: state
+        entity_id: binary_sensor.posten
+        state: "on"
+    action:
+      - service: notify.notify
+        data_template:
+          message: "Husk å hente posten!"
+          title: "Posten kommer i dag!"
