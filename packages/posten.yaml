@@ -38,6 +38,10 @@
 ################################################################
 ## VERSIONLOG
 ##
+## VERSJON  1.1 - Posten
+## 29/12-21
+## Endret adressen da Posten endret adresse...
+##
 ## VERSJON  1.0 - Posten
 ## 7/8-20
 ## Kopiert fra sensor laget av Erlend Sellie fra forumet
@@ -80,7 +84,7 @@ sensor:
   # HER MÅ DU ENDRE TIL DITT POSTNUMMER FRA 2847
   - platform: command_line
     command: >-
-      curl 'https://www.posten.no/levering-av-post-2020/_/component/main/1/leftRegion/1?postCode=2847' \
+      curl 'https://www.posten.no/levering-av-post/_/component/main/1/leftRegion/1?postCode=2847' \
         -H 'x-requested-with: XMLHttpRequest' \
         --compressed
     name: Posten
