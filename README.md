@@ -1,11 +1,9 @@
 # homeassistant
 Home Assistant
 
-Welcome to my Home Assistant page! Some of my content will be available here so others may use it.
+Velkommen til min Home Assistant side! Her legger jeg ut noe av det jeg har slik at andre kan bruke det.
 
-Some integrations will be in norwegian as they are regional packages and not usually needed outside Norway or I just don't have time to translate.
-
-You can see examples of packages in the Images folder and simple Lovelace codes for some in the Lovelace folder.
+Du kan se eksempler av pakker i Images folderet og enkle Lovelace koder i det folderet. 
 
 # WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
 
