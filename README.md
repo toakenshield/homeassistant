@@ -17,7 +17,7 @@ https://www.home-assistant.io/docs/configuration/packages/
 
 # MINE NODE-RED flows:
 
-packages/alarmer.yaml - Her er forskjellige alarmer, blant annet vekking, buss og på tide å legge seg alarm
+Informasjon ligger inne i node_red mappen...
 
 # MINE PAKKER:
 
