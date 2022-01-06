@@ -1,5 +1,9 @@
 ################################################################
-## Packages / Posten
+## Packages / Posten --> 29/12-21
+################################################################
+
+################################################################
+## BESKRIVELSE
 ##
 ## Her får du to sensorer som henter informasjon fra Posten over
 ## når posten blir levert til din postadresse
@@ -16,22 +20,6 @@
 ## Du må endre 2847 til ditt postnummer så er du i gang!
 ##
 ## scan_interval er hvor ofte den sjekker i sekunder (16 timer)
-##
-################################################################
-
-################################################################
-## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
-##
-## You need to use the package feature in Home Assistant
-## https://www.home-assistant.io/docs/configuration/packages/
-##
-## Add a folder in your config-folder named "packages"
-##
-## Add following line in configuration.yaml:
-## packages: !include_dir_named packages
-##
-## Next step is to store the package in the folder "packages"
-## When it is stored or changed, you need to then reboot HA
 ##
 ################################################################
 
