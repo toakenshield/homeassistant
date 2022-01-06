@@ -1,0 +1,232 @@
+################################################################
+## Packages / PIR --> 30/12-21
+################################################################
+
+################################################################
+## BESKRIVELSE
+##
+## Pakke som gir fire Input Selector som har følgende moduser:
+## Bevegelse, Rolig, Stille og Ukjent (som er initial)
+##
+## Gir også fire Binary Sensor med forskjellige ikoner
+## avhengig av modus som Input Selector har
+##
+## Det ligger også en automasjon som kan brukes som
+## inspirasjon om man ikke bruker Node-Red
+##
+################################################################
+
+################################################################
+## VERSJONSLOGG
+##
+## VERSJON 2.0 - NODE RED
+## 30/12-21
+##
+## Fjernet variable og automasjoner
+## Lagt inn automasjon som flow i Node-Red
+## Automation ligger her som opphevet, men kan brukes også
+##
+## VERSJON 1.1 - BINARY SENSOR MED FORSKJELLIG ICON
+## 16/4-20
+##
+## Lagt binary_sensor med forskjellige ikoner på alle tre
+## Bevegelse - Stille - Rolig - Ukjent
+##
+## VERSJON 1.0 - NY
+## 15/4-20
+##
+## Lagt inn tre bevegelsesfølere
+## Disse har tre moduser,Bevegelse, Rolig og Stille
+## Disse modusene kan brukes til alarmer, lysstying etc
+## Disse tre er tilgjengelige som input_select og variable
+##
+################################################################
+
+################################################################
+## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
+##
+## You need to use the package feature in Home Assistant
+## https://www.home-assistant.io/docs/configuration/packages/
+##
+## Add a folder in your config-folder named "packages"
+##
+## Add following line in configuration.yaml:
+## packages: !include_dir_named packages
+##
+## Next step is to store the package in the folder "packages"
+## When it is stored or changed, you need to then reboot HA
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "pakker-PIR"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## INPUT
+    ################################################
+
+    ## LEKEROM PIR
+    input_select.lekerom_bevegelse:
+      friendly_name: "PIR"
+      icon: mdi:motion-sensor
+      persistent: true
+
+    ## STUE PIR
+    input_select.stue_bevegelse:
+      friendly_name: "PIR"
+      icon: mdi:motion-sensor
+      persistent: true
+
+    ## KJØKKEN PIR
+    input_select.kjokken_bevegelse:
+      friendly_name: "PIR"
+      icon: mdi:motion-sensor
+      persistent: true
+
+    ## GANG PIR
+    input_select.gang_bevegelse:
+      friendly_name: "PIR"
+      icon: mdi:motion-sensor
+      persistent: true
+
+################################################
+## INPUT
+################################################
+
+input_select:
+  #LEKEROM PIR
+  lekerom_bevegelse:
+    options:
+      - Bevegelse
+      - Rolig
+      - Stille
+      - Ukjent
+    initial: Ukjent
+
+  #STUE PIR
+  stue_bevegelse:
+    options:
+      - Bevegelse
+      - Rolig
+      - Stille
+      - Ukjent
+    initial: Ukjent
+
+  #KJØKKEN PIR
+  kjokken_bevegelse:
+    options:
+      - Bevegelse
+      - Rolig
+      - Stille
+      - Ukjent
+    initial: Ukjent
+
+  #GANG PIR
+  gang_bevegelse:
+    options:
+      - Bevegelse
+      - Rolig
+      - Stille
+      - Ukjent
+    initial: Ukjent
+
+################################################
+## BINARY SENSOR
+################################################
+
+binary_sensor:
+  #LEKEROM PIR
+  - platform: template
+    sensors:
+      lekerom_pir:
+        friendly_name: "Lekerom"
+        value_template: "{{ is_state('input_select.lekerom_bevegelse','Bevegelse') or is_state('input_select.lekerom_bevegelse','Rolig') }}"
+        icon_template: "mdi:{{ 'motion-sensor' if is_state('input_select.lekerom_bevegelse','Bevegelse') else 'account-outline' if is_state('input_select.lekerom_bevegelse','Rolig') else 'account-question-outline' if is_state('input_select.lekerom_bevegelse','Ukjent') else 'toy-brick-outline' if is_state('input_select.lekerom_bevegelse','Stille') }}"
+
+  #STUE PIR
+  - platform: template
+    sensors:
+      stue_pir:
+        friendly_name: "Stue"
+        value_template: "{{ is_state('input_select.stue_bevegelse','Bevegelse') or is_state('input_select.stue_bevegelse','Rolig') }}"
+        icon_template: "mdi:{{ 'motion-sensor' if is_state('input_select.stue_bevegelse','Bevegelse') else 'account-outline' if is_state('input_select.stue_bevegelse','Rolig') else 'account-question-outline' if is_state('input_select.stue_bevegelse','Ukjent') else 'sofa' if is_state('input_select.stue_bevegelse','Stille') }}"
+
+  #KJØKKEN PIR
+  - platform: template
+    sensors:
+      kjokken_pir:
+        friendly_name: "Kjøkken"
+        value_template: "{{ is_state('input_select.kjokken_bevegelse','Bevegelse') or is_state('input_select.kjokken_bevegelse','Rolig') }}"
+        icon_template: "mdi:{{ 'motion-sensor' if is_state('input_select.kjokken_bevegelse','Bevegelse') else 'account-outline' if is_state('input_select.kjokken_bevegelse','Rolig') else 'account-question-outline' if is_state('input_select.kjokken_bevegelse','Ukjent') else 'fridge-outline' if is_state('input_select.kjokken_bevegelse','Stille') }}"
+
+  #GANG PIR
+  - platform: template
+    sensors:
+      gang_pir:
+        friendly_name: "Gang"
+        value_template: "{{ is_state('input_select.gang_bevegelse','Bevegelse') or is_state('input_select.gang_bevegelse','Rolig') }}"
+        icon_template: "mdi:{{ 'motion-sensor' if is_state('input_select.gang_bevegelse','Bevegelse') else 'account-outline' if is_state('input_select.gang_bevegelse','Rolig') else 'account-question-outline' if is_state('input_select.gang_bevegelse','Ukjent') else 'fridge-outline' if is_state('input_select.gang_bevegelse','Stille') }}"
+#
+################################################
+## AUTOMATION
+################################################
+
+#automation:
+
+#######################################
+## STUE PIR
+#######################################
+
+#  - id: stue_bevegelse
+#    alias: "Stue: Bevegelse"
+#    trigger:
+#      - entity_id: binary_sensor.stue_sensor_burglar
+#        platform: state
+#        to: "on"
+#    action:
+#      - service: input_select.select_option
+#        data:
+#          entity_id: input_select.stue_bevegelse
+#          option: Bevegelse
+
+#  - id: stue_rolig
+#    alias: "Stue: Rolig"
+#    trigger:
+#      - entity_id: binary_sensor.stue_sensor_burglar
+#        platform: state
+#        to: "off"
+#    action:
+#      - service: input_select.select_option
+#        data:
+#          entity_id: input_select.stue_bevegelse
+#          option: Rolig
+
+#  - id: stue_stille
+#    alias: "Stue: Stille"
+#    trigger:
+#      - entity_id: binary_sensor.stue_sensor_burglar
+#        platform: state
+#        to: "off"
+#        for:
+#          minutes: 10
+#    action:
+#      - service: input_select.select_option
+#        data:
+#          entity_id: input_select.stue_bevegelse
+#          option: Stille
