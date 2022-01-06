@@ -1,8 +1,6 @@
 ################################################################
 ## Packages / PIR --> 30/12-21
-################################################################
-
-################################################################
+##
 ## BESKRIVELSE
 ##
 ## Pakke som gir fire Input Selector som har følgende moduser:
@@ -39,22 +37,6 @@
 ## Disse har tre moduser,Bevegelse, Rolig og Stille
 ## Disse modusene kan brukes til alarmer, lysstying etc
 ## Disse tre er tilgjengelige som input_select og variable
-##
-################################################################
-
-################################################################
-## WHAT YOU NEED TO MAKE IT WORK (PACKAGES):
-##
-## You need to use the package feature in Home Assistant
-## https://www.home-assistant.io/docs/configuration/packages/
-##
-## Add a folder in your config-folder named "packages"
-##
-## Add following line in configuration.yaml:
-## packages: !include_dir_named packages
-##
-## Next step is to store the package in the folder "packages"
-## When it is stored or changed, you need to then reboot HA
 ##
 ################################################################
 
