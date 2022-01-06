@@ -6,7 +6,7 @@ Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger i
 # node_red-google_calendar_tts_notify
 // Google Kalender -> Høyttaler / Notify
 // Tor Gaute Lien - Versjon 1.0
-
+//
 // Automasjon som henter tidspunkt og informasjon fra en Google Kalender
 // 
 // Informasjonen brukes i varsel som du kan sende til høyttaler i huset, og / eller
@@ -18,3 +18,37 @@ Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger i
 // Du har muligheter til å velge om SPEAKER eller NOTIFY er aktivert
 // 
 // Du har muligheten til å sette opp til fire notify varslinger, og velge separat
+//
+// TING SOM EVENTUELT TRENGS
+//
+// * Du må ha Google Kalender integrert med HA
+// * Jeg bruker også Subflow Smart TTS
+
+# node_red-PIR
+// Versjon 1.0 --> 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Her styres input-boolean som endres avhengig av om PIR er
+// aktivert (bevegelse), Rolig (PIR av) eller Stille (PIR av i x
+// minutter).
+//
+// Dette styrer også da Input Binary som jeg har foskjellige ikoner
+// avhengig av status.
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer (per PIR):
+// 
+// Ekte devicer:
+// 
+// Home Assistant devicer:
+// Input Selector som gir meg ulike valg (Bevegelse, // Rolig,
+// Stille og Ukjent (som er initial).
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "PIR" som gir Input Selectorene
+// 
+// Ting med UTROPSTEGN (!) sier at du MÅ endre navn på device!
