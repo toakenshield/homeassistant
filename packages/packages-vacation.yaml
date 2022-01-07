@@ -1,0 +1,59 @@
+### AUTOMASJONER BØR ENDRES TIL NODE RED -> TING Å GJØRE
+
+################################################################
+## packages-vacation --> Versjon 1.1 --> 09/08-20
+##
+## BESKRIVELSE
+##
+## Lager en input boolean som heter vacation_mode og en home_mode
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.1 - Hjem-funksjon
+## 09/08-20
+## Lagt til home-funksjonen for å overstyre dersom
+## du er hjemme syk / ferie / helligdager
+##
+## VERSJON 1.0 - Ny
+## 17/4-20
+##
+## Laget infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-vacation"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## INPUT BOOLEAN
+################################################
+
+input_boolean:
+  #Feriemodus
+  vacation_mode:
+    name: Feriemodus
+    icon: mdi:airplane
+
+  #Hjemmemodus
+  home_mode:
+    name: Hjemmemodus
+    icon: mdi:home-circle-outline
