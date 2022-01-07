@@ -1,0 +1,80 @@
+################################################################
+## packages-nattugle --> Versjon 1.0 --> 07/01-22
+##
+## BESKRIVELSE
+##
+## Her får du en input select og en switch som heter Nattugle
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON  1.0 - Nattugle
+## 07/01-22
+## Flyttet til egen pakke
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-nattugle"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## INPUT
+    ################################################
+
+    input_boolean.nattugle:
+      friendly_name: "Nattugle"
+      icon: mdi:owl
+
+    ################################################
+    ## SWITCH
+    ################################################
+
+    switch.nattugle:
+      friendly_name: "Nattugle"
+      icon: mdi:owl
+
+################################################
+## INPUT BOOLEAN
+################################################
+
+input_boolean:
+  nattugle_knapp:
+    name: "Nattugle"
+
+################################################
+## SWITCH
+################################################
+
+switch:
+  ################################################
+  ## NATTUGLE - BOOLEAN TO SWITCH
+  ################################################
+
+  - platform: template
+    switches:
+      nattugle:
+        value_template: "{{ is_state('input_boolean.nattugle_knapp', 'on') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: input_boolean.nattugle_knapp
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: input_boolean.nattugle_knapp
