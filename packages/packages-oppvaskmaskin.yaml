@@ -1,0 +1,262 @@
+### AUTOMASJONER BØR ENDRES TIL NODE RED -> TING Å GJØRE
+
+################################################################
+## packages-oppvaskmaskin --> Versjon 1.0 --> 17/04-20
+##
+## BESKRIVELSE
+##
+## Alt er basert fra en plugg med effektmåling (fungerer på dumt utstyr)
+##
+## Lager en input_select med følgende valg:
+## Klar, Kjører, Tørker, Ren og Av
+## Ready, Running, Dry, Clean and Off
+##
+## Lager en sensor som viser status
+## Lager en binary_sensor som endrer symbol avhengig av status
+##
+## Sender en notify når oppvaskmaskin er ferdig
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 17/04-20
+## Laget denne ny
+##
+################################################################
+
+################################################################
+## ENDRINGER DU MÅ GJØRE
+##
+## Endre power-sensoren til riktig entity fra:
+## sensor.kjokken_oppvaskmaskin_power
+##
+## Endre switch til riktig entity fra:
+## switch.kjokken_oppvaskmaskin_switch
+##
+## Endre navn på telefoner du vil ha notify fra:
+## mobile_app_toakens_iphone
+## mobile_app_siljes_iphone
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-oppvaskmaskin"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## INPUT SELECT
+################################################
+
+input_select:
+  oppvaskmaskin_status:
+    name: "Oppvaskmaskin Status"
+    options:
+      - Klar
+      - Kjører
+      - Tørker
+      - Ren
+      - Av
+#    initial: Klar
+
+################################################
+## BINARY SENSOR
+################################################
+
+binary_sensor:
+  - platform: template
+    sensors:
+      oppvaskmaskin_status:
+        friendly_name: "Oppvaskmaskin Status"
+        value_template: "{{ is_state('input_select.oppvaskmaskin_status','Kjører') or is_state('input_select.oppvaskmaskin_status','Tørker') or is_state('input_select.oppvaskmaskin_status','Ren') }}"
+        icon_template: "mdi:{{ 'dishwasher' if is_state('input_select.oppvaskmaskin_status','Klar') else 'dishwasher' if is_state('input_select.oppvaskmaskin_status','Ren') else 'dishwasher-alert' if is_state('input_select.oppvaskmaskin_status','Kjører') else 'dishwasher-alert' if is_state('input_select.oppvaskmaskin_status','Tørker') else 'dishwasher-off' if is_state('input_select.oppvaskmaskin_status','Av') }}"
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  - platform: template
+    sensors:
+      oppvaskmaskin_status:
+        value_template: "{{ states.input_select.oppvaskmaskin_status.state}}"
+        friendly_name: "Oppvaskmaskin Status"
+        icon_template: "mdi:dishwasher"
+
+################################################
+## AUTOMATION
+################################################
+
+automation:
+  # OPPVASKMASKIN: Sett kjører ved strømtrekk
+
+  - alias: "Oppvaskmaskin: Sett kjører ved strømtrekk"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.kjokken_oppvaskmaskin_power
+        above: 10
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_select.oppvaskmaskin_status
+          state: Klar
+        - condition: state
+          entity_id: input_select.oppvaskmaskin_status
+          state: Ren
+        - condition: state
+          entity_id: input_select.oppvaskmaskin_status
+          state: Tørker
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.oppvaskmaskin_status
+          option: Kjører
+
+  # OPPVASKMASKIN: Sett tørker når strømtekket går ned
+
+  - alias: "Oppvaskmaskin: Sett tørker når strømtekket går ned"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.kjokken_oppvaskmaskin_power
+        below: 10
+
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_select.oppvaskmaskin_status
+          state: Kjører
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.oppvaskmaskin_status
+          option: Tørker
+
+  # OPPVASKMASKIN: Sett ren
+
+  - alias: "Oppvaskmaskin: Sett ren"
+    trigger:
+      - platform: state
+        entity_id: input_select.oppvaskmaskin_status
+        to: Tørker
+        for:
+          minutes: 30
+          #var 20, prøvde 25, litt lengre
+
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_select.oppvaskmaskin_status
+          state: Tørker
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.oppvaskmaskin_status
+          option: Ren
+
+  # OPPVASKMASKIN: Sett klar når strømtrekk er av
+
+  - alias: "Oppvaskmaskin: Sett klar når strømtrekk er av"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.kjokken_oppvaskmaskin_power
+        below: 1
+        for:
+          minutes: 30
+
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: switch.kjokken_oppvaskmaskin_switch
+          state: "on"
+        - condition: numeric_state
+          entity_id: sensor.kjokken_oppvaskmaskin_power
+          below: 1
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: input_select.oppvaskmaskin_status
+              state: Ren
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.oppvaskmaskin_status
+          option: Klar
+
+  # OPPVASKMASKIN: Sett klar når skrudd på
+
+  - alias: "Oppvaskmaskin: Sett klar når skrudd på"
+    trigger:
+      platform: state
+      entity_id: switch.kjokken_oppvaskmaskin_switch
+      to: "on"
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.oppvaskmaskin_status
+          option: Klar
+
+  # OPPVASKMASKIN: Sett av når skrudd av
+
+  - alias: "Oppvaskmaskin: Sett av når skrudd av"
+    trigger:
+      platform: state
+      entity_id: switch.kjokken_oppvaskmaskin_switch
+      to: "off"
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.oppvaskmaskin_status
+          option: Av
+
+  # OPPVASKMASKIN: Melding når ren
+
+  - alias: "Oppvaskmaskin: Melding når ren"
+    trigger:
+      - platform: state
+        entity_id: input_select.oppvaskmaskin_status
+        to: Ren
+
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_select.oppvaskmaskin_status
+          state: Ren
+
+    action:
+      - service: notify.mobile_app_toakens_iphone
+        data:
+          message: "Oppvaskmaskinen er ferdig og må tømmes!"
+          title: "Oppvaskmaskin ferdig"
+      - service: notify.mobile_app_siljes_iphone
+        data:
+          message: "Oppvaskmaskinen er ferdig og må tømmes!"
+          title: "Oppvaskmaskin ferdig"
