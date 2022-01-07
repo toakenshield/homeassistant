@@ -1,5 +1,5 @@
 ################################################################
-## Packages / PIR --> 30/12-21
+## packages-pir --> 30/12-22
 ##
 ## BESKRIVELSE
 ##
@@ -17,22 +17,23 @@
 ################################################################
 ## VERSJONSLOGG
 ##
+## VERSJON 2.1 - NODE RED
+## 30/12-21
+## Endret formatoppsett (kun kosmetisk endring)
+##
 ## VERSJON 2.0 - NODE RED
 ## 30/12-21
-##
 ## Fjernet variable og automasjoner
 ## Lagt inn automasjon som flow i Node-Red
 ## Automation ligger her som opphevet, men kan brukes også
 ##
 ## VERSJON 1.1 - BINARY SENSOR MED FORSKJELLIG ICON
 ## 16/4-20
-##
 ## Lagt binary_sensor med forskjellige ikoner på alle tre
 ## Bevegelse - Stille - Rolig - Ukjent
 ##
 ## VERSJON 1.0 - NY
 ## 15/4-20
-##
 ## Lagt inn tre bevegelsesfølere
 ## Disse har tre moduser,Bevegelse, Rolig og Stille
 ## Disse modusene kan brukes til alarmer, lysstying etc
