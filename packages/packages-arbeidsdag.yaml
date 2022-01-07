@@ -1,0 +1,52 @@
+################################################################
+## packages-arbeidsdag --> Versjon 1.0 --> 30/12-21
+##
+## BESKRIVELSE
+##
+## Lager en binary sensor som heter Arbeidsdag som forteller
+## hvilke dager som er arbeidsdager og hvilke som er helg / hellig.
+##
+## Denne brukes til å styre ladestasjonene min (slå de av til tider)
+##
+## PS: Onsdag har fruen fri, så det er helgedag...
+##
+################################################################
+
+################################################################
+## VERSJONSLOGG
+##
+## VERSJON 1.0 - Ny
+## 31/12-21
+## Laget denne
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-arbeidsdag"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## BINARY SENSOR
+################################################
+
+binary_sensor:
+  - platform: workday
+    country: "NO"
+    name: "Arbeidsdag"
+    workdays: [mon, tue, thu, fri]
+    excludes: [wed, sat, sun, holiday]
