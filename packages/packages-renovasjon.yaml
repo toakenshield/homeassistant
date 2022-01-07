@@ -1,0 +1,571 @@
+### BØR ENDRES TIL NODE RED
+
+################################################################
+## packages-renovasjon --> Versjon 1.1 --> 07/01-22
+##
+## BESKRIVELSE
+##
+## I kommunen jeg bor er det 5 forskjellige fraksjoner
+##
+## Her lages det en sensor for hver av dem som oppdateres daglig
+##
+## Det sendes også beskjeder på Sonos og melding dagen før og samme dag
+##
+## Du trenger også mappen custom_components og min_renovasjon og filene der
+##
+## Hentet fra eyesoft
+## https://github.com/eyesoft/home-assistant-custom-components
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON  1.1
+## 07/01-22
+## Formatering (kun kosmetisk)
+##
+## VERSJON 1.0
+## 17/4-20
+## Laget infotekst og alt
+##
+################################################################
+
+################################################################
+## ENDRINGER DU MÅ GJØRE
+##
+## Last ned følgende bilder og legg de i følgende mappe
+## under config-mappen din: www/icons
+## restavfall.png
+## papir.png
+## matavfall.png
+## glassogmetallemballasje.png
+## plastemballasje.png
+##
+## Endre instillinger under "Min renovasjon" til din adresse
+## og ditt kommunenummer
+##
+## Du finner disse ved å følge denne linken:
+## https://ws.geonorge.no/adresser/v1/sok?sok=
+##
+## etter sok= skal du skrive inn din adresse
+##
+## Endre mediespiller du ønsker skal spille av beskjeder:
+## media_player.sonos
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-renovasjon"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    sensor.restavfall:
+      entity_picture: /local/icons/restavfall.png
+    sensor.papir:
+      entity_picture: /local/icons/papir.png
+    sensor.matavfall:
+      entity_picture: /local/icons/matavfall.png
+    sensor.glass_metallemballasje:
+      entity_picture: /local/icons/glassogmetallemballasje.png
+    sensor.plast:
+      entity_picture: /local/icons/plastemballasje.png
+    sensor.restavfall_tomming:
+      entity_picture: /local/icons/restavfall.png
+    sensor.papir_tomming:
+      entity_picture: /local/icons/papir.png
+    sensor.matavfall_tomming:
+      entity_picture: /local/icons/matavfall.png
+    sensor.glass_metallemballasje_tomming:
+      entity_picture: /local/icons/glassogmetallemballasje.png
+    sensor.plast_tomming:
+      entity_picture: /local/icons/plastemballasje.png
+
+################################################
+## Min Renovasjon
+################################################
+
+min_renovasjon:
+  street_name: "Dystlinna"
+  house_no: "249"
+  street_code: "4009"
+  county_id: "3442"
+  date_format: "None"
+
+################################################
+## Sensor
+################################################
+
+sensor:
+  - platform: min_renovasjon
+    fraction_id:
+      - 1 #Restavfall
+      - 2 #Papir
+      - 3 #Matavfall
+      - 4 #Glass/Metall
+      - 7 #Plast
+
+  # Restavfall
+  - platform: template
+    sensors:
+      restavfall_tomming:
+        friendly_name: "Restavfall"
+        # SLETT?        entity_id:
+        # SLETT?          - sensor.restavfall
+        value_template: >-
+          {% set date_in = states.sensor.restavfall.state|replace('\n', '') %}
+          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
+          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set days = (diff /86400) | int %}
+          {% if days == 0 %}
+            I dag
+          {% elif days == 1 %}
+            I morgen
+          {% else %}
+            {{ days }} dager
+          {% endif %}
+
+  # Papir
+  - platform: template
+    sensors:
+      papir_tomming:
+        friendly_name: "Papir"
+        # SLETT?        entity_id:
+        # SLETT?          - sensor.papir
+        value_template: >-
+          {% set date_in = states.sensor.papir.state|replace('\n', '') %}
+          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
+          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set days = (diff /86400) | int %}
+          {% if days == 0 %}
+            I dag
+          {% elif days == 1 %}
+            I morgen
+          {% else %}
+            {{ days }} dager
+          {% endif %}
+
+  # Matavfall
+  - platform: template
+    sensors:
+      matavfall_tomming:
+        friendly_name: "Matavfall"
+        # SLETT?        entity_id:
+        # SLETT?          - sensor.matavfall
+        value_template: >-
+          {% set date_in = states.sensor.matavfall.state|replace('\n', '') %}
+          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
+          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set days = (diff /86400) | int %}
+          {% if days == 0 %}
+            I dag
+          {% elif days == 1 %}
+            I morgen
+          {% else %}
+            {{ days }} dager
+          {% endif %}
+
+  # glass_metallemballasje
+  - platform: template
+    sensors:
+      glass_metallemballasje_tomming:
+        friendly_name: "Glass/Metallamballasje"
+        # SLETT?        entity_id:
+        # SLETT?          - sensor.glass_metallemballasje
+        value_template: >-
+          {% set date_in = states.sensor.glass_metallemballasje.state|replace('\n', '') %}
+          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
+          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set days = (diff /86400) | int %}
+          {% if days == 0 %}
+            I dag
+          {% elif days == 1 %}
+            I morgen
+          {% else %}
+            {{ days }} dager
+          {% endif %}
+
+  # Plast
+  - platform: template
+    sensors:
+      plast_tomming:
+        friendly_name: "Plast"
+        # SLETT?        entity_id:
+        # SLETT?          - sensor.plast
+        value_template: >-
+          {% set date_in = states.sensor.plast.state|replace('\n', '') %}
+          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
+          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set days = (diff /86400) | int %}
+          {% if days == 0 %}
+            I dag
+          {% elif days == 1 %}
+            I morgen
+          {% else %}
+            {{ days }} dager
+          {% endif %}
+
+################################################
+## Automation
+################################################
+
+automation:
+  # Restavfall beskjed dagen før eller samme dag
+  - alias: "Renovasjon: Restavfall Notifikasjon"
+    trigger:
+      - platform: time
+        at: "07:00:00"
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: sensor.restavfall_tomming
+          state: "I morgen"
+        - condition: state
+          entity_id: sensor.restavfall_tomming
+          state: "I dag"
+    action:
+      - service: notify.notify
+        data_template:
+          message: "Husk å ta ut søpla!"
+          title: >
+            {% if is_state('sensor.restavfall_tomming', 'I morgen') %}
+              Restavfallet tømmes i morgen!
+            {% elif is_state('sensor.restavfall_tomming', 'I dag') %}
+              Restavfallet tømmes i dag!
+            {% endif %}
+
+  - alias: "Renovasjon: Restavfall Melding Før"
+    trigger:
+      - platform: time
+        at: "20:00:00"
+    condition:
+      - condition: state
+        entity_id: sensor.restavfall_tomming
+        state: "I morgen"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut restavfallet! Det tømmes i morgen!"
+      - delay: 00:00:09
+
+  - alias: "Renovasjon: Restavfall Melding Dag"
+    trigger:
+      - platform: time
+        at: "07:30:00"
+    condition:
+      - condition: state
+        entity_id: sensor.restavfall_tomming
+        state: "I dag"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut restavfallet! Det tømmes i dag!"
+      - delay: 00:00:09
+
+  # Papir beskjed dagen før eller samme dag
+  - alias: "Renovasjon: Papir Notifikasjon"
+    trigger:
+      - platform: time
+        at: "07:00:00"
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: sensor.papir_tomming
+          state: "I morgen"
+        - condition: state
+          entity_id: sensor.papir_tomming
+          state: "I dag"
+    action:
+      - service: notify.notify
+        data_template:
+          message: "Husk å ta ut papp og papir!"
+          title: >
+            {% if is_state('sensor.papir_tomming', 'I morgen') %}
+              Papp og papir tømmes i morgen!
+            {% elif is_state('sensor.papir_tomming', 'I dag') %}
+              Papp og papir tømmes i dag!
+            {% endif %}
+
+  - alias: "Renovasjon: Papir Melding Før"
+    trigger:
+      - platform: time
+        at: "20:01:00"
+    condition:
+      - condition: state
+        entity_id: sensor.papir_tomming
+        state: "I morgen"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut papp og papir! Det tømmes i morgen!"
+      - delay: 00:00:09
+
+  - alias: "Renovasjon: Papir Melding Dag"
+    trigger:
+      - platform: time
+        at: "07:31:00"
+    condition:
+      - condition: state
+        entity_id: sensor.papir_tomming
+        state: "I dag"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut papp og papir! Det tømmes i dag!"
+      - delay: 00:00:09
+
+  # Matavfall beskjed dagen før eller samme dag
+  - alias: "Renovasjon: Matavfall Notifikasjon"
+    trigger:
+      - platform: time
+        at: "07:00:00"
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: sensor.matavfall_tomming
+          state: "I morgen"
+        - condition: state
+          entity_id: sensor.matavfall_tomming
+          state: "I dag"
+    action:
+      - service: notify.notify
+        data_template:
+          message: "Husk å ta ut matavfall!"
+          title: >
+            {% if is_state('sensor.matavfall_tomming', 'I morgen') %}
+              Matavfall tømmes i morgen!
+            {% elif is_state('sensor.matavfall_tomming', 'I dag') %}
+              Matavfall tømmes i dag!
+            {% endif %}
+
+  - alias: "Renovasjon: Matavfall Melding Før"
+    trigger:
+      - platform: time
+        at: "20:02:00"
+    condition:
+      - condition: state
+        entity_id: sensor.matavfall_tomming
+        state: "I morgen"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut matavfallet! Det tømmes i morgen!"
+      - delay: 00:00:09
+
+  - alias: "Renovasjon: Matavfall Melding Dag"
+    trigger:
+      - platform: time
+        at: "07:32:00"
+    condition:
+      - condition: state
+        entity_id: sensor.matavfall_tomming
+        state: "I dag"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut matavfallet! Det tømmes i dag!"
+      - delay: 00:00:09
+
+  # Glass / Metallembalasje beskjed dagen før eller samme dag
+  - alias: "Renovasjon: Glass/Metallemballasje Notifikasjon"
+    trigger:
+      - platform: time
+        at: "07:00:00"
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: sensor.glass_metallemballasje_tomming
+          state: "I morgen"
+        - condition: state
+          entity_id: sensor.glass_metallemballasje_tomming
+          state: "I dag"
+    action:
+      - service: notify.notify
+        data_template:
+          message: "Husk å ta ut glass / metallemballasje!"
+          title: >
+            {% if is_state('sensor.glass_metallemballasje_tomming', 'I morgen') %}
+              Glass/Metallemballasje tømmes i morgen!
+            {% elif is_state('sensor.glass_metallemballasje_tomming', 'I dag') %}
+              Glass/Metallemballasje tømmes i dag!
+            {% endif %}
+
+  - alias: "Renovasjon: Glass / Metallembalasje Melding Før"
+    trigger:
+      - platform: time
+        at: "20:03:00"
+    condition:
+      - condition: state
+        entity_id: sensor.glass_metallemballasje_tomming
+        state: "I morgen"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut glass / metallemballasje! Det tømmes i morgen!"
+      - delay: 00:00:09
+
+  - alias: "Renovasjon: Glass / Metallembalasje Melding Dag"
+    trigger:
+      - platform: time
+        at: "07:33:00"
+    condition:
+      - condition: state
+        entity_id: sensor.glass_metallemballasje_tomming
+        state: "I dag"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut glass / metallemballasje! Det tømmes i dag!"
+      - delay: 00:00:09
+
+  # Plast beskjed dagen før eller samme dag
+  - alias: "Renovasjon: Plast Notifikasjon"
+    trigger:
+      - platform: time
+        at: "07:00:00"
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: sensor.plast_tomming
+          state: "I morgen"
+        - condition: state
+          entity_id: sensor.plast_tomming
+          state: "I dag"
+    action:
+      - service: notify.notify
+        data_template:
+          message: "Husk å ta ut plast!"
+          title: >
+            {% if is_state('sensor.plast_tomming', 'I morgen') %}
+              Plast tømmes i morgen!
+            {% elif is_state('sensor.plast_tomming', 'I dag') %}
+              Plast tømmes i dag!
+            {% endif %}
+
+  - alias: "Renovasjon: Plast Melding Før"
+    trigger:
+      - platform: time
+        at: "20:04:00"
+    condition:
+      - condition: state
+        entity_id: sensor.plast_tomming
+        state: "I morgen"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut plast! Det tømmes i morgen!"
+      - delay: 00:00:09
+
+  - alias: "Renovasjon: Plast Melding Dag"
+    trigger:
+      - platform: time
+        at: "07:34:00"
+    condition:
+      - condition: state
+        entity_id: sensor.plast_tomming
+        state: "I dag"
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.sonos
+          volume_level: 0.6
+      - service: tts.google_translate_say
+        entity_id: media_player.sonos
+        data_template:
+          message: "Unger, nå må dere huske å ta ut plast! Det tømmes i dag!"
+      - delay: 00:00:09
+
+  # Oppdatere sensorer
+  - alias: "Renovasjon: Oppdatering"
+    trigger:
+      - platform: time_pattern
+        minutes: "/50"
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.restavfall
+      - service: homeassistant.update_entity
+        entity_id: sensor.papir
+      - service: homeassistant.update_entity
+        entity_id: sensor.matavfall
+      - service: homeassistant.update_entity
+        entity_id: sensor.glass_metallemballasje
+      - service: homeassistant.update_entity
+        entity_id: sensor.plast
+      - service: homeassistant.update_entity
+        entity_id: sensor.restavfall_tomming
+      - service: homeassistant.update_entity
+        entity_id: sensor.papir_tomming
+      - service: homeassistant.update_entity
+        entity_id: sensor.matavfall_tomming
+      - service: homeassistant.update_entity
+        entity_id: sensor.glass_metallemballasje_tomming
+      - service: homeassistant.update_entity
+        entity_id: sensor.plast_tomming
