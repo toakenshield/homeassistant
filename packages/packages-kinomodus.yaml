@@ -28,7 +28,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "Kinomodus"
+        package: "packages-kinomodus"
 
       expose: &expose
         <<: *customize
