@@ -47,6 +47,42 @@ PS: Den pakkene som er oppdatert er i formatet packages-navn. Jeg vil legge inn 
 ################################################################
 
 ################################################################
+## packages-vaskemaskin --> Versjon 1.0 --> 17/04-20
+##
+## BESKRIVELSE
+##
+## Alt er basert fra en plugg med effektmåling (fungerer på dumt utstyr)
+##
+## Lager en input_select med følgende valg:
+## Klar, Kjører, Tørker, Ren og Av
+## Ready, Running, Dry, Clean and Off
+## 
+## Lager en sensor som viser status
+## Lager en binary_sensor som endrer symbol avhengig av status
+## 
+## Sender en notify når vaskemaskinen er ferdig
+##
+################################################################
+
+################################################################
+## packages-oppvaskmaskin --> Versjon 1.0 --> 17/04-20
+##
+## BESKRIVELSE
+##
+## Alt er basert fra en plugg med effektmåling (fungerer på dumt utstyr)
+##
+## Lager en input_select med følgende valg:
+## Klar, Kjører, Tørker, Ren og Av
+## Ready, Running, Dry, Clean and Off
+##
+## Lager en sensor som viser status
+## Lager en binary_sensor som endrer symbol avhengig av status
+##
+## Sender en notify når oppvaskmaskin er ferdig
+##
+################################################################
+
+################################################################
 ## packages-pir --> Versjon 2.1 --> 07/12-21
 ##
 ## BESKRIVELSE
@@ -151,9 +187,3 @@ PS: Den pakkene som er oppdatert er i formatet packages-navn. Jeg vil legge inn 
 packages/termostater.yaml - Termostatkontroll med dag / natt spar og mye automasjoner
 
 packages/drivstoff.yaml - Henter priser 95 og diesel fra YX og Driv
-
-packages/vacation.yaml - Lager input booleans som heter vacation og home som kan brukes i automasjoner
-
-packages/vaskemaskin.yaml - Creates a sensor that tells you what state the Washing Machine is in, a binary sensor that changes label according to stages and when the machine is sone, you get a message!
-
-packages/oppvaskmaskin.yaml - Creates a sensor that tells you what state the Dishwacher is in, a binary sensor that changes label according to stages and when the machine is sone, you get a message!
