@@ -1,0 +1,107 @@
+################################################################
+## packages-posten --> Versjon 1.1 --> 29/12-21
+##
+## BESKRIVELSE
+##
+## Her får du to sensorer som henter informasjon fra Posten over
+## når posten blir levert til din postadresse
+##
+## sensor.posten vil ha attributes som forteller de neste dagene
+## Posten blir levert hos deg
+##
+## binary_sensor.posten vil endre farge (aktiveres) om
+## posten blir levert i dag
+##
+## Under automation vil den klokken 12:13:14 de dagene det er post
+## sende notifikasjon til alle under notify
+##
+## Du må endre 2847 til ditt postnummer så er du i gang!
+##
+## scan_interval er hvor ofte den sjekker i sekunder (16 timer)
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON  1.1 - Posten
+## 29/12-21
+## Endret adressen da Posten endret adresse...
+##
+## VERSJON  1.0 - Posten
+## 7/8-20
+## Kopiert fra sensor laget av Erlend Sellie fra forumet
+## "Home Asssitant Norge" på Facebook
+##
+## Lagt inn som pakke og skrevet hjelpetekster
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-posten"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    sensor.posten:
+      icon: mdi:bugle
+
+    binary_sensor.posten:
+      icon: mdi:bugle
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  # HER MÅ DU ENDRE TIL DITT POSTNUMMER FRA 2847
+  - platform: command_line
+    command: >-
+      curl 'https://www.posten.no/levering-av-post/_/component/main/1/leftRegion/1?postCode=2847' \
+        -H 'x-requested-with: XMLHttpRequest' \
+        --compressed
+    name: Posten
+    json_attributes:
+      - nextDeliveryDays
+    value_template: "{{'i dag' in (value_json.nextDeliveryDays | string) }}"
+    scan_interval: 28800
+    command_timeout: 30
+
+binary_sensor:
+  - platform: template
+    sensors:
+      posten:
+        friendly_name: "Posten"
+        value_template: "{{ is_state('sensor.posten', 'True') }}"
+
+################################################
+## AUTOMATION
+################################################
+
+automation:
+  - alias: "Posten: Posten kommer i dag"
+    trigger:
+      - at: "12:13:14"
+        platform: time
+    condition:
+      - condition: state
+        entity_id: binary_sensor.posten
+        state: "on"
+    action:
+      - service: notify.notify
+        data_template:
+          message: "Husk å hente posten!"
+          title: "Posten kommer i dag!"
