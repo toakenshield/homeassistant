@@ -53,7 +53,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "pakker-PIR"
+        package: "packages-pir"
 
       expose: &expose
         <<: *customize
