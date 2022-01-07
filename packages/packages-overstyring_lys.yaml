@@ -1,0 +1,180 @@
+################################################################
+## packages-overstyring_lys --> Versjon 1.0 --> 31/12-21
+##
+## BESKRIVELSE
+##
+## Her får du en for hver styring:
+## Input Boolean som slår på / av overstyringen
+## Input Number som gir tiden for overstyringen
+## Timer som teller ned overstyringen
+##
+################################################################
+
+################################################################
+## VERSJONSLOGG
+##
+## VERSJON  1.0 - Ny
+## 31/12-21
+## Ny
+##
+## Lagt inn som pakke og skrevet hjelpetekster
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-overstyring_lys"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## INPUT
+    ################################################
+
+    #LEKEROM LYS
+    input_boolean.lekerom_overstyr_pir_knapp:
+      friendly_name: "Overstyr PIR Lekerom"
+      icon: mdi:stop-circle
+      persistent: true
+
+    #LEKEROM LYS
+    input_number.lekerom_overstyr_pir_tid:
+      friendly_name: "Hvor mange timer?"
+      icon: mdi:timer
+      persistent: true
+
+    #STUE LYS
+    input_boolean.stue_overstyr_pir_knapp:
+      friendly_name: "Overstyr PIR Stue"
+      icon: mdi:stop-circle
+      persistent: true
+
+    #STUE LYS
+    input_number.stue_overstyr_pir_tid:
+      friendly_name: "Hvor mange timer?"
+      icon: mdi:timer
+      persistent: true
+
+    #KJØKKEN LYS
+    input_boolean.kjokken_overstyr_pir_knapp:
+      friendly_name: "Overstyr PIR Kjøkken"
+      icon: mdi:stop-circle
+      persistent: true
+
+    #KJØKKEN LYS
+    input_number.kjokken_overstyr_pir_tid:
+      friendly_name: "Hvor mange timer?"
+      icon: mdi:timer
+      persistent: true
+
+    #GANG LYS
+    input_boolean.gang_overstyr_pir_knapp:
+      friendly_name: "Overstyr PIR Gang"
+      icon: mdi:stop-circle
+      persistent: true
+
+    #GANG LYS
+    input_number.gang_overstyr_pir_tid:
+      friendly_name: "Hvor mange timer?"
+      icon: mdi:timer
+      persistent: true
+
+    ################################################
+    ## TIMER
+    ################################################
+
+    #LEKEROM LYS
+    timer.lekerom_overstyr_pir:
+      friendly_name: "Timer Overstyr PIR Lekerom"
+
+    #STUE LYS
+    timer.stue_overstyr_pir:
+      friendly_name: "Timer Overstyr PIR Stue"
+
+    #KJØKKEN LYS
+    timer.kjokken_overstyr_pir:
+      friendly_name: "Timer Overstyr PIR Kjøkken"
+
+    #GANG LYS
+    timer.gang_overstyr_pir:
+      friendly_name: "Timer Overstyr PIR Gang"
+
+################################################
+## INPUT BOOLEAN
+################################################
+
+input_boolean:
+  #LEKEROM LYS
+  lekerom_overstyr_pir_knapp:
+
+  #STUE LYS
+  stue_overstyr_pir_knapp:
+
+  #KJØKKEN LYS
+  kjokken_overstyr_pir_knapp:
+
+  #GANG LYS
+  gang_overstyr_pir_knapp:
+
+################################################
+## INPUT NUMBER
+################################################
+
+input_number:
+  #LEKEROM LYS
+  lekerom_overstyr_pir_tid:
+    initial: 1
+    min: 1
+    max: 5
+    step: 1
+
+  #STUE LYS
+  stue_overstyr_pir_tid:
+    initial: 1
+    min: 1
+    max: 5
+    step: 1
+
+  #KJØKKEN LYS
+  kjokken_overstyr_pir_tid:
+    initial: 1
+    min: 1
+    max: 5
+    step: 1
+
+  #GANG LYS
+  gang_overstyr_pir_tid:
+    initial: 1
+    min: 1
+    max: 5
+    step: 1
+
+################################################
+## TIMER
+################################################
+
+timer:
+  #LEKEROM LYS
+  lekerom_overstyr_pir:
+
+  #STUE LYS
+  stue_overstyr_pir:
+
+  #KJØKKEN LYS
+  kjokken_overstyr_pir:
+
+  #GANG LYS
+  gang_overstyr_pir:
