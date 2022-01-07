@@ -1,0 +1,77 @@
+################################################################
+## packages-kinomodus --> Versjon 1.0 --> 31/12-21
+##
+## BESKRIVELSE
+##
+## Her får du en input select og en switch som heter Kinomodus
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON  1.0 - Kinomodus
+## 29/12-21
+## Flyttet til egen pakke
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "Kinomodus"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## INPUT
+    ################################################
+
+    input_boolean.kinomodus:
+      friendly_name: "Kinomodus"
+      icon: mdi:theater
+
+    ################################################
+    ## SWITCH
+    ################################################
+
+    switch.kinomodus:
+      friendly_name: "Kinomodus"
+      icon: mdi:theater
+
+################################################
+## INPUT BOOLEAN
+################################################
+
+input_boolean:
+  kinomodus_knapp:
+    name: "Kinomodus"
+    icon: mdi:theater
+
+################################################
+## SWITCH
+################################################
+
+switch:
+  - platform: template
+    switches:
+      kinomodus:
+        value_template: "{{ is_state('input_boolean.kinomodus_knapp', 'on') }}"
+        turn_on:
+          - service: homeassistant.turn_on
+            entity_id: input_boolean.kinomodus_knapp
+        turn_off:
+          - service: homeassistant.turn_off
+            entity_id: input_boolean.kinomodus_knapp
