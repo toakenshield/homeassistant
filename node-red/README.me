@@ -3,6 +3,7 @@ Her finner du mange flows jeg bruker.
 
 Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger inne i flowen (brukt mye tid på beskrivelser).
 
+
 # node_red-google_calendar_tts_notify
 // Tor Gaute Lien - Versjon 1.0 - 06/01-22
 // 
@@ -24,6 +25,7 @@ Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger i
 //
 // * Du må ha Google Kalender integrert med HA
 // * Jeg bruker også Subflow Smart TTS
+
 
 # node_red-PIR
 // Tor Gaute Lien - Versjon 1.0 - 06/01-22
@@ -52,3 +54,322 @@ Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger i
 // 
 // * Jeg bruker en egen pakke "PIR" som gir Input Selectorene
 // Ting med UTROPSTEGN (!) sier at du MÅ endre navn på device!
+
+
+# node_red-lysstyring_enkel
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Lyset styres av en PIR som slår lyset på og av.
+// 
+// Den sjekker først om det er overstyring av PIR.
+// 
+// Når lyset slås på, aktiveres en timer. Den aktiveres av aktivitet
+// på PIR (on / off).
+// 
+// Når timeren er ferdig sjekker den om PIR er på (om det forsatt er 
+// aktivitet der etter timeren), og om den er aktiv vil timer starte 
+// på nytt. 
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer:
+// 
+// Ekte devicer:
+// PIR som gir ON eller OFF
+// Lampe som styres
+// 
+// Home Assistant devicer:
+// Input Boolean som forteller meg om overstyring PIR er på eller av 
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "Overstyring Lys" som gir de enhetene
+// * Jeg bruker en egen flow "Overstyring Lysstyring" som kan 
+//   overstyre lysstyringen
+// * Jeg bruker en egen pakke "PIR" som gir de enhetene
+// * Jeg bruker en egen flow "PIR" som styrer de enhetene
+
+
+# node_red-lysstyring_nattlys_forskjellige
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Lyset styres av en PIR som slår lyset på og av.
+// 
+// Den sjekker først om det er overstyring av PIR.
+// 
+// Når lyset slås på, aktiveres en timer. Den aktiveres av aktivitet // på PIR (on / off).
+// 
+// Når timeren er ferdig sjekker den om PIR er på (om det forsatt er // aktivitet der etter timeren), og om den er aktiv vil timer starte // på nytt. 
+// 
+// Det er forskjell på hvilket lys som slås på om dagen og om 
+// natten.
+// 
+// Ved skifte til dag / natt vil automatisk det andre lyset også 
+// slås av.
+// 
+// Det er en overstyringsknapp (Nattugle) dersom man vil deaktivere 
+// nattlys i noen timer.
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer:
+// 
+// Ekte devicer:
+// PIR som gir ON eller OFF
+// Lampe som styres
+// Nattlampe som styres
+// 
+// Home Assistant devicer:
+// Input Boolean som forteller meg om overstyring PIR er på eller av 
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "Overstyring Lys" som gir de enhetene
+// * Jeg bruker en egen flow "Overstyring Lysstyring" som kan 
+//   overstyre lysstyringen
+// * Jeg bruker en egen pakke "PIR" som gir de enhetene
+// * Jeg bruker en egen flow "PIR" som styrer de enhetene
+
+
+# node_red-lysstyring_nattlys_dimmer
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Lyset styres av en PIR som slår lyset på og av.
+// 
+// Den sjekker først om det er overstyring av PIR.
+// 
+// Når lyset slås på, aktiveres en timer. Den aktiveres av aktivitet // på PIR (on / off).
+// 
+// Når timeren er ferdig sjekker den om PIR er på (om det forsatt er // aktivitet der etter timeren), og om den er aktiv vil timer starte // på nytt. 
+// 
+// Det er forskjell på styrken på lyset som slås på om dagen og om 
+// natten.
+// 
+// Det er en overstyringsknapp (Nattugle) dersom man vil deaktivere 
+// nattlys i noen timer.
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer:
+// 
+// Ekte devicer:
+// PIR som gir ON eller OFF
+// Lampe som styres
+// 
+// Home Assistant devicer:
+// Input Boolean som forteller meg om overstyring PIR er på eller av 
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "Overstyring Lys" som gir de enhetene
+// * Jeg bruker en egen flow "Overstyring Lysstyring" som kan 
+//   overstyre lysstyringen
+// * Jeg bruker en egen pakke "PIR" som gir de enhetene
+// * Jeg bruker en egen flow "PIR" som styrer de enhetene
+
+
+# node_red-lysstyring_nattlys_dimmer_2
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Lyset styres av en PIR som slår lyset på og av.
+// 
+// Den sjekker først om det er overstyring av PIR.
+// 
+// Når lyset slås på, aktiveres en timer. Den aktiveres av aktivitet 
+// på PIR (on / off).
+// 
+// Når timeren er ferdig sjekker den om PIR er på (om det forsatt er 
+// aktivitet der etter timeren), og om den er aktiv vil timer starte 
+// på nytt. 
+// 
+// Det er forskjell på styrken på lyset som slås på om dagen og om 
+// natten.
+// 
+// Det er en overstyringsknapp (Nattugle) dersom man vil deaktivere 
+// nattlys i noen timer.
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer:
+// 
+// Ekte devicer:
+// PIR som gir ON eller OFF
+// Lampe som styres
+// 
+// Home Assistant devicer:
+// Input Boolean som forteller meg om overstyring PIR er på eller av 
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "Overstyring Lys" som gir de enhetene
+// * Jeg bruker en egen flow "Overstyring Lysstyring" som kan 
+//   overstyre lysstyringen
+// * Jeg bruker en egen pakke "PIR" som gir de enhetene
+// * Jeg bruker en egen flow "PIR" som styrer de enhetene
+
+
+# node_red-utelys
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Skrur på utelys ved solnedgang og av ved soloppgang.
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer:
+// 
+// Ekte devicer:
+// To stk switch til utelys
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+
+
+# node_red-nattugle
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Slår av nattugleknappen etter gitt tid (2 timer)
+// 
+// Nattugle brukes i egne flows for lysstyring som en knapp for å 
+// overstyre nattsenk i to timer.
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer:
+// 
+// Home Assistant devicer:
+// Input Boolean kalt Nattugle
+// Switch kalt Nattugle
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "Nattugle" som gir Nattugle
+//   (Input Boolean og Switch)
+
+
+# node_red-overstyring_lys
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Her er en styring per rom.
+// 
+// Det er en knapp som setter på overstyring. Når den er aktivert 
+// vil automasjonene starte.
+// 
+// Den setter på overstyring i antall timer som gis i en 
+// input boolean. 
+// 
+// Det er en timer som teller ned.
+// 
+// Dersom tiden endres når overstyring er på, endres timeren.
+// 
+// Når timer er ferdig, skrus overstyring av.
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer:
+// 
+// Home Assistant devicer:
+// (4) Input Number som forteller meg hvor mange timer overstyring 
+// skal være aktiv (brukes også i andre flows)
+// (4) Input Boolean som forteller meg om overstyring er aktiv 
+// (brukes også i andre flows)
+// (4) Timere som settes for å endre tid i overstyring
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "Lys" som gir Kinomodus (Input Boolean //   og Switch)
+// * Jeg bruker også en egen pakke "Lys" som gir det som styres 
+//   (overstyring etc)
+
+
+# node_red-kinomodus
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Når Kinomodus aktiveres så slås knappen automatisk av etter to 
+// timer.
+// 
+// Kinomodus aktiverer Overstyring (Stue / Kjøkken) (Input Boolean) og // starter timer for å overstyre (Stue / Kjøkken) i to timer. 
+// 
+// Når knappen slås av aktiveres avslutning på timere (Stue / Kjøkken) // slik at overstyring stopper.
+// 
+// **ENHETER BRUKT**
+// 
+// Her bruker jeg følgende devicer:
+// 
+// Home Assistant devicer:
+// Input Boolean kalt Kinomodus
+// Switch kalt Kinomodus
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "Kinomodus" som gir Kinomodus (Input 
+//   Boolean og Switch)
+// * Jeg bruker en egen pakke "Overstyring Lys" som gir de enhetene
+// * Jeg bruker en egen flow "Overstyring Lysstyring" som kan 
+//   overstyre lysstyringen
+// * Jeg bruker en egen flow for lys i Stue og egen på Kjøkken
+
+
+
+# node_red-ladestasjoner
+// Tor Gaute Lien - Versjon 1.0 - 31/12-21
+// Ny
+// 
+// **BESKRIVELSE**
+// 
+// Her er en styring per ladestasjon.
+// 
+// Du har en Input Boolean som må være på for å aktivere styringen. 
+// 
+// Styringen sjekker hvert minutt om tidspunktet er likt et av disse
+// fire:
+// 
+// Tidspunkt 1: Slå på ladestasjonen (dag og helg)
+// Tidspunkt 2: Slå på ladestasjonen (dag og helg)
+// Tidspunkt 3: Slå av ladestasjonen (dag)
+// Tidspunkt 4: Slå av ladestasjonen (dag og helg)
+// 
+// Når det er likt, sjekker de om ladestasjonen allerede er på eller 
+// av. Så slår de dem på / av om de ikke er riktig. 
+// 
+// **ENHETER BRUKT**
+// 
+// Her har jeg følgende devicer (per ladestasjon):
+// 
+// Ekte devicer:
+// Ladestasjon switch
+// 
+// Home Assistant devicer:
+// Input Boolean som gir deg valget med å slå av styringen
+// Input Datetime som gir fire tidspunkt å styre
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "Ladestasjoner" som gir 
+//   ladestasjonsenhetene (Input Boolean og Input Datetime)
+// * Jeg bruker en egen pakke "Arbeidsdag" som gir den enheten
+
+
