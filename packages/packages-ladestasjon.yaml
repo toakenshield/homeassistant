@@ -1,0 +1,115 @@
+################################################################
+## packages-ladestasjon --> Versjon 1.0 --> 30/12-21
+##
+## BESKRIVELSE
+##
+## Dette er enhetene per ladestasjon:
+## Gir en Input Boolean som gir deg valget med å slå av alle automasjoner
+## Gir fire Input Datetime som gir fire tidspunkt å styre
+##
+## Automasjoner gjøres via NODE-RED
+##
+################################################################
+
+################################################################
+## VERSJONSLOGG
+##
+## VERSJON 1.0 - Ny
+## 31/12-21
+## Laget denne
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-ladestasjon"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## INPUTS
+################################################
+
+input_boolean:
+  # LADESTASJON STUE
+  ladestasjon_stue_enable:
+    name: "Ladestasjon: Aktiver ladestasjon Stue"
+    icon: mdi:bell
+
+  # LADESTASJON TG
+  ladestasjon_tg_enable:
+    name: "Ladestasjon: Aktiver ladestasjon TG"
+    icon: mdi:bell
+
+  # LADESTASJON SILJE
+  ladestasjon_silje_enable:
+    name: "Ladestasjon: Aktiver ladestasjon Silje"
+    icon: mdi:bell
+
+input_datetime:
+  # LADESTASJON STUE
+  ladestasjon_stue_on_1:
+    name: "Skru på"
+    has_date: false
+    has_time: true
+  ladestasjon_stue_on_2:
+    name: "Skru på"
+    has_date: false
+    has_time: true
+  ladestasjon_stue_off_1:
+    name: "Skru av (Dag)"
+    has_date: false
+    has_time: true
+  ladestasjon_stue_off_2:
+    name: "Skru av (Dag + Helg)"
+    has_date: false
+    has_time: true
+
+  # LADESTASJON TG
+  ladestasjon_tg_on_1:
+    name: "Skru på"
+    has_date: false
+    has_time: true
+  ladestasjon_tg_on_2:
+    name: "Skru på"
+    has_date: false
+    has_time: true
+  ladestasjon_tg_off_1:
+    name: "Skru av (Dag)"
+    has_date: false
+    has_time: true
+  ladestasjon_tg_off_2:
+    name: "Skru av (Dag + Helg)"
+    has_date: false
+    has_time: true
+
+  # LADESTASJON SILJE
+  ladestasjon_silje_on_1:
+    name: "Skru på"
+    has_date: false
+    has_time: true
+  ladestasjon_silje_on_2:
+    name: "Skru på"
+    has_date: false
+    has_time: true
+  ladestasjon_silje_off_1:
+    name: "Skru av (Dag)"
+    has_date: false
+    has_time: true
+  ladestasjon_silje_off_2:
+    name: "Skru av (Dag + Helg)"
+    has_date: false
+    has_time: true
