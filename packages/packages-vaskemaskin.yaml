@@ -1,0 +1,264 @@
+### AUTOMASJONER BØR ENDRES TIL NODE RED -> TING Å GJØRE
+
+################################################################
+## packages-vaskemaskin --> Versjon 1.0 --> 17/04-20
+##
+## BESKRIVELSE
+##
+## Alt er basert fra en plugg med effektmåling (fungerer på dumt utstyr)
+##
+## Lager en input_select med følgende valg:
+## Klar, Kjører, Tørker, Ren og Av
+## Ready, Running, Dry, Clean and Off
+## 
+## Lager en sensor som viser status
+## Lager en binary_sensor som endrer symbol avhengig av status
+## 
+## Sender en notify når vaskemaskinen er ferdig
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 17/04-20
+## Laget denne ny
+## 
+################################################################
+
+################################################################
+## ENDRINGER DU MÅ GJØRE
+## 
+## Endre power-sensoren til riktig entity fra:
+## sensor.bad_vaskemaskin_power
+## 
+## Endre switch til riktig entity fra:
+## switch.bad_vaskemaskin_switch
+##
+## Endre navn på telefoner du vil ha notify fra:
+## mobile_app_toakens_iphone
+## mobile_app_siljes_iphone
+## 
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'packages-vaskemaskin'
+        
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## INPUT SELECT
+################################################
+
+input_select:
+  vaskemaskin_status:
+    name: Vaskemaskin Status
+    options:
+      - Klar    # Ready
+      - Kjører  # Running
+      - Tørker  # Drying
+      - Ren     # Clean
+      - Av      # Off
+#    initial: Klar
+
+################################################
+## BINARY SENSOR
+################################################
+
+binary_sensor:
+
+  - platform: template
+    sensors:
+      vaskemaskin_status:
+        friendly_name: "Vaskemaskin Status"
+        value_template: "{{ is_state('input_select.vaskemaskin_status','Kjører') or is_state('input_select.vaskemaskin_status','Tørker') or is_state('input_select.vaskemaskin_status','Ren') }}"
+        icon_template: "mdi:{{ 'tumble-dryer' if is_state('input_select.vaskemaskin_status','Klar') else 'tumble-dryer' if is_state('input_select.vaskemaskin_status','Ren') else 'tumble-dryer-alert' if is_state('input_select.vaskemaskin_status','Kjører') else 'tumble-dryer-alert' if is_state('input_select.vaskemaskin_status','Tørker') else 'tumble-dryer-off' if is_state('input_select.vaskemaskin_status','Av') }}"
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  - platform: template
+    sensors:
+      vaskemaskin_status:
+        value_template: '{{ states.input_select.vaskemaskin_status.state}}'
+        friendly_name: 'Vaskemaskin Status'
+        icon_template: "mdi:tumble-dryer"
+
+################################################
+## AUTOMATION
+################################################
+
+automation:
+
+  # VASKEMASKIN: Sett kjører ved strømtrekk
+  
+  - alias: "Vaskemaskin: Sett kjører ved strømtrekk"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.bad_vaskemaskin_power
+        above: 10
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_select.vaskemaskin_status
+          state: Klar
+        - condition: state
+          entity_id: input_select.vaskemaskin_status
+          state: Ren
+        - condition: state
+          entity_id: input_select.vaskemaskin_status
+          state: Tørker
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.vaskemaskin_status
+          option: Kjører
+  
+  # VASKEMASKIN: Sett tørker når strømtekket går ned
+  
+  - alias: "Vaskemaskin: Sett tørker når strømtekket går ned"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.bad_vaskemaskin_power
+        below: 10
+
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_select.vaskemaskin_status
+          state: Kjører
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.vaskemaskin_status
+          option: Tørker
+  
+  # VASKEMASKIN: Sett ren
+  
+  - alias: "Vaskemaskin: Sett ren"
+    trigger:
+      - platform: state
+        entity_id: input_select.vaskemaskin_status
+        to: Tørker
+        for:
+          minutes: 18
+
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_select.vaskemaskin_status
+          state: Tørker
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.vaskemaskin_status
+          option: Ren
+  
+  # VASKEMASKIN: Sett klar når strømtrekk er av
+  
+  - alias: "Vaskemaskin: Sett klar når strømtrekk er av"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.bad_vaskemaskin_power
+        below: 1
+        for:
+          minutes: 15
+
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: switch.bad_vaskemaskin_switch
+          state: 'on'
+        - condition: numeric_state
+          entity_id: sensor.bad_vaskemaskin_power
+          below: 1
+        - condition: or
+          conditions:
+          - condition: state
+            entity_id: input_select.vaskemaskin_status
+            state: Ren
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.vaskemaskin_status
+          option: Klar
+
+  # VASKEMASKIN: Sett klar når skrudd på
+  
+  - alias: "Oppvaskmaskin: Sett klar når skrudd på"
+    trigger:
+      platform: state
+      entity_id: switch.bad_vaskemaskin_switch
+      to: "on"
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.vaskemaskin_status
+          option: Klar
+
+  # VASKEMASKIN: Sett av når skrudd av
+  
+  - alias: "Oppvaskmaskin: Sett av når skrudd av"
+    trigger:
+      platform: state
+      entity_id: switch.bad_vaskemaskin_switch
+      to: "off"
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.vaskemaskin_status
+          option: Av
+
+  # VASKEMASKIN: Melding når ren
+  
+  - alias: "Vaskemaskin: Melding når ren"
+    trigger:
+      - platform: state
+        entity_id: input_select.vaskemaskin_status
+        to: Ren
+
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_select.vaskemaskin_status
+          state: Ren
+
+    action:
+      - service: notify.mobile_app_toakens_iphone
+        data:
+          message: 'Vaskemaskinen er ferdig og må tømmes!'
+          title: 'Vaskemaskin ferdig'
+      - service: notify.mobile_app_siljes_iphone
+        data:
+          message: 'Vaskemaskinen er ferdig og må tømmes!'
+          title: 'Vaskemaskin ferdig'
