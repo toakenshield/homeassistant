@@ -1,0 +1,141 @@
+### AUTOMASJONER BØR ENDRES TIL NODE RED -> TING Å GJØRE
+
+################################################################
+## packages-vvb --> Versjon 1.0 --> 11/11-21
+##
+## BESKRIVELSE
+##
+## Lager en input boolean som heter vvb_enable
+##
+## Lager fire input_datetime (to on og to off)
+##
+## Script og automasjon som slår på / av enheten ved den
+## første on/off tiden.
+##
+## Den andre on/off tiden er ikke i bruk, men kan aktiveres
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 11/11-21
+##
+## Laget infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-vvb"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## BINARY SENSOR
+################################################
+
+################################################
+## INPUTS
+################################################
+
+input_boolean:
+  # VVB ENABLE
+  vvb_enable:
+    name: "VVB: Aktiver VVB"
+    icon: mdi:bell
+
+input_datetime:
+  # VVB
+  vvb_on_1:
+    name: "Skru på"
+    has_date: false
+    has_time: true
+  vvb_off_1:
+    name: "Skru av"
+    has_date: false
+    has_time: true
+  vvb_on_2:
+    name: "Skru på"
+    has_date: false
+    has_time: true
+  vvb_off_2:
+    name: "Skru av"
+    has_date: false
+    has_time: true
+
+################################################
+## SCRIPT
+################################################
+
+script:
+  ################################################################
+  ## VVB
+  ################################################################
+
+  vvb_on_script:
+    alias: "VVB: På"
+    sequence:
+      - service: homeassistant.turn_on
+        data:
+          entity_id: switch.kjeller_vvb_switch
+
+  vvb_off_script:
+    alias: "VVB: Av"
+    sequence:
+      - service: homeassistant.turn_off
+        data:
+          entity_id: switch.kjeller_vvb_switch
+
+################################################
+## AUTOMATION
+################################################
+
+automation:
+  ################################################################
+  ## VVB
+  ################################################################
+
+  # PÅ
+  - id: vvb_on
+    alias: "VVB: På"
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.vvb_on_1.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    #      - platform: template
+    #        value_template: "{{ states('sensor.time') == (states.input_datetime.vvb_on_2.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.vvb_enable
+        state: "on"
+    action:
+      service: script.vvb_on_script
+
+  # AV
+  - id: vvb_off
+    alias: "VVB: Av"
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.vvb_off_1.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    #      - platform: template
+    #        value_template: "{{ states('sensor.time') == (states.input_datetime.vvb_off_2.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.vvb_enable
+        state: "on"
+    action:
+      service: script.vvb_off_script
