@@ -1,0 +1,499 @@
+################################################################
+## packages-meter --> Versjon 1.0 --> 08/01-22
+##
+## BESKRIVELSE
+##
+## Lager fire meter (sensorer) per kWh enhet
+##
+## Disse sensorene brukes for å måle hvor mye effekt hver enkelt
+## har brukt den siste timen, dagen, uka eller måneden
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 08/02-22
+## Laget infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-meter"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## UTILITY METER
+    ################################################
+    sensor.smartmeter_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.smartmeter_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.smartmeter_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.smartmeter_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    sensor.tibber_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.tibber_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.tibber_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.tibber_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    sensor.varmepumpe_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.varmepumpe_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.varmepumpe_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.varmepumpe_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    sensor.kjeller_vvb_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.kjeller_vvb_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.kjeller_vvb_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.kjeller_vvb_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    sensor.600w_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.600w_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.600w_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.600w_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    #OPPVASKMASKIN
+    sensor.kjokken_oppvaskmaskin_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.kjokken_oppvaskmaskin_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.kjokken_oppvaskmaskin_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.kjokken_oppvaskmaskin_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    #VASKEMASKIN
+    sensor.bad_vaskemaskin_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.bad_vaskemaskin_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.bad_vaskemaskin_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.bad_vaskemaskin_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    #Smiubakken Termostat
+    sensor.smiubakken_termostat_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.smiubakken_termostat_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.smiubakken_termostat_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.smiubakken_termostat_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    #Bad Termostat
+    sensor.bad_termostat_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.bad_termostat_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.bad_termostat_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.bad_termostat_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    #Gang Termostat
+    sensor.gang_termostat_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.gang_termostat_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.gang_termostat_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.gang_termostat_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    #Kjøkken Varmeovn
+    sensor.kjokken_varmeovn_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.kjokken_varmeovn_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.kjokken_varmeovn_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.kjokken_varmeovn_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    #Soverom Varmeovn
+    sensor.soverom_varmeovn_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.soverom_varmeovn_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.soverom_varmeovn_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.soverom_varmeovn_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+    #Mathias Varmeovn
+    sensor.mathias_varmeovn_hourly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne timen"
+      unit_of_measurement: "kWh"
+    sensor.mathias_varmeovn_daily:
+      icon: mdi:gauge
+      friendly_name: "Forbruk i dag"
+      unit_of_measurement: "kWh"
+    sensor.mathias_varmeovn_weekly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne uken"
+      unit_of_measurement: "kWh"
+    sensor.mathias_varmeovn_monthly:
+      icon: mdi:gauge
+      friendly_name: "Forbruk denne måneden"
+      unit_of_measurement: "kWh"
+
+################################################
+## UTILITY METER
+################################################
+
+utility_meter:
+  #MÅLER: Smartmeter
+  smartmeter_hourly:
+    source: sensor.smartmeter_electric_consumption_kwh
+    cycle: hourly
+  smartmeter_daily:
+    source: sensor.smartmeter_electric_consumption_kwh
+    cycle: daily
+  smartmeter_weekly:
+    source: sensor.smartmeter_electric_consumption_kwh
+    cycle: weekly
+  smartmeter_monthly:
+    source: sensor.smartmeter_electric_consumption_kwh
+    cycle: monthly
+  #MÅLER: Tibber
+  tibber_hourly:
+    source: sensor.tibber_spent
+    cycle: hourly
+  tibber_daily:
+    source: sensor.tibber_spent
+    cycle: daily
+  tibber_weekly:
+    source: sensor.tibber_spent
+    cycle: weekly
+  tibber_monthly:
+    source: sensor.tibber_spent
+    cycle: monthly
+  #MÅLER: Varmepumpe
+  stue_varmepumpe_hourly:
+    source: sensor.stue_varmepumpe_energy
+    cycle: hourly
+  stue_varmepumpe_daily:
+    source: sensor.stue_varmepumpe_energy
+    cycle: daily
+  stue_varmepumpe_weekly:
+    source: sensor.stue_varmepumpe_energy
+    cycle: weekly
+  stue_varmepumpe_monthly:
+    source: sensor.stue_varmepumpe_energy
+    cycle: monthly
+  #MÅLER: VVB
+  kjeller_vvb_hourly:
+    source: sensor.kjeller_vvb_energy
+    cycle: hourly
+  kjeller_vvb_daily:
+    source: sensor.kjeller_vvb_energy
+    cycle: daily
+  kjeller_vvb_weekly:
+    source: sensor.kjeller_vvb_energy
+    cycle: weekly
+  kjeller_vvb_monthly:
+    source: sensor.kjeller_vvb_energy
+    cycle: monthly
+  #MÅLER: 600w
+  600w_hourly:
+    source: sensor.600w_spent
+    cycle: hourly
+  600w_daily:
+    source: sensor.600w_spent
+    cycle: daily
+  600w_weekly:
+    source: sensor.600w_spent
+    cycle: weekly
+  600w_monthly:
+    source: sensor.600w_spent
+    cycle: monthly
+  #MÅLER: Oppvaskmaskin
+  kjokken_oppvaskmaskin_hourly:
+    source: sensor.kjokken_oppvaskmaskin_energy
+    cycle: hourly
+  kjokken_oppvaskmaskin_daily:
+    source: sensor.kjokken_oppvaskmaskin_energy
+    cycle: daily
+  kjokken_oppvaskmaskin_weekly:
+    source: sensor.kjokken_oppvaskmaskin_energy
+    cycle: weekly
+  kjokken_oppvaskmaskin_monthly:
+    source: sensor.kjokken_oppvaskmaskin_energy
+    cycle: monthly
+  #MÅLER: Vaskemaskin
+  bad_vaskemaskin_hourly:
+    source: sensor.bad_vaskemaskin_energy
+    cycle: hourly
+  bad_vaskemaskin_daily:
+    source: sensor.bad_vaskemaskin_energy
+    cycle: daily
+  bad_vaskemaskin_weekly:
+    source: sensor.bad_vaskemaskin_energy
+    cycle: weekly
+  bad_vaskemaskin_monthly:
+    source: sensor.bad_vaskemaskin_energy
+    cycle: monthly
+  #MÅLER: Smiubakken Termostat
+  smiubakken_termostat_hourly:
+    source: sensor.smiubakken_termostat_energy
+    cycle: hourly
+  smiubakken_termostat_daily:
+    source: sensor.smiubakken_termostat_energy
+    cycle: daily
+  smiubakken_termostat_weekly:
+    source: sensor.smiubakken_termostat_energy
+    cycle: weekly
+  smiubakken_termostat_monthly:
+    source: sensor.smiubakken_termostat_energy
+    cycle: monthly
+  #MÅLER: Bad Termostat
+  bad_termostat_hourly:
+    source: sensor.bad_termostat_energy
+    cycle: hourly
+  bad_termostat_daily:
+    source: sensor.bad_termostat_energy
+    cycle: daily
+  bad_termostat_weekly:
+    source: sensor.bad_termostat_energy
+    cycle: weekly
+  bad_termostat_monthly:
+    source: sensor.bad_termostat_energy
+    cycle: monthly
+  #MÅLER: Gang Termostat
+  gang_termostat_hourly:
+    source: sensor.gang_termostat_energy
+    cycle: hourly
+  gang_termostat_daily:
+    source: sensor.gang_termostat_energy
+    cycle: daily
+  gang_termostat_weekly:
+    source: sensor.gang_termostat_energy
+    cycle: weekly
+  gang_termostat_monthly:
+    source: sensor.gang_termostat_energy
+    cycle: monthly
+  #MÅLER: Kjøkken Varmeovn
+  kjokken_varmeovn_hourly:
+    source: sensor.kjokken_varmeovn_energy
+    cycle: hourly
+  kjokken_varmeovn_daily:
+    source: sensor.kjokken_varmeovn_energy
+    cycle: daily
+  kjokken_varmeovn_weekly:
+    source: sensor.kjokken_varmeovn_energy
+    cycle: weekly
+  kjokken_varmeovn_monthly:
+    source: sensor.kjokken_varmeovn_energy
+    cycle: monthly
+  #MÅLER: Soverom Varmeovn
+  soverom_varmeovn_hourly:
+    source: sensor.soverom_varmeovn_energy
+    cycle: hourly
+  soverom_varmeovn_daily:
+    source: sensor.soverom_varmeovn_energy
+    cycle: daily
+  soverom_varmeovn_weekly:
+    source: sensor.soverom_varmeovn_energy
+    cycle: weekly
+  soverom_varmeovn_monthly:
+    source: sensor.soverom_varmeovn_energy
+    cycle: monthly
+  #MÅLER: Mathias Varmeovn
+  mathias_varmeovn_hourly:
+    source: sensor.mathias_varmeovn_energy
+    cycle: hourly
+  mathias_varmeovn_daily:
+    source: sensor.mathias_varmeovn_energy
+    cycle: daily
+  mathias_varmeovn_weekly:
+    source: sensor.mathias_varmeovn_energy
+    cycle: weekly
+  mathias_varmeovn_monthly:
+    source: sensor.mathias_varmeovn_energy
+    cycle: monthly
+  #MÅLER: Sofie Varmeovn
+  sofie_varmeovn_hourly:
+    source: sensor.sofie_varmeovn_energy
+    cycle: hourly
+  sofie_varmeovn_daily:
+    source: sensor.sofie_varmeovn_energy
+    cycle: daily
+  sofie_varmeovn_weekly:
+    source: sensor.sofie_varmeovn_energy
+    cycle: weekly
+  sofie_varmeovn_monthly:
+    source: sensor.sofie_varmeovn_energy
+    cycle: monthly
+  #MÅLER: WC Varmeovn
+  wc_varmeovn_hourly:
+    source: sensor.wc_varmeovn_energy
+    cycle: hourly
+  wc_varmeovn_daily:
+    source: sensor.wc_varmeovn_energy
+    cycle: daily
+  wc_varmeovn_weekly:
+    source: sensor.wc_varmeovn_energy
+    cycle: weekly
+  wc_varmeovn_monthly:
+    source: sensor.wc_varmeovn_energy
+    cycle: monthly
+  #MÅLER: Kjeller Varmeovn
+  kjeller_varmeovn_hourly:
+    source: sensor.kjeller_varmeovn_energy
+    cycle: hourly
+  kjeller_varmeovn_daily:
+    source: sensor.kjeller_varmeovn_energy
+    cycle: daily
+  kjeller_varmeovn_weekly:
+    source: sensor.kjeller_varmeovn_energy
+    cycle: weekly
+  kjeller_varmeovn_monthly:
+    source: sensor.kjeller_varmeovn_energy
+    cycle: monthly
+  #MÅLER: Neglestudio Varmeovn
+  neglestudio_varmeovn_hourly:
+    source: sensor.neglestudio_varmeovn_energy
+    cycle: hourly
+  neglestudio_varmeovn_daily:
+    source: sensor.neglestudio_varmeovn_energy
+    cycle: daily
+  neglestudio_varmeovn_weekly:
+    source: sensor.neglestudio_varmeovn_energy
+    cycle: weekly
+  neglestudio_varmeovn_monthly:
+    source: sensor.neglestudio_varmeovn_energy
+    cycle: monthly
+  #MÅLER: Varme Totalt
+  varme_hourly:
+    source: sensor.varme_spent
+    cycle: hourly
+  varme_daily:
+    source: sensor.varme_spent
+    cycle: daily
+  varme_weekly:
+    source: sensor.varme_spent
+    cycle: weekly
+  varme_monthly:
+    source: sensor.varme_spent
+    cycle: monthly
