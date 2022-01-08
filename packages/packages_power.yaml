@@ -1,0 +1,126 @@
+################################################################
+## packages-power --> Versjon 1.0 --> 08/01-22
+##
+## BESKRIVELSE
+##
+## Her legger jeg på power (strømforbruk) på enheter som ikke
+## har strømforbuk. Power er på når pluggen er på.
+##
+## Jeg legger også sammen strømforbruk fra flere enheter
+## slik at jeg har totalforbruk på all varmen
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 08/02-22
+## Laget infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-power"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## SENSOR
+    ################################################
+
+    sensor.600w_power:
+      friendly_name: "Smiubakken 2. etg"
+      icon: mdi:radiator
+      entity_picture: /local/icons/icons8-radiator-48.png
+    sensor.lekerom_varmeovn_power:
+      icon: mdi:radiator
+      entity_picture: /local/icons/icons8-radiator-48.png
+    sensor.kontor_varmeovn_power:
+      icon: mdi:radiator
+      entity_picture: /local/icons/icons8-radiator-48.png
+    sensor.stue_lys_power:
+      icon: mdi:lightbulb
+    sensor.varme_power:
+      icon: mdi:radiator
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  #POWER: Legge til power - 600w Barneloft --> Har ikke strømmåling, så legger inn fast power når enheten er på.
+  - platform: template
+    sensors:
+      600w_power:
+        friendly_name: Barneloft Varmeovn Power
+        value_template: >
+          {{ 600 if is_state('climate.600w', 'heat')
+          else 0 }}
+        unit_of_measurement: W
+
+  #POWER: Legge til power - Lekerom Varmeovn --> Har ikke strømmåling, så legger inn fast power når enheten er på.
+  - platform: template
+    sensors:
+      lekerom_varmeovn_power:
+        friendly_name: Lekerom Varmeovn Power
+        value_template: >
+          {{ 500 if is_state('switch.lekerom_varmeovn', 'on')
+          else 0 }}
+        unit_of_measurement: W
+
+  #POWER: Legge til power - Kontor Varmeovn --> Har ikke strømmåling, så legger inn fast power når enheten er på.
+  - platform: template
+    sensors:
+      kontor_varmeovn_power:
+        friendly_name: Kontor Varmeovn Power
+        value_template: >
+          {{ 500 if is_state('switch.kontor_varmeovn', 'on')
+          else 0 }}
+        unit_of_measurement: W
+
+  #POWER: Utrening totalt stuelys -> Har en enhet (stuelys) som består av to enheter. Her legger jeg sammen strømforbruket.
+  - platform: template
+    sensors:
+      stue_lys_power:
+        friendly_name: "Stuelys Power"
+        # Bruker denne sensoren: sensor.stue_lys_tv_power
+        # Bruker denne sensoren: sensor.stue_lys_trapp_power
+        value_template: "{{ ((states('sensor.stue_lys_tv_power')|float) + (states('sensor.stue_lys_trapp_power')|float))|round(2) }}"
+        unit_of_measurement: "W"
+
+  #POWER: Utrening totalt varme -> Alle power på all varmen summert
+  - platform: template
+    sensors:
+      varme_power:
+        friendly_name: "Varme Power"
+        # Bruker denne sensoren: sensor.stue_varmepumpe_power
+        # Bruker denne sensoren: sensor.bad_termostat_power
+        # Bruker denne sensoren: sensor.gang_termostat_power
+        # Bruker denne sensoren: sensor.smiubakken_termostat_power
+        # Bruker denne sensoren: sensor.lekerom_varmeovn_power
+        # Bruker denne sensoren: sensor.kontor_varmeovn_power
+        # Bruker denne sensoren: sensor.600w_power
+        # Bruker denne sensoren: sensor.kjokken_varmeovn_power
+        # Bruker denne sensoren: sensor.soverom_varmeovn_power
+        # Bruker denne sensoren: sensor.mathias_varmeovn_power
+        # Bruker denne sensoren: sensor.sofie_varmeovn_power
+        # Bruker denne sensoren: sensor.wc_varmeovn_power
+        # Bruker denne sensoren: sensor.kjeller_varmeovn_power
+        # Bruker denne sensoren: sensor.neglestudio_varmeovn_power
+        value_template: "{{ ((states('sensor.stue_varmepumpe_power')|float)+ (states('sensor.bad_termostat_power')|float) + (states('sensor.gang_termostat_power')|float)+ (states('sensor.smiubakken_termostat_power')|float) + (states('sensor.lekerom_varmeovn_power')|float)  + (states('sensor.kontor_varmeovn_power')|float) + (states('sensor.600w_power')|float) + (states('sensor.kjokken_varmeovn_power')|float) + (states('sensor.soverom_varmeovn_power')|float) + (states('sensor.mathias_varmeovn_power')|float) + (states('sensor.sofie_varmeovn_power')|float) + (states('sensor.wc_varmeovn_power')|float) + (states('sensor.kjeller_varmeovn_power')|float) + (states('sensor.neglestudio_varmeovn_power')|float))|round(2) }}"
+        unit_of_measurement: "W"
