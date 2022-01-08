@@ -1,0 +1,95 @@
+################################################################
+## packages-energy --> Versjon 1.0 --> 08/01-22
+##
+## BESKRIVELSE
+##
+## Her legger jeg på energy (kWh) på enheter som ikke
+## har måler i seg. Det regnes ut fra strømforbruk (power).
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 08/02-22
+## Laget infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-energy"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## SENSOR
+    ################################################
+
+    sensor.tibber_spent:
+      icon: mdi:gauge
+    sensor.600w_spent:
+      icon: mdi:gauge
+    sensor.varme_spent:
+      icon: mdi:gauge
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  #OMREGNER: Regne om power til effekt - Tibber
+  - platform: integration
+    source: sensor.power_dystlinna_249
+    name: tibber_spent
+    unit_prefix: k
+    round: 2
+
+  #OMREGNER: Regne om power til effekt - 600w Barneloft
+  - platform: integration
+    source: sensor.600w_power
+    name: 600w_spent
+    unit_prefix: k
+    round: 2
+
+  #OMREGNER: Regne om power til effekt - Lekerom Varmeovn
+  - platform: integration
+    source: sensor.lekerom_varmeovn_power
+    name: 600w_spent
+    unit_prefix: k
+    round: 2
+
+  #OMREGNER: Regne om power til effekt - Kontor Varmeovn
+  - platform: integration
+    source: sensor.kontor_varmeovn_power
+    name: 600w_spent
+    unit_prefix: k
+    round: 2
+
+  #OMREGNER: Regne om power til effekt - Stuelys
+  - platform: integration
+    source: sensor.stue_lys_power
+    name: 600w_spent
+    unit_prefix: k
+    round: 2
+
+  #OMREGNER: Regne om power til effekt - Varme
+  - platform: integration
+    source: sensor.varme_power
+    name: varme_spent
+    unit_prefix: k
+    round: 2
