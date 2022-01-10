@@ -27,6 +27,36 @@ Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger i
 // * Jeg bruker også Subflow Smart TTS
 
 
+# node_red-vvb
+// Tor Gaute Lien - Versjon 1.0 - 10/01-22
+// 
+// **BESKRIVELSE**
+// 
+// Automasjon som henter to tidspunkt og slår bryter på eller av når de inntreffer
+// 
+// Autmasjonen kan slås av / på ved hjelp av en input_boolean
+// 
+// Den første input_datetime (on) er klokkeslettet den skal skrus på
+// Den andre input_datetime (off) er klokkeslettet den skal skrus av
+// Du legger inn navnet på bryteren (switch) som skal styres
+// Du legger inn navnet på input_boolean som styrer automasjonen
+//
+// **ENHETER BRUKT**
+// 
+// Her har jeg følgende devicer (per ladestasjon):
+// 
+// Ekte devicer:
+// VVB switch
+// 
+// Home Assistant devicer:
+// Input Datetime som gir to tidspunkt å styre
+// Input Boolean som aktiverer / deaktiverer automasjonen
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "packages-vvb" som gir Input Datetime enhetene og Input Boolean
+
+
 # node_red-PIR
 // Tor Gaute Lien - Versjon 1.0 - 06/01-22
 // Ny
