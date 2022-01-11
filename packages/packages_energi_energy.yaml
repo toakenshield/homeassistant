@@ -1,5 +1,5 @@
 ################################################################
-## packages-energy --> Versjon 1.0 --> 08/01-22
+## packages-energi_energy --> Versjon 1.1 --> 11/01-22
 ##
 ## BESKRIVELSE
 ##
@@ -10,6 +10,10 @@
 
 ################################################################
 ## VERSJONLOG
+##
+## VERSJON 1.1 - Endret navn
+## 11/01-22
+## Endret navn på pakken fra energy til energi_energy
 ##
 ## VERSJON 1.0 - Ny
 ## 08/02-22
@@ -29,7 +33,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "packages-energy"
+        package: "packages-energi_energy"
 
       expose: &expose
         <<: *customize
@@ -69,21 +73,21 @@ sensor:
   #OMREGNER: Regne om power til effekt - Lekerom Varmeovn
   - platform: integration
     source: sensor.lekerom_varmeovn_power
-    name: 600w_spent
+    name: Varmeovn
     unit_prefix: k
     round: 2
 
   #OMREGNER: Regne om power til effekt - Kontor Varmeovn
   - platform: integration
     source: sensor.kontor_varmeovn_power
-    name: 600w_spent
+    name: Varmeovn
     unit_prefix: k
     round: 2
 
   #OMREGNER: Regne om power til effekt - Stuelys
   - platform: integration
     source: sensor.stue_lys_power
-    name: 600w_spent
+    name: Stuelys
     unit_prefix: k
     round: 2
 
