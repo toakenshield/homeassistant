@@ -1,5 +1,5 @@
 ################################################################
-## packages-meter --> Versjon 1.0 --> 08/01-22
+## packages-energi_meter --> Versjon 1.1 --> 11/01-22
 ##
 ## BESKRIVELSE
 ##
@@ -7,14 +7,19 @@
 ##
 ## Disse sensorene brukes for å måle hvor mye effekt hver enkelt
 ## har brukt den siste timen, dagen, uka eller måneden
+## Du trenger en power-sensor som gir effekten i watt
 ##
 ################################################################
 
 ################################################################
 ## VERSJONLOG
 ##
+## VERSJON 1.1 - Endret navn
+## 11/01-22
+## Endret navn på pakken fra meter til energi_meter
+##
 ## VERSJON 1.0 - Ny
-## 08/02-22
+## 08/01-22
 ## Laget infotekst
 ##
 ################################################################
@@ -31,7 +36,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "packages-meter"
+        package: "packages-energi_meter"
 
       expose: &expose
         <<: *customize
@@ -41,6 +46,8 @@ homeassistant:
     ################################################
     ## UTILITY METER
     ################################################
+
+    #SMARTMETER
     sensor.smartmeter_hourly:
       icon: mdi:gauge
       friendly_name: "Forbruk denne timen"
@@ -57,6 +64,7 @@ homeassistant:
       icon: mdi:gauge
       friendly_name: "Forbruk denne måneden"
       unit_of_measurement: "kWh"
+    #TIBBER
     sensor.tibber_hourly:
       icon: mdi:gauge
       friendly_name: "Forbruk denne timen"
@@ -73,6 +81,7 @@ homeassistant:
       icon: mdi:gauge
       friendly_name: "Forbruk denne måneden"
       unit_of_measurement: "kWh"
+    #varmepumpe
     sensor.varmepumpe_hourly:
       icon: mdi:gauge
       friendly_name: "Forbruk denne timen"
@@ -89,6 +98,7 @@ homeassistant:
       icon: mdi:gauge
       friendly_name: "Forbruk denne måneden"
       unit_of_measurement: "kWh"
+    #kjeller_vvb
     sensor.kjeller_vvb_hourly:
       icon: mdi:gauge
       friendly_name: "Forbruk denne timen"
@@ -105,6 +115,7 @@ homeassistant:
       icon: mdi:gauge
       friendly_name: "Forbruk denne måneden"
       unit_of_measurement: "kWh"
+    #600q
     sensor.600w_hourly:
       icon: mdi:gauge
       friendly_name: "Forbruk denne timen"
@@ -263,7 +274,7 @@ homeassistant:
 ################################################
 
 utility_meter:
-  #MÅLER: Smartmeter
+  #Smartmeter
   smartmeter_hourly:
     source: sensor.smartmeter_electric_consumption_kwh
     cycle: hourly
@@ -276,7 +287,7 @@ utility_meter:
   smartmeter_monthly:
     source: sensor.smartmeter_electric_consumption_kwh
     cycle: monthly
-  #MÅLER: Tibber
+  #Tibber
   tibber_hourly:
     source: sensor.tibber_spent
     cycle: hourly
@@ -289,7 +300,7 @@ utility_meter:
   tibber_monthly:
     source: sensor.tibber_spent
     cycle: monthly
-  #MÅLER: Varmepumpe
+  #Varmepumpe
   stue_varmepumpe_hourly:
     source: sensor.stue_varmepumpe_energy
     cycle: hourly
@@ -302,7 +313,7 @@ utility_meter:
   stue_varmepumpe_monthly:
     source: sensor.stue_varmepumpe_energy
     cycle: monthly
-  #MÅLER: VVB
+  #VVB
   kjeller_vvb_hourly:
     source: sensor.kjeller_vvb_energy
     cycle: hourly
@@ -315,7 +326,7 @@ utility_meter:
   kjeller_vvb_monthly:
     source: sensor.kjeller_vvb_energy
     cycle: monthly
-  #MÅLER: 600w
+  #600w
   600w_hourly:
     source: sensor.600w_spent
     cycle: hourly
@@ -328,7 +339,7 @@ utility_meter:
   600w_monthly:
     source: sensor.600w_spent
     cycle: monthly
-  #MÅLER: Oppvaskmaskin
+  #Oppvaskmaskin
   kjokken_oppvaskmaskin_hourly:
     source: sensor.kjokken_oppvaskmaskin_energy
     cycle: hourly
@@ -341,7 +352,7 @@ utility_meter:
   kjokken_oppvaskmaskin_monthly:
     source: sensor.kjokken_oppvaskmaskin_energy
     cycle: monthly
-  #MÅLER: Vaskemaskin
+  #Vaskemaskin
   bad_vaskemaskin_hourly:
     source: sensor.bad_vaskemaskin_energy
     cycle: hourly
@@ -354,7 +365,7 @@ utility_meter:
   bad_vaskemaskin_monthly:
     source: sensor.bad_vaskemaskin_energy
     cycle: monthly
-  #MÅLER: Smiubakken Termostat
+  #Smiubakken Termostat
   smiubakken_termostat_hourly:
     source: sensor.smiubakken_termostat_energy
     cycle: hourly
@@ -367,7 +378,7 @@ utility_meter:
   smiubakken_termostat_monthly:
     source: sensor.smiubakken_termostat_energy
     cycle: monthly
-  #MÅLER: Bad Termostat
+  #Bad Termostat
   bad_termostat_hourly:
     source: sensor.bad_termostat_energy
     cycle: hourly
@@ -380,7 +391,7 @@ utility_meter:
   bad_termostat_monthly:
     source: sensor.bad_termostat_energy
     cycle: monthly
-  #MÅLER: Gang Termostat
+  #Gang Termostat
   gang_termostat_hourly:
     source: sensor.gang_termostat_energy
     cycle: hourly
@@ -393,7 +404,7 @@ utility_meter:
   gang_termostat_monthly:
     source: sensor.gang_termostat_energy
     cycle: monthly
-  #MÅLER: Kjøkken Varmeovn
+  #Kjøkken Varmeovn
   kjokken_varmeovn_hourly:
     source: sensor.kjokken_varmeovn_energy
     cycle: hourly
@@ -406,7 +417,7 @@ utility_meter:
   kjokken_varmeovn_monthly:
     source: sensor.kjokken_varmeovn_energy
     cycle: monthly
-  #MÅLER: Soverom Varmeovn
+  #Soverom Varmeovn
   soverom_varmeovn_hourly:
     source: sensor.soverom_varmeovn_energy
     cycle: hourly
@@ -419,7 +430,7 @@ utility_meter:
   soverom_varmeovn_monthly:
     source: sensor.soverom_varmeovn_energy
     cycle: monthly
-  #MÅLER: Mathias Varmeovn
+  #Mathias Varmeovn
   mathias_varmeovn_hourly:
     source: sensor.mathias_varmeovn_energy
     cycle: hourly
@@ -432,7 +443,7 @@ utility_meter:
   mathias_varmeovn_monthly:
     source: sensor.mathias_varmeovn_energy
     cycle: monthly
-  #MÅLER: Sofie Varmeovn
+  #Sofie Varmeovn
   sofie_varmeovn_hourly:
     source: sensor.sofie_varmeovn_energy
     cycle: hourly
@@ -445,7 +456,7 @@ utility_meter:
   sofie_varmeovn_monthly:
     source: sensor.sofie_varmeovn_energy
     cycle: monthly
-  #MÅLER: WC Varmeovn
+  #WC Varmeovn
   wc_varmeovn_hourly:
     source: sensor.wc_varmeovn_energy
     cycle: hourly
@@ -458,7 +469,7 @@ utility_meter:
   wc_varmeovn_monthly:
     source: sensor.wc_varmeovn_energy
     cycle: monthly
-  #MÅLER: Kjeller Varmeovn
+  #Kjeller Varmeovn
   kjeller_varmeovn_hourly:
     source: sensor.kjeller_varmeovn_energy
     cycle: hourly
@@ -471,7 +482,7 @@ utility_meter:
   kjeller_varmeovn_monthly:
     source: sensor.kjeller_varmeovn_energy
     cycle: monthly
-  #MÅLER: Neglestudio Varmeovn
+  #Neglestudio Varmeovn
   neglestudio_varmeovn_hourly:
     source: sensor.neglestudio_varmeovn_energy
     cycle: hourly
@@ -484,7 +495,7 @@ utility_meter:
   neglestudio_varmeovn_monthly:
     source: sensor.neglestudio_varmeovn_energy
     cycle: monthly
-  #MÅLER: Varme Totalt
+  #Varme Totalt
   varme_hourly:
     source: sensor.varme_spent
     cycle: hourly
