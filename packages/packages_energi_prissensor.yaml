@@ -1,0 +1,236 @@
+################################################################
+## packages-energi_prissensor --> Versjon 1.0 --> 11/01-22
+##
+## BESKRIVELSE
+##
+## Lager prissensor som viser kostnaden denne timen
+##
+## Denne baserer seg på strømprisen (i kroner fra Tibber) som
+## multipliseres med en kWh sensor.
+## kWh sensoren henter jeg fra hourly sensor i packages-energi_meter
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 11/01-22
+## Laget infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-energi_prissensor"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## TEMPLATE SENSOR
+    ################################################
+    sensor.tibber_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.stue_varmepumpe_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.kjeller_vvb_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.600w_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.kjokken_oppvaskmaskin_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.bad_vaskemaskin_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.smiubakken_termostat_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.bad_termostat_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.gang_termostat_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.kjokken_varmeovn_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.soverom_varmeovn_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.mathias_varmeovn_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.sofie_varmeovn_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.wc_varmeovn_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.kjeller_varmeovn_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.neglestudio_varmeovn_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+    sensor.varme_prissensor:
+      icon: mdi:currency-usd
+      friendly_name: "Strømkostnad denne timen"
+      entity_picture: /local/icons/krone.png
+
+################################################
+## TEMPLATE SENSOR
+################################################
+
+template:
+  #Tibber
+  - sensor:
+      - name: "tibber_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.tibber_hourly') | float) | round(2) }}
+
+  #Varmepumpe
+  - sensor:
+      - name: "stue_varmepumpe_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.stue_varmepumpe_hourly') | float) | round(2) }}
+
+  #VVB
+  - sensor:
+      - name: "kjeller_vvb_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.kjeller_vvb_hourly') | float) | round(2) }}
+
+  #600w
+  - sensor:
+      - name: "600w_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.600w_hourly') | float) | round(2) }}
+
+  #Oppvaskmaskin
+  - sensor:
+      - name: "kjokken_oppvaskmaskin_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.kjokken_oppvaskmaskin_hourly') | float) | round(2) }}
+
+  #Vaskemaskin
+  - sensor:
+      - name: "bad_vaskemaskin_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.bad_vaskemaskin_hourly') | float) | round(2) }}
+
+  #Smiubakken Termostat
+  - sensor:
+      - name: "smiubakken_termostat_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.smiubakken_termostat_hourly') | float) | round(2) }}
+
+  #Bad Termostat
+  - sensor:
+      - name: "bad_termostat_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.bad_termostat_hourly') | float) | round(2) }}
+
+  #Gang Termostat
+  - sensor:
+      - name: "gang_termostat_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.gang_termostat_hourly') | float) | round(2) }}
+
+  #Kjøkken Varmeovn
+  - sensor:
+      - name: "kjokken_varmeovn_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.kjokken_varmeovn_hourly') | float) | round(2) }}
+
+  #Soverom Varmeovn
+  - sensor:
+      - name: "soverom_varmeovn_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.soverom_varmeovn_hourly') | float) | round(2) }}
+
+  #Mathias Varmeovn
+  - sensor:
+      - name: "mathias_varmeovn_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.mathias_varmeovn_hourly') | float) | round(2) }}
+
+  #Sofie Varmeovn
+  - sensor:
+      - name: "sofie_varmeovn_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.sofie_varmeovn_hourly') | float) | round(2) }}
+
+  #WC Varmeovn
+  - sensor:
+      - name: "wc_varmeovn_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.wc_varmeovn_hourly') | float) | round(2) }}
+
+  #Kjeller Varmeovn
+  - sensor:
+      - name: "kjeller_varmeovn_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.kjeller_varmeovn_hourly') | float) | round(2) }}
+
+  #Neglestudio Varmeov
+  - sensor:
+      - name: "neglestudio_varmeovn_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.neglestudio_varmeovn_hourly') | float) | round(2) }}
+
+  #Varme Totalt
+  - sensor:
+      - name: "varme_prissensor"
+        unit_of_measurement: kr
+        state: >
+          {{ (states('sensor.electricity_price_dystlinna_249') | float * states('sensor.varme_hourly') | float) | round(2) }}
