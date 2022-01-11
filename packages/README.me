@@ -83,6 +83,76 @@ PS: Den pakkene som er oppdatert er i formatet packages-navn. Jeg vil legge inn 
 ################################################################
 
 ################################################################
+## packages-energi_kostnader --> Versjon 1.0 --> 11/01-22
+##
+## BESKRIVELSE
+##
+## Målet med pakken er sensorer som forteller strømkostnadene (toalt)
+##
+## Nå er det manuell innput på fastbeløp strøm, nettleie og forbruk nettleie
+## Det er planen at dette i fremtiden kommer automagisk..
+##
+## Du kan se hvordan ting blir gjort, og kanskje lage noe bedre selv :)
+##
+## Her er liste over ting som er med i pakken:
+##
+## Input Number der du legger inn kostnad fastbeløp strøm (energi_kostnader_strom_fastbelop_dag)
+## Input Number der du legger inn kostnad påslag strøm (energi_kostnader_strom_paaslag_kwh)
+## Input Number der du legger inn kostnad nettleie per kWh (energi_kostnader_nettleie_kwh)
+## Input Number der du legger inn kostnad fastbeløp nettleie (energi_kostnader_nettleie_fastbelop_dag)
+##
+## Sensor som gir strømpris i øre (energi_kostnader_strom_pris_kwh)
+## Sensor som gir fastpris strøm i kroner (energi_kostnader_strom_fastbelop_dag_kost)
+## Sensor som gir forbrukspris strøm i kroner (energi_kostnader_strom_forbruk_dag_kost)
+## Sensor som gir fastpris nettleie i kroner (energi_kostnader_nettleie_fastbelop_dag_kost)
+## Sensor som gir forbrukspris nettleie i kroner (energi_kostnader_nettleie_forbruk_dag_kost)
+## Sensor som gir totalpris fastpriser (strøm + nettleie) i kroner (energi_kostnader_energi_fastbelop_dag_kost)
+## Sensor som gir totalpris forbruk (strøm + nettleie) i kroner (energi_kostnader_energi_forbruk_dag_kost)
+## Sensor som gir totalpris fastpris + forbruk (strøm + nettleie) i kroner (energi_kostnader_energi_dag_kost)
+##
+################################################################
+
+################################################################
+## packages-energi_meter --> Versjon 1.1 --> 11/01-22
+##
+## BESKRIVELSE
+##
+## Lager fire meter (sensorer) per kWh enhet
+##
+## Disse sensorene brukes for å måle hvor mye effekt hver enkelt
+## har brukt den siste timen, dagen, uka eller måneden
+## Du trenger en power-sensor som gir effekten i watt
+##
+################################################################
+
+################################################################
+## packages-energi_prissensor --> Versjon 1.0 --> 11/01-22
+##
+## BESKRIVELSE
+##
+## Lager prissensor som viser kostnaden denne timen
+##
+## Denne baserer seg på strømprisen (i kroner fra Tibber) som
+## multipliseres med en kWh sensor.
+## kWh sensoren henter jeg fra hourly sensor i packages-energi_meter
+##
+################################################################
+
+################################################################
+## packages-energi_prissensor_meter --> Versjon 1.0 --> 11/01-22
+##
+## BESKRIVELSE
+##
+## Bygger på pakken packages-energi_prissensor og lager
+## tre meter (sensorer) per strømstyringsenhet
+##
+## Disse sensorene brukes for å vise strømkostnaden til hver
+## enkelt den siste dagen, uka eller måneden
+## kWh sensoren henter jeg fra packages-energi_prissensor
+##
+################################################################
+
+################################################################
 ## packages-energi_energy --> Versjon 1.1 --> 11/01-22
 ##
 ## BESKRIVELSE
@@ -102,19 +172,6 @@ PS: Den pakkene som er oppdatert er i formatet packages-navn. Jeg vil legge inn 
 ##
 ## Jeg legger også sammen strømforbruk fra flere enheter
 ## slik at jeg har totalforbruk på all varmen
-##
-################################################################
-
-################################################################
-## packages-energi_meter --> Versjon 1.1 --> 11/01-22
-##
-## BESKRIVELSE
-##
-## Lager fire meter (sensorer) per kWh enhet
-##
-## Disse sensorene brukes for å måle hvor mye effekt hver enkelt
-## har brukt den siste timen, dagen, uka eller måneden
-## Du trenger en power-sensor som gir effekten i watt
 ##
 ################################################################
 
