@@ -1,5 +1,5 @@
 ################################################################
-## packages-power --> Versjon 1.0 --> 08/01-22
+## packages-energi_power --> Versjon 1.1 --> 10/01-22
 ##
 ## BESKRIVELSE
 ##
@@ -13,6 +13,10 @@
 
 ################################################################
 ## VERSJONLOG
+##
+## VERSJON 1.1 - Endret navn
+## 10/01-22
+## Endret navn på pakken fra power til energi_power
 ##
 ## VERSJON 1.0 - Ny
 ## 08/02-22
@@ -32,7 +36,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "packages-power"
+        package: "packages-energi_power"
 
       expose: &expose
         <<: *customize
