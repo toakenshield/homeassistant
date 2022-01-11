@@ -1,0 +1,247 @@
+################################################################
+## packages-energi_kostnader --> Versjon 1.0 --> 11/01-22
+##
+## BESKRIVELSE
+##
+## Målet med pakken er sensorer som forteller strømkostnadene (toalt)
+##
+## Nå er det manuell innput på fastbeløp strøm, nettleie og forbruk nettleie
+## Det er planen at dette i fremtiden kommer automagisk..
+##
+## Du kan se hvordan ting blir gjort, og kanskje lage noe bedre selv :)
+##
+## Her er liste over ting som er med i pakken:
+##
+## Input Number der du legger inn kostnad fastbeløp strøm (energi_kostnader_strom_fastbelop_dag)
+## Input Number der du legger inn kostnad påslag strøm (energi_kostnader_strom_paaslag_kwh)
+## Input Number der du legger inn kostnad nettleie per kWh (energi_kostnader_nettleie_kwh)
+## Input Number der du legger inn kostnad fastbeløp nettleie (energi_kostnader_nettleie_fastbelop_dag)
+##
+## Sensor som gir strømpris i øre (energi_kostnader_strom_pris_kwh)
+## Sensor som gir fastpris strøm i kroner (energi_kostnader_strom_fastbelop_dag_kost)
+## Sensor som gir forbrukspris strøm i kroner (energi_kostnader_strom_forbruk_dag_kost)
+## Sensor som gir fastpris nettleie i kroner (energi_kostnader_nettleie_fastbelop_dag_kost)
+## Sensor som gir forbrukspris nettleie i kroner (energi_kostnader_nettleie_forbruk_dag_kost)
+## Sensor som gir totalpris fastpriser (strøm + nettleie) i kroner (energi_kostnader_energi_fastbelop_dag_kost)
+## Sensor som gir totalpris forbruk (strøm + nettleie) i kroner (energi_kostnader_energi_forbruk_dag_kost)
+## Sensor som gir totalpris fastpris + forbruk (strøm + nettleie) i kroner (energi_kostnader_energi_dag_kost)
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 11/01-22
+## Laget pakke og infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-energi_kostnader"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## SENSOR
+    ################################################
+
+    sensor.energi_kostnader_strom_pris_kwh:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.energi_kostnader_strom_fastbelop_dag_kost:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.energi_kostnader_strom_forbruk_dag_kost:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.energi_kostnader_nettleie_fastbelop_dag_kost:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.energi_kostnader_nettleie_forbruk_dag_kost:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.energi_kostnader_energi_fastbelop_dag_kost:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.energi_kostnader_energi_forbruk_dag_kost:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.energi_kostnader_energi_dag_kost:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    ################################################
+    ## INPUT NUMBERS
+    ################################################
+
+    input_number.energi_kostnader_strom_fastbelop_dag:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    input_number.energi_kostnader_strom_paaslag_kwh:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    input_number.energi_kostnader_nettleie_kwh:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    input_number.energi_kostnader_nettleie_fastbelop_dag:
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+################################################
+## INPUT NUMBERS
+################################################
+
+input_number:
+  energi_kostnader_strom_fastbelop_dag:
+    name: Fastbeløp kr/dag
+    mode: box
+    min: 0
+    max: 1000
+    unit_of_measurement: "kr/dag"
+
+  energi_kostnader_strom_paaslag_kwh:
+    name: Påslag øre/kWh
+    mode: box
+    min: 0
+    max: 5000
+    unit_of_measurement: "øre/kWh"
+
+  energi_kostnader_nettleie_kwh:
+    name: Nettleie øre/kWh
+    mode: box
+    min: 0
+    max: 1000
+    unit_of_measurement: "øre/kWh"
+
+  energi_kostnader_nettleie_fastbelop_dag:
+    name: Fastbeløp kr/dag
+    mode: box
+    min: 0
+    max: 1000
+    unit_of_measurement: "kr/dag"
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  #Strømpris tibber i øre
+  - platform: template
+    sensors:
+      energi_kostnader_strom_pris_kwh:
+        friendly_name: "Pris øre per kWh"
+        # Bruker Tibber sensor - sensor.electricity_price_dystlinna_249
+        value_template: "{{ ((((states('sensor.electricity_price_dystlinna_249')|float * 100))))|round(2) }}"
+        unit_of_measurement: "øre"
+
+  #Utregning fastbeløp støm i dag
+  - platform: template
+    sensors:
+      energi_kostnader_strom_fastbelop_dag_kost:
+        friendly_name: "Strøm fastbeløp i dag"
+        # Bruker fastbeløp i dag - input_number.energi_kostnader_strom_fastbelop_dag
+        value_template: "{{ ((states.input_number.energi_kostnader_strom_fastbelop_dag.state)|float|round(2)) }}"
+        unit_of_measurement: "kr"
+
+  #Utregning forbrukskostnad strøm med påslag
+  - platform: template
+    sensors:
+      energi_kostnader_strom_forbruk_dag_kost:
+        friendly_name: "Strøm forbrukskostnad i dag"
+        # Bruker totalforbruk (Tibber) fra pakke packages-energi_meter - sensor.tibber_daily
+        # Bruker påslaget - sensor.energi_kostnader_strom_paaslag_kwh
+        # Bruker strømkostnader fra pakke packages-energi_prissensor - sensor.tibber_prissensor_daily
+        value_template: "{{ ( (states('sensor.tibber_daily')|float) * (states('input_number.energi_kostnader_strom_paaslag_kwh')|float / 100) ) + (states('sensor.tibber_prissensor_daily')|float) |round(2) }}"
+        unit_of_measurement: "kr"
+
+  #Utregning fastbeløp nettleie
+  - platform: template
+    sensors:
+      energi_kostnader_nettleie_fastbelop_dag_kost:
+        friendly_name: "Nettleie fastbeløp i dag"
+        # Bruker fastbeløp i dag - input_number.energi_kostnader_nettleie_fastbelop_dag
+        value_template: "{{ (states.input_number.energi_kostnader_nettleie_fastbelop_dag.state)|float|round(2) }}"
+        unit_of_measurement: "kr"
+
+  #Utregning forbrukskostnad nettleie
+  - platform: template
+    sensors:
+      energi_kostnader_nettleie_forbruk_dag_kost:
+        friendly_name: "Nettleie forbrukskostnad i dag"
+        # Bruker totalforbruk (Tibber) fra pakke packages-energi_meter - sensor.tibber_daily
+        # Bruker kostnaden per kWh - input_number.energi_kostnader_nettleie_kwh
+        value_template: "{{ (states('sensor.tibber_daily')|float * ((states('input_number.energi_kostnader_nettleie_kwh')|float / 100)))|round(2) }}"
+        unit_of_measurement: "kr"
+
+  #Utregning fastbeløp i dag (støm + nettleie)
+  - platform: template
+    sensors:
+      energi_kostnader_energi_fastbelop_dag_kost:
+        friendly_name: "Energi fastbeløp i dag"
+        # Bruker summering fastbeløp strøm (sensor) - sensor.energi_kostnader_strom_fastbelop_dag_kost
+        # Bruker summering fastbeløp nettleie (sensor) - sensor.energi_kostnader_nettleie_fastbelop_dag_kost
+        value_template: "{{ (((((states('sensor.energi_kostnader_strom_fastbelop_dag_kost')|float) + (states('sensor.energi_kostnader_nettleie_fastbelop_dag_kost')|float)))))|round(2) }}"
+        unit_of_measurement: "kr"
+
+  #Utregning forbruk i dag (støm + nettleie)
+  - platform: template
+    sensors:
+      energi_kostnader_energi_forbruk_dag_kost:
+        friendly_name: "Energikostnad i dag"
+        # Bruker totalforbruk (Tibber) fra pakke packages-energi_meter - sensor.tibber_daily
+        # Bruker kostnaden per kWh nettleie - input_number.energi_kostnader_nettleie_kwh
+        # Bruker påslaget støm - sensor.energi_kostnader_strom_paaslag_kwh
+        # Bruker strømkostnader fra pakke packages-energi_prissensor - sensor.tibber_prissensor_daily
+        value_template: "{{ (( (states('sensor.tibber_daily')|float) * ( (states('input_number.energi_kostnader_nettleie_kwh')|float / 100) + (states('input_number.energi_kostnader_strom_paaslag_kwh')|float / 100) )) + (states('sensor.tibber_prissensor_daily')|float)) |round(2) }}"
+        unit_of_measurement: "kr"
+
+  #Utregning energikostnad totalt i dag (strøm + nettleie)
+  - platform: template
+    sensors:
+      energi_kostnader_energi_dag_kost:
+        friendly_name: "Energikostnad totalt i dag"
+        # Bruker totalkostnad fastbeløp  sensor.energi_kostnader_energi_fastbelop_dag_kost
+        # Bruker totalkostnad forbruk - sensor.energi_kostnader_energi_forbruk_dag_kost
+        value_template: "{{ ((states('sensor.energi_kostnader_energi_fastbelop_dag_kost')|float) + (states('sensor.energi_kostnader_energi_forbruk_dag_kost')|float))|round(2) }}"
+        unit_of_measurement: "kr"
+################################################
+## NOTIFY
+################################################
+
+## Brukt for å logge til lokal fil
+#notify:
+#  - platform: file
+#    name: energy_log
+#    filename: /config/www/csv_logs/energy_log.csv
+#    timestamp: false
+
+################################################
+## AUTOMATION
+################################################
+
+## Brukt for NOTIFY for å logge lokal fil
+#automation:
+#  - id: energi_strom_daglig_energibruk_logg
+#    alias: "STRØM: Daglig Energibruk Logg"
+#    trigger:
+#      platform: time
+#      at: "23:59:50"
+#    action:
+#      - service: notify.energy_log
+#        data_template:
+#          message: "{{states('sensor.date') }},{{ states('sensor.energi_strom_forbruk_dag_kost') }},{{ states('sensor.energi_nettleie_fastbelop_dag_kost') }},{{ states('sensor.energi_forbruk_dag_kost') }},{{ states('sensor.energi_dag_kost') }}"
