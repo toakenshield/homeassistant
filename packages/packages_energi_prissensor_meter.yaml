@@ -1,0 +1,509 @@
+################################################################
+## packages-energi_prissensor_meter --> Versjon 1.0 --> 11/01-22
+##
+## BESKRIVELSE
+##
+## Bygger på pakken packages-energi_prissensor og lager
+## tre meter (sensorer) per strømstyringsenhet
+##
+## Disse sensorene brukes for å vise strømkostnaden til hver
+## enkelt den siste dagen, uka eller måneden
+## kWh sensoren henter jeg fra packages-energi_prissensor
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 11/01-22
+## Laget infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-energi_prissensor_meter"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## UTILITY METER
+    ################################################
+
+    sensor.tibber_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.tibber_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.tibber_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.stue_varmepumpe_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.varmepumpe_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.varmepumpe_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.kjeller_vvb_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.kjeller_vvb_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.kjeller_vvb_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.600w_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.600w_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.600w_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.kjokken_oppvaskmaskin_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.kjokken_oppvaskmaskin_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.kjokken_oppvaskmaskin_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.bad_vaskemaskin_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.bad_vaskemaskin_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.bad_vaskemaskin_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.smiubakken_termostat_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.smiubakken_termostat_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.smiubakken_termostat_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.bad_termostat_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.bad_termostat_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.bad_termostat_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.gang_termostat_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.gang_termostat_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.gang_termostat_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.kjokken_varmeovn_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.kjokken_varmeovn_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.kjokken_varmeovn_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.soverom_varmeovn_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.soverom_varmeovn_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.soverom_varmeovn_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.mathias_varmeovn_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.mathias_varmeovn_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.mathias_varmeovn_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.sofie_varmeovn_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.sofie_varmeovn_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.sofie_varmeovn_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.wc_varmeovn_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.wc_varmeovn_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.wc_varmeovn_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.kjeller_varmeovn_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.kjeller_varmeovn_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.kjeller_varmeovn_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.neglestudio_varmeovn_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.neglestudio_varmeovn_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.neglestudio_varmeovn_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+    sensor.varme_prissensor_daily:
+      friendly_name: "Strømkostnad i dag"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.varme_prissensor_weekly:
+      friendly_name: "Strømkostnad denne uken"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+    sensor.varme_prissensor_monthly:
+      friendly_name: "Strømkostnad denne måneden"
+      unit_of_measurement: "kr"
+      icon: mdi:currency-usd
+      entity_picture: /local/icons/krone.png
+
+################################################
+## UTILITY METER
+################################################
+
+utility_meter:
+  #Tibber
+  tibber_prissensor_daily:
+    source: sensor.tibber_prissensor
+    cycle: daily
+  tibber_prissensor_weekly:
+    source: sensor.tibber_prissensor
+    cycle: weekly
+  tibber_prissensor_monthly:
+    source: sensor.tibber_prissensor
+    cycle: monthly
+
+  #Varmepumpe
+  stue_varmepumpe_prissensor_daily:
+    source: sensor.stue_varmepumpe_prissensor
+    cycle: daily
+  stue_varmepumpe_prissensor_weekly:
+    source: sensor.stue_varmepumpe_prissensor
+    cycle: weekly
+  stue_varmepumpe_prissensor_monthly:
+    source: sensor.stue_varmepumpe_prissensor
+    cycle: monthly
+
+  #VVB
+  kjeller_vvb_prissensor_daily:
+    source: sensor.kjeller_vvb_prissensor
+    cycle: daily
+  kjeller_vvb_prissensor_weekly:
+    source: sensor.kjeller_vvb_prissensor
+    cycle: weekly
+  kjeller_vvb_prissensor_monthly:
+    source: sensor.kjeller_vvb_prissensor
+    cycle: monthly
+
+  #600w
+  600w_prissensor_daily:
+    source: sensor.600w_prissensor
+    cycle: daily
+  600w_prissensor_weekly:
+    source: sensor.600w_prissensor
+    cycle: weekly
+  600w_prissensor_monthly:
+    source: sensor.600w_prissensor
+    cycle: monthly
+
+  #Oppvaskmaskin
+  kjokken_oppvaskmaskin_prissensor_daily:
+    source: sensor.kjokken_oppvaskmaskin_prissensor
+    cycle: daily
+  kjokken_oppvaskmaskin_prissensor_weekly:
+    source: sensor.kjokken_oppvaskmaskin_prissensor
+    cycle: weekly
+  kjokken_oppvaskmaskin_prissensor_monthly:
+    source: sensor.kjokken_oppvaskmaskin_prissensor
+    cycle: monthly
+
+  #Vaskemaskin
+  bad_vaskemaskin_prissensor_daily:
+    source: sensor.bad_vaskemaskin_prissensor
+    cycle: daily
+  bad_vaskemaskin_prissensor_weekly:
+    source: sensor.bad_vaskemaskin_prissensor
+    cycle: weekly
+  bad_vaskemaskin_prissensor_monthly:
+    source: sensor.bad_vaskemaskin_prissensor
+    cycle: monthly
+
+  #Smiubakken Termostat
+  smiubakken_termostat_prissensor_daily:
+    source: sensor.smiubakken_termostat_prissensor
+    cycle: daily
+  smiubakken_termostat_prissensor_weekly:
+    source: sensor.smiubakken_termostat_prissensor
+    cycle: weekly
+  smiubakken_termostat_prissensor_monthly:
+    source: sensor.smiubakken_termostat_prissensor
+    cycle: monthly
+
+  #Bad Termostat
+  bad_termostat_prissensor_daily:
+    source: sensor.bad_termostat_prissensor
+    cycle: daily
+  bad_termostat_prissensor_weekly:
+    source: sensor.bad_termostat_prissensor
+    cycle: weekly
+  bad_termostat_prissensor_monthly:
+    source: sensor.bad_termostat_prissensor
+    cycle: monthly
+
+  #Gang Termostat
+  gang_termostat_prissensor_daily:
+    source: sensor.gang_termostat_prissensor
+    cycle: daily
+  gang_termostat_prissensor_weekly:
+    source: sensor.gang_termostat_prissensor
+    cycle: weekly
+  gang_termostat_prissensor_monthly:
+    source: sensor.gang_termostat_prissensor
+    cycle: monthly
+
+  #Kjøkken Varmeovn
+  kjokken_varmeovn_prissensor_daily:
+    source: sensor.kjokken_varmeovn_prissensor
+    cycle: daily
+  kjokken_varmeovn_prissensor_weekly:
+    source: sensor.kjokken_varmeovn_prissensor
+    cycle: weekly
+  kjokken_varmeovn_prissensor_monthly:
+    source: sensor.kjokken_varmeovn_prissensor
+    cycle: monthly
+
+  #Soverom Varmeovn
+  soverom_varmeovn_prissensor_daily:
+    source: sensor.soverom_varmeovn_prissensor
+    cycle: daily
+  soverom_varmeovn_prissensor_weekly:
+    source: sensor.soverom_varmeovn_prissensor
+    cycle: weekly
+  soverom_varmeovn_prissensor_monthly:
+    source: sensor.soverom_varmeovn_prissensor
+    cycle: monthly
+
+  #Mathias Varmeovn
+  mathias_varmeovn_prissensor_daily:
+    source: sensor.mathias_varmeovn_prissensor
+    cycle: daily
+  mathias_varmeovn_prissensor_weekly:
+    source: sensor.mathias_varmeovn_prissensor
+    cycle: weekly
+  mathias_varmeovn_prissensor_monthly:
+    source: sensor.mathias_varmeovn_prissensor
+    cycle: monthly
+
+  #Sofie Varmeovn
+  sofie_varmeovn_prissensor_daily:
+    source: sensor.sofie_varmeovn_prissensor
+    cycle: daily
+  sofie_varmeovn_prissensor_weekly:
+    source: sensor.sofie_varmeovn_prissensor
+    cycle: weekly
+  sofie_varmeovn_prissensor_monthly:
+    source: sensor.sofie_varmeovn_prissensor
+    cycle: monthly
+
+  #WC Varmeovn
+  wc_varmeovn_prissensor_daily:
+    source: sensor.wc_varmeovn_prissensor
+    cycle: daily
+  wc_varmeovn_prissensor_weekly:
+    source: sensor.wc_varmeovn_prissensor
+    cycle: weekly
+  wc_varmeovn_prissensor_monthly:
+    source: sensor.wc_varmeovn_prissensor
+    cycle: monthly
+
+  #Kjeller Varmeovn
+  kjeller_varmeovn_prissensor_daily:
+    source: sensor.kjeller_varmeovn_prissensor
+    cycle: daily
+  kjeller_varmeovn_prissensor_weekly:
+    source: sensor.kjeller_varmeovn_prissensor
+    cycle: weekly
+  kjeller_varmeovn_prissensor_monthly:
+    source: sensor.kjeller_varmeovn_prissensor
+    cycle: monthly
+
+  #Neglestudio Varmeovn
+  neglestudio_varmeovn_prissensor_daily:
+    source: sensor.neglestudio_varmeovn_prissensor
+    cycle: daily
+  neglestudio_varmeovn_prissensor_weekly:
+    source: sensor.neglestudio_varmeovn_prissensor
+    cycle: weekly
+  neglestudio_varmeovn_prissensor_monthly:
+    source: sensor.neglestudio_varmeovn_prissensor
+    cycle: monthly
+
+  #Varme Totalt
+  varme_prissensor_daily:
+    source: sensor.varme_prissensor
+    cycle: daily
+  varme_prissensor_weekly:
+    source: sensor.varme_prissensor
+    cycle: weekly
+  varme_prissensor_monthly:
+    source: sensor.varme_prissensor
+    cycle: monthly
