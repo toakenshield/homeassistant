@@ -1,0 +1,44 @@
+type: vertical-stack
+cards:
+  - aspect_ratio: 50%
+    entity: input_number.bil_sv39840_kmstand
+    image: local/images/sv39840.jpg
+    name: Ford Mondeo - SV39840
+    type: picture-entity
+  - entities:
+      - entities:
+          - entity: input_number.bil_sv39840_kmstand
+          - entity: input_number.bil_sv39840_service_kmstand
+          - entity: input_number.bil_sv39840_service_intervall
+        head:
+          label: KM og service
+          type: section
+        type: custom:fold-entity-row
+      - entities:
+          - entity: input_datetime.bil_sv39840_forsikring_dato
+          - entity: input_number.bil_sv39840_forsikring_kmstand
+          - entity: input_number.bil_sv39840_forsikring_intervall
+        head:
+          label: Forsikring
+          type: section
+        type: custom:fold-entity-row
+      - entities:
+          - entity: input_datetime.bil_sv39840_eu_kontroll_dato
+        head:
+          label: EU-kontroll
+          type: section
+        type: custom:fold-entity-row
+      - entities:
+          - entity: sensor.bil_sv39840_eu_kontroll_dager
+          - entity: sensor.bil_sv39840_forsikring_dager
+          - entity: sensor.bil_sv39840_kmstand
+          - entity: sensor.bil_sv39840_forsikring_kmstand_igjen
+          - entity: sensor.bil_sv39840_service_kmstand_igjen
+        head:
+          label: Ford Mondeo - SV39840
+          type: section
+        open: true
+        type: custom:fold-entity-row
+    show_header_toggle: false
+    title: SV39840
+    type: entities
