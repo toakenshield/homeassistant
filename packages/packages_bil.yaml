@@ -1,0 +1,305 @@
+################################################################
+## packages-bil --> Versjon 2.0 --> 15/01-22
+##
+## BESKRIVELSE
+##
+## Her er min oversikt for bilene mine.
+##
+## Brukes sammen med node_red-bil flowen min for å
+## regne ut antall dager til neste EU-kontroll, antall KM igjen på forsikringen
+## og antall KM igjen til neste service
+##
+## Her er det følgende devicer (per bil)
+## Input Datetime som gir to datoer (EU og forsikringsstart)
+## Input Number som gir KM-stand
+## Input Number som gir KM-stand forsikring start
+## Input Number som gir KM-stand forsikring intervall
+## Input Number som gir KM-stand service sist
+## Input Number som gir KM-stand service intervall
+## Sensor som gir KM-stand fra Input Number
+## Sensor som gir antall dager til EU-kontroll
+## Sensor som gir antall dager igjen i forsrikringsperioden
+## Sensor som gir antall KM igjen i forsikring (totalt)
+## Sensor som gir antall KM igjen til neste service
+##
+## Manuelt legger jeg inn KM-stand når jeg husker det...
+##
+## Har ikke lagt inn noen alarmer enda, kommer kanskje senere...
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 2.0 - Node-Red og nye sensorer
+## 15/01-22
+##
+## VERSJON 1.1 - Endret format og biler
+## 12/01-22
+##
+## VERSJON 1.0 - Ny
+## 07/08-21
+##
+################################################################
+
+################################################################
+## EKSTRA TING DU TRENGER
+##
+## For å oppdatere sensorene anbefaler jeg node_red-bil pakken
+## Der ligger automasjoner for oppdatering av sensorer
+## I den pakken ligger også beskrivelse (les også over MQTT)
+## Jeg bruker MQTT add-on i HA
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-bil"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## SENSOR
+    ################################################
+
+    #BIL 1
+    #KM-stand - SV39840
+    sensor.bil_sv39840_kmstand:
+      icon: mdi:car
+    #Forsikring KM igjen - SV39840
+    sensor.bil_sv39840_forsikring_kmstand_igjen:
+      friendly_name: "KM igjen på forsikring"
+    #Service KM-stand igjen - SV39840
+    sensor.bil_sv39840_service_kmstand_igjen:
+      friendly_name: "KM igjen til service"
+    #EU dager igjen - SV39840
+    sensor.bil_sv39840_eu_kontroll_dager:
+      friendly_name: "Frist EU-kontroll"
+    #Forsikring dager igjen - SV39840
+    sensor.bil_sv39840_forsikring_dager:
+      friendly_name: "Dager igjen forsikring"
+
+    #BIL 2
+    #KM-stand - JV14453
+    sensor.bil_jv14453_kmstand:
+      icon: mdi:car
+    #Forsikring KM igjen - JV14453
+    sensor.bil_jv14453_forsikring_kmstand_igjen:
+      friendly_name: "KM igjen på forsikring"
+    #Service KM-stand igjen - JV14453
+    sensor.bil_jv14453_service_kmstand_igjen:
+      friendly_name: "KM igjen til service"
+    #EU dager igjen - JV14453
+    sensor.bil_jv14453_eu_kontroll_dager:
+      friendly_name: "Frist EU-kontroll"
+    #Forsikring dager igjen - JV14453
+    sensor.bil_jv14453_forsikring_dager:
+      friendly_name: "Dager igjen forsikring"
+
+################################################
+## INPUT DATETIME
+################################################
+
+input_datetime:
+  #BIL 1
+  #EU Dato - SV39840
+  bil_sv39840_eu_kontroll_dato:
+    name: "Dato EU-kontroll"
+    has_date: true
+    has_time: false
+    icon: mdi:car
+  #Forsikring Dato - SV39840
+  bil_sv39840_forsikring_dato:
+    name: "Dato forsikringsperiode start"
+    has_date: true
+    has_time: false
+    icon: mdi:car
+
+  #BIL 2
+  #EU Dato - JV14453
+  bil_jv14453_eu_kontroll_dato:
+    name: "Dato EU-kontroll"
+    has_date: true
+    has_time: false
+    icon: mdi:car
+  #Forsikring Dato - JV14453
+  bil_jv14453_forsikring_dato:
+    name: "Dato forsikringsperiode start"
+    has_date: true
+    has_time: false
+    icon: mdi:car
+
+################################################
+## INPUT NUMBERS
+################################################
+
+input_number:
+  #BIL 1
+  #KM-stand - SV39840
+  bil_sv39840_kmstand:
+    name: "KM-stand"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+  #Forsikring KM-stand - SV39840
+  bil_sv39840_forsikring_kmstand:
+    name: "KM forsikringsperiode start"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+  #Forsikring intervall - SV39840
+  bil_sv39840_forsikring_intervall:
+    name: "KM i året forsikring"
+    min: 0
+    max: 300000
+    step: 100
+    mode: box
+    icon: mdi:map-marker-distance
+  #Service KM-stand - SV39840
+  bil_sv39840_service_kmstand:
+    name: "KM sist service"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+  #Service Intervall - SV39840
+  bil_sv39840_service_intervall:
+    name: "Serviceintervall"
+    min: 0
+    max: 100000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+
+  #BIL 2
+  #KM-stand - JV14453
+  bil_jv14453_kmstand:
+    name: "KM-stand"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+  #Forsikring KM-stand - JV14453
+  bil_jv14453_forsikring_kmstand:
+    name: "KM forsikringsperiode start"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+  #Forsikring intervall - JV14453
+  bil_jv14453_forsikring_intervall:
+    name: "KM i året forsikring"
+    min: 0
+    max: 300000
+    step: 100
+    mode: box
+    icon: mdi:map-marker-distance
+  #Service KM-stand - JV14453
+  bil_jv14453_service_kmstand:
+    name: "KM sist service"
+    min: 0
+    max: 300000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+  #Service Intervall - JV14453
+  bil_jv14453_service_intervall:
+    name: "Serviceintervall"
+    min: 0
+    max: 100000
+    step: 1
+    mode: box
+    icon: mdi:map-marker-distance
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  #BIL 1
+  #KM-stand - SV39840
+  - platform: template
+    sensors:
+      bil_sv39840_kmstand:
+        friendly_name: "KM-stand"
+        # input_number.bil_sv39840_kmstand
+        value_template: "{{ states.input_number.bil_sv39840_kmstand.state | round(0) }}"
+        unit_of_measurement: "km"
+  #EU dager igjen - SV39840
+  - platform: mqtt
+    state_topic: "home/sensor/bil/eu_kontroll/dager/SV39840"
+    name: "bil_sv39840_eu_kontroll_dager"
+    unit_of_measurement: "dager"
+    icon: mdi:calendar-star
+  #Forsikring dager igjen - SV39840
+  - platform: mqtt
+    state_topic: "home/sensor/bil/forsikring/dager/SV39840"
+    name: "bil_sv39840_forsikring_dager"
+    unit_of_measurement: "dager"
+    icon: mdi:calendar-star
+  #Forsikring KM igjen - SV39840
+  - platform: mqtt
+    state_topic: "home/sensor/bil/forsikring/kmstand_igjen/SV39840"
+    name: "bil_sv39840_forsikring_kmstand_igjen"
+    unit_of_measurement: "km"
+    icon: mdi:car
+  #Service KM-stand igjen - SV39840
+  - platform: mqtt
+    state_topic: "home/sensor/bil/service/kmstand_igjen/SV39840"
+    name: "bil_sv39840_service_kmstand_igjen"
+    unit_of_measurement: "km"
+    icon: mdi:update
+
+  #BIL 2
+  #KM-stand - JV14453
+  - platform: template
+    sensors:
+      bil_jv14453_kmstand:
+        friendly_name: "KM-stand"
+        # input_number.bil_jv14453_kmstand
+        value_template: "{{ states.input_number.bil_jv14453_kmstand.state | round(0) }}"
+        unit_of_measurement: "km"
+  #EU dager igjen - JV14453
+  - platform: mqtt
+    state_topic: "home/sensor/bil/eu_kontroll/dager/JV14453"
+    name: "bil_jv14453_eu_kontroll_dager"
+    unit_of_measurement: "dager"
+    icon: mdi:calendar-star
+  #Forsikring dager igjen - JV14453
+  - platform: mqtt
+    state_topic: "home/sensor/bil/forsikring/dager/JV14453"
+    name: "bil_jv14453_forsikring_dager"
+    unit_of_measurement: "dager"
+    icon: mdi:calendar-star
+  #Forsikring KM igjen - JV14453
+  - platform: mqtt
+    state_topic: "home/sensor/bil/forsikring/kmstand_igjen/JV14453"
+    name: "bil_jv14453_forsikring_kmstand_igjen"
+    unit_of_measurement: "km"
+    icon: mdi:car
+  #Service KM-stand igjen - JV14453
+  - platform: mqtt
+    state_topic: "home/sensor/bil/service/kmstand_igjen/JV14453"
+    name: "bil_jv14453_service_kmstand_igjen"
+    unit_of_measurement: "km"
+    icon: mdi:update
