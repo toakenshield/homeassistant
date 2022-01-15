@@ -3,6 +3,51 @@ Her finner du mange flows jeg bruker.
 
 Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger inne i flowen (brukt mye tid på beskrivelser).
 
+# node_red-bil
+// Tor Gaute Lien - Versjon 1.0 - 15/01-22
+// 
+// **BESKRIVELSE**
+//
+// Automasjon som henter verdier fra sensorer laget i packages_bil
+// 
+// Regner ut antall dager til neste EU-kontroll, antall KM igjen på forsikringen
+// og antall KM igjen til neste service
+// 
+// Du har input hvor du skriver inn følgende:
+// Regnummer (Sensorene vil hete regnummeret til slutt i MQTT)
+// Dato for neste EU-kontroll / Dato forsikringsperioden begynner
+// KM-stand bil (Til utregning etc brukes  sensor-input slik at man kan senere legge inn tracker)
+// KM når forsikrings-perioden startet
+// Hvor mange KM som er i forsikringsavtalen din
+// KM når du sist hadde service
+// Hvor mange KM til neste service
+// 
+// Du vil da oppdatere følgende sensorer:
+// Sensor som regner hvor mange dager det er til neste EU-kontroll (-dager om overskredet)
+// Sensor som regner hvor mange dager du har igjen av forsikringsperioden (automatisk ved årsskifte)
+// Sensor som gir deg KM gjenstående (regnes automatisk fra periodestart i år minus KM-stand)
+// Sensor gom gir deg KM gjenstående før neste service (regnes fra forrige service + serviceintervall)
+//
+// **ENHETER BRUKT**
+// 
+// Her har jeg følgende devicer (per bil):
+// 
+// Home Assistant devicer:
+// Input Datetime som gir to datoer (EU og forsikringsstart)
+// Input Number som gir KM-stand
+// Input Number som gir KM-stand forsikring start
+// Input Number som gir KM-stand forsikring intervall
+// Input Number som gir KM-stand service sist
+// Input Number som gir KM-stand service intervall
+// Sensor som gir KM-stand fra Input Number
+// Sensor som gir antall dager til EU-kontroll
+// Sensor som gir antall dager igjen i forsrikringsperioden
+// Sensor som gir antall KM igjen i forsikring (totalt)
+// Sensor som gir antall KM igjen til neste service
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "packages-bil" som gir Home Assistant devicene
 
 # node_red-google_calendar_tts_notify
 // Tor Gaute Lien - Versjon 1.0 - 06/01-22
