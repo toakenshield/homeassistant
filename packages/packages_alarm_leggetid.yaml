@@ -1,0 +1,207 @@
+################################################################
+## packages-alarm_leggetid --> Versjon 2.0 --> 18/1-22
+##
+## BESKRIVELSE
+##
+## Lagt automasjon over til pakken node_red-alarm_leggetid
+## Latt gammelt script og automasjon ligge for inspirasjon
+##
+## Pakke som gir følgende devices per person:
+## Input Datetime som gir klokkeslett leggetid uke
+## Input Datetime som gir klokkeslett leggetid helg
+## Input Boolean som kan aktivere / deaktivere alarmene totalt
+## Input Boolean som kan aktivere / deaktivere alarmen ukedag
+## Input Boolean som kan aktivere / deaktivere alarmen helg
+## Binary Sensor (workday) som sier ifra om det er ukedag eller helg
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON  2.0 - Node-RED
+## 18/1-22
+## Fjernet automasjoner og gjort pakken til ren enhetspakke
+##
+## VERSJON 1.0 - NEW
+## 13/4-20
+##
+## Alarm leggetid Marthias, Sofie og voksne.
+## Alarmene har egne klokkeslett og brytere for hverdager og helg
+## De har hver sin hovedbryter
+## Alarmene bruker en sensor (Leggetid) for å skille hverdag og helg
+##
+## Alarm skole og buss for Matthias og Sofie
+## Alarmene har egne klokkeslett og brytere
+## De har hver sin hovedbryter og det er en felles hovedbryter
+## Alarmene bruker en sensor (Skoledag) for å skille skoledag og fri
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-alarm_leggetid"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## INPUTS
+################################################
+
+input_boolean:
+  # LEGGETID MATHIAS
+  alarm_leggetid_enable_mathias:
+    name: "Leggetid: Aktiver leggetid Mathias"
+    icon: mdi:bell
+  alarm_leggetid_ukedager_mathias:
+    name: Ukedager
+    icon: mdi:calendar
+  alarm_leggetid_helg_mathias:
+    name: Helg
+    icon: mdi:calendar
+
+  # LEGGETID SOFIE
+  alarm_leggetid_enable_sofie:
+    name: "Leggetid: Aktiver leggetid Sofie"
+    icon: mdi:bell
+  alarm_leggetid_ukedager_sofie:
+    name: Ukedager
+    icon: mdi:calendar
+  alarm_leggetid_helg_sofie:
+    name: Helg
+    icon: mdi:calendar
+
+  # LEGGETID VOKSNE
+  alarm_leggetid_enable_voksne:
+    name: "Leggetid: Aktiver leggetid voksne"
+    icon: mdi:bell
+  alarm_leggetid_ukedager_voksne:
+    name: Ukedager
+    icon: mdi:calendar
+  alarm_leggetid_helg_voksne:
+    name: Helg
+    icon: mdi:calendar
+
+input_datetime:
+  # LEGGETID MATHIAS
+  alarm_leggetid_ukedager_mathias:
+    name: "Leggetid ukedager"
+    has_date: false
+    has_time: true
+  alarm_leggetid_helg_mathias:
+    name: "Leggetid helg"
+    has_date: false
+    has_time: true
+
+  # LEGGETID SOFIE
+  alarm_leggetid_ukedager_sofie:
+    name: "Leggetid ukedager"
+    has_date: false
+    has_time: true
+  alarm_leggetid_helg_sofie:
+    name: "Leggetid helg"
+    has_date: false
+    has_time: true
+
+  # LEGGETID VOKSNE
+  alarm_leggetid_ukedager_voksne:
+    name: "Leggetid ukedager"
+    has_date: false
+    has_time: true
+  alarm_leggetid_helg_voksne:
+    name: "Leggetid helg"
+    has_date: false
+    has_time: true
+
+################################################
+## BINARY SENSOR
+################################################
+
+binary_sensor:
+  # LEGGETID
+  - platform: workday
+    country: "NO"
+    name: "Leggetid"
+    workdays: [mon, tue, wed, thu, fri]
+    excludes: [sat, sun, holiday]
+    days_offset: 1 #Slik at den er aktiv 1 dag tidligere
+
+################################################
+## SCRIPT
+################################################
+#script:
+#  ################################################################
+#  ## LEGGETID MATHIAS
+#  ################################################################
+#
+#  alarm_leggetid_mathias_script:
+#    alias: "Leggetid: Mathias"
+#    sequence:
+#      - service: media_player.volume_set
+#        data_template:
+#          entity_id: media_player.sonos
+#          volume_level: 0.6
+#      - data_template:
+#          message: "Mathias! Klokken er {{  states.sensor.time.state }}, på tide å legge seg! God natt!"
+#        entity_id: media_player.sonos
+#        service: tts.google_translate_say
+
+################################################
+## AUTOMATION
+################################################
+#automation:
+#  ################################################################
+#  ## LEGGETID MATHIAS
+#  ################################################################
+#
+#  # UKEDAGER
+#  - id: alarm_leggetid_ukedager_mathias
+#    alias: "Leggetid: Mathias leggetid ukedager"
+#    trigger:
+#      platform: template
+#      value_template: "{{ states('sensor.time') == (states.input_datetime.alarm_leggetid_ukedager_mathias.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+#    condition:
+#      - condition: state
+#        entity_id: input_boolean.alarm_leggetid_enable_mathias
+#        state: "on"
+#      - condition: state
+#        entity_id: input_boolean.alarm_leggetid_ukedager_mathias
+#        state: "on"
+#      - condition: state
+#        entity_id: binary_sensor.leggetid
+#        state: "on"
+#    action:
+#      service: script.alarm_leggetid_mathias_script
+#
+#  # HELG
+#  - id: alarm_leggetid_helg_mathias
+#    alias: "Leggetid: Mathias leggetid helg"
+#    trigger:
+#      platform: template
+#      value_template: "{{ states('sensor.time') == (states.input_datetime.alarm_leggetid_helg_mathias.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+#    condition:
+#      - condition: state
+#        entity_id: input_boolean.alarm_leggetid_enable_mathias
+#        state: "on"
+#      - condition: state
+#        entity_id: input_boolean.alarm_leggetid_helg_mathias
+#        state: "on"
+#      - condition: state
+#        entity_id: binary_sensor.leggetid
+#        state: "off"
+#
+#    action:
+#      service: script.alarm_leggetid_mathias_script
