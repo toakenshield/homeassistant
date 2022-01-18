@@ -102,6 +102,40 @@ Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger i
 // * Jeg bruker en egen pakke "packages-vvb" som gir Input Datetime enhetene og Input Boolean
 
 
+# node_red-alarm_leggetid
+// Tor Gaute Lien - Versjon 1.0 - 19/01-22
+// 
+// **BESKRIVELSE**
+//
+// Automasjon som kan sende varsel til høyttaler eller telefon ved leggetid. 
+// 
+// Det er lagt opp til forskjell på leggetid i ukedager og helger som hentes fra input_datetime.
+// 
+// Bruker en egen binary_sensor "Leggetid" (workday) for å finne ut om det er dag eller helg.
+// 
+// Kan velge her om du vil ha varsel på høyttaler eller notify på inntil 4 mobiler.
+// 
+// Bruker også tre input_boolean for å kunne aktivere / deaktivere alt, ukedager eller helger.
+// 
+// Enhetene henter jeg fra min pakke "packages-alarm_leggetid" som har særskilt navn-oppskrift.
+//
+// **ENHETER BRUKT**
+// 
+// Her har jeg følgende devicer (per automasjon):
+// 
+// Home Assistant devicer:
+// Input Datetime (2) som gir to klokkeslett (uke og helg)
+// Input Boolean som kan aktivere / deaktivere alarmene totalt
+// Input Boolean som kan aktivere / deaktivere alarmen ukedag
+// Input Boolean som kan aktivere / deaktivere alarmen helg
+// Binary Sensor (workday) som sier ifra om det er ukedag eller helg
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "packages-alarm_leggetid" som gir Home Assistant devicene
+// * Jeg bruker også Subflow Smart TTS
+
+
 # node_red-PIR
 // Tor Gaute Lien - Versjon 1.0 - 06/01-22
 // Ny
