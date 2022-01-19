@@ -271,40 +271,42 @@ PS: Den pakkene som er oppdatert er i formatet packages-navn. Jeg vil legge inn 
 ################################################################
 
 ################################################################
-## packages-alarm_leggetid --> Versjon 2.0 --> 18/1-22
+## packages-alarm --> Versjon 2.0 --> 19/1-22
 ##
 ## BESKRIVELSE
 ##
-## Lagt automasjon over til pakken node_red-alarm_leggetid
-## Latt gammelt script og automasjon ligge for inspirasjon
+## Pakke som gir følgende devices per alarm:
+## Input Datetime som gir klokkeslett alarm
+## Input Boolean som kan aktivere / deaktivere alarmene totalt
+## Input Boolean som kan aktivere / deaktivere enkelt alarmen
+## Binary Sensor (workday) som sier ifra om det er skoledag
 ##
-## Pakke som gir følgende devices per person:
+################################################################
+
+################################################################
+## packages-alarm_busstid --> Versjon 2.0 --> 19/1-22
+##
+## BESKRIVELSE
+##
+## Pakke som gir følgende devices per alarm:
+## Input Datetime som gir klokkeslett alarm
+## Input Boolean som kan aktivere / deaktivere alarmene totalt
+## Input Boolean som kan aktivere / deaktivere enkelt alarmen
+##
+################################################################
+
+################################################################
+## packages-alarm_leggetid --> Versjon 2.0 --> 19/1-22
+##
+## BESKRIVELSE
+##
+## Pakke som gir følgende devices per alarm:
 ## Input Datetime som gir klokkeslett leggetid uke
 ## Input Datetime som gir klokkeslett leggetid helg
 ## Input Boolean som kan aktivere / deaktivere alarmene totalt
 ## Input Boolean som kan aktivere / deaktivere alarmen ukedag
 ## Input Boolean som kan aktivere / deaktivere alarmen helg
 ## Binary Sensor (workday) som sier ifra om det er ukedag eller helg
-##
-################################################################
-
-################################################################
-## packages-alarmer --> Versjon 1.1 --> 15/4-20
-##
-## BESKRIVELSE
-##
-## Alarm leggetid Marthias, Sofie og voksne.
-## Alarmene har egne klokkeslett og brytere for hverdager og helg
-## De har hver sin hovedbryter
-## Alarmene bruker en sensor (Leggetid) for å skille hverdag og helg
-##
-## Alarm skole og buss for Matthias og Sofie
-## Alarmene har egne klokkeslett og brytere
-## De har hver sin hovedbryter og det er en felles hovedbryter
-## Alarmene bruker en sensor (Skoledag) for å skille skoledag og fri
-##
-## Lagt inn Vacation-mode slik at når den er aktivert er
-## skole og bussalarmene på pause
 ##
 ################################################################
 
