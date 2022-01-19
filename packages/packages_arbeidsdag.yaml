@@ -1,5 +1,5 @@
 ################################################################
-## packages-arbeidsdag --> Versjon 1.0 --> 30/12-21
+## packages-arbeidsdag --> Versjon 1.1 --> 19/1-22
 ##
 ## BESKRIVELSE
 ##
@@ -10,10 +10,16 @@
 ##
 ## PS: Onsdag har fruen fri, så det er helgedag...
 ##
+## Laget en sensor arbeidsdag_tg som er mandag til fredag
+##
 ################################################################
 
 ################################################################
 ## VERSJONSLOGG
+##
+## VERSJON 1.1 - Arbeidsdag_TG
+## 19/1-22
+## Laget arbeidsdag_tg som er vanlig arbeidsuke for meg
 ##
 ## VERSJON 1.0 - Ny
 ## 31/12-21
@@ -50,3 +56,9 @@ binary_sensor:
     name: "Arbeidsdag"
     workdays: [mon, tue, thu, fri]
     excludes: [wed, sat, sun, holiday]
+
+  - platform: workday
+    country: "NO"
+    name: "Arbeidsdag_TG"
+    workdays: [mon, tue, wed, thu, fri]
+    excludes: [sat, sun, holiday]
