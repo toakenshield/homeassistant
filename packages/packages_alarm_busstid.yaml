@@ -1,0 +1,89 @@
+################################################################
+## packages-alarm_busstid --> Versjon 2.0 --> 19/1-22
+##
+## BESKRIVELSE
+##
+## Pakke som gir følgende devices per alarm:
+## Input Datetime som gir klokkeslett alarm
+## Input Boolean som kan aktivere / deaktivere alarmene totalt
+## Input Boolean som kan aktivere / deaktivere enkelt alarmen
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON  2.0 - Node-RED og splitting
+## 19/1-22
+## Fjernet automasjoner og gjort pakken til ren enhetspakke
+## Enhetene har like navn, det eneste som endres på slutten er navnet
+## Delt opp i pakkene alarm, alarm_busstid og alarm_leggetid
+##
+## VERSJON  1.1 - VACATION-MODE
+## 15/4-20
+## Lagt inn Vacation-mode slik at når den er aktivert er
+## skole og bussalarmene på pause
+##
+## Vacation-mode er en input_boolean som jeg har i egen pakke
+## da jeg bruker den samme på mange forskjellige pakker
+## Husk å legge inn denne pakken også eller fjern featuren
+##
+## VERSJON 1.0 - NEW
+## 13/4-20
+##
+## Alarm buss for Mathias og Sofie
+## Alarmene har egne klokkeslett og brytere
+## De har hver sin hovedbryter og det er en felles hovedbryter
+## Alarmene bruker en sensor (Skoledag) for å skille skoledag og fri
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-alarm_busstid"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## INPUTS
+################################################
+
+input_boolean:
+  # BUSSTID
+  alarm_busstid_enable:
+    name: "Alarm: Aktiver bussvarsel"
+    icon: mdi:bell
+  # BUSSTID MATHIAS
+  alarm_busstid_mathias:
+    name: "Buss Mathias"
+    icon: mdi:bell
+  # BUSSTID SOFIE
+  alarm_busstid_sofie:
+    name: "Buss Sofie"
+    icon: mdi:bell
+
+input_datetime:
+  # BUSSTID MATHIAS
+  alarm_busstid_mathias:
+    name: "Bussvarsel"
+    has_date: false
+    has_time: true
+
+  # BUSSTID SOFIE
+  alarm_busstid_sofie:
+    name: "Bussvarsel"
+    has_date: false
+    has_time: true
