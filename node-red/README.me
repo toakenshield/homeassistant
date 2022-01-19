@@ -102,6 +102,68 @@ Har prøvd å lage bilde og legge kode for hver enkelt, og beskrivelsen ligger i
 // * Jeg bruker en egen pakke "packages-vvb" som gir Input Datetime enhetene og Input Boolean
 
 
+# node_red-alarm
+// Tor Gaute Lien - Versjon 1.0 - 19/01-22
+// 
+// **BESKRIVELSE**
+//
+// Automasjon som kan sende varsel til høyttaler eller telefon ved tidspunkt valgt for alarm. 
+// 
+// Bruker en egen binary_sensor "Skoledag" (workday fra packages-alarm) for å finne ut om det er skoledag eller fri.
+// 
+// Kan velge her om du vil ha varsel på høyttaler og / eller notify på inntil 4 mobiler.
+// 
+// Bruker også to input_boolean for å kunne aktivere / deaktivere alle alarmene eller bare denne alarmen.
+// 
+// Enhetene henter jeg fra min pakke "packages-alarm" som har særskilt navn-oppskrift.
+//
+// **ENHETER BRUKT**
+// 
+// Her har jeg følgende devicer (per automasjon):
+// 
+// Home Assistant devicer:
+// Input Datetime som gir klokkeslett for alarm
+// Input Boolean som kan aktivere / deaktivere alle busstid-alarmene
+// Input Boolean som kan aktivere / deaktivere den enkelte alarm
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "packages-alarm_busstid" som gir Home Assistant devicene
+// * Jeg bruker en egen pakke "packages-alarm" som gir "Skoledag" devicen
+// * Jeg bruker også Subflow Smart TTS
+
+
+# node_red-alarm_busstid
+// Tor Gaute Lien - Versjon 1.0 - 19/01-22
+// 
+// **BESKRIVELSE**
+//
+// Automasjon som kan sende varsel til høyttaler eller telefon ved tidspunkt valgt for bussvarsel. 
+// 
+// Bruker en egen binary_sensor "Skoledag" (workday fra packages-alarm) for å finne ut om det er skoledag eller fri.
+// 
+// Kan velge her om du vil ha varsel på høyttaler og / eller notify på inntil 4 mobiler.
+// 
+// Bruker også to input_boolean for å kunne aktivere / deaktivere alle busstid-alarmene eller bare denne alarmen.
+// 
+// Enhetene henter jeg fra min pakke "packages-alarm_busstid" som har særskilt navn-oppskrift.
+//
+// **ENHETER BRUKT**
+// 
+// Her har jeg følgende devicer (per automasjon):
+// 
+// Home Assistant devicer:
+// Input Datetime som gir klokkeslett for alarm
+// Input Boolean som kan aktivere / deaktivere alle busstid-alarmene
+// Input Boolean som kan aktivere / deaktivere den enkelte alarm
+// 
+// **TING SOM EVENTUELT TRENGS**
+// 
+// * Jeg bruker en egen pakke "packages-alarm_busstid" som gir Home Assistant devicene
+// * Jeg bruker en egen pakke "packages-alarm" som gir "Skoledag" devicen
+// * Jeg bruker også Subflow Smart TTS
+
+
 # node_red-alarm_leggetid
 // Tor Gaute Lien - Versjon 1.0 - 19/01-22
 // 
