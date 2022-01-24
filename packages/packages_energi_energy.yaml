@@ -1,15 +1,21 @@
 ################################################################
-## packages-energi_energy --> Versjon 1.1 --> 11/01-22
+## packages-energi_energy --> Versjon 1.2 --> 24/01-22
 ##
 ## BESKRIVELSE
 ##
 ## Her legger jeg på energy (kWh) på enheter som ikke
 ## har måler i seg. Det regnes ut fra strømforbruk (power).
 ##
+## Jeg lager også egen energy (kWh) på enhet der jeg bruker filter.
+##
 ################################################################
 
 ################################################################
 ## VERSJONLOG
+##
+## VERSJON 1.2 - Lagt inn filter
+## 24/01-22
+## Lagt inn filter på to enheter som rapporterte spikes
 ##
 ## VERSJON 1.1 - Endret navn
 ## 11/01-22
@@ -50,6 +56,10 @@ homeassistant:
       icon: mdi:gauge
     sensor.varme_spent:
       icon: mdi:gauge
+    sensor.smiubakken_termostat_energy_filter:
+      icon: mdi:gauge
+    sensor.gang_termostat_energy_filter:
+      icon: mdi:gauge
 
 ################################################
 ## SENSOR
@@ -73,21 +83,21 @@ sensor:
   #OMREGNER: Regne om power til effekt - Lekerom Varmeovn
   - platform: integration
     source: sensor.lekerom_varmeovn_power
-    name: Varmeovn
+    name: lekerom_varmeovn_energy
     unit_prefix: k
     round: 2
 
   #OMREGNER: Regne om power til effekt - Kontor Varmeovn
   - platform: integration
     source: sensor.kontor_varmeovn_power
-    name: Varmeovn
+    name: kontor_varmeovn_energy
     unit_prefix: k
     round: 2
 
   #OMREGNER: Regne om power til effekt - Stuelys
   - platform: integration
     source: sensor.stue_lys_power
-    name: Stuelys
+    name: stue_lys_energy
     unit_prefix: k
     round: 2
 
@@ -95,5 +105,19 @@ sensor:
   - platform: integration
     source: sensor.varme_power
     name: varme_spent
+    unit_prefix: k
+    round: 2
+
+  #OMREGNER: Regne om power til effekt - Smiubakken Termostat FILTER
+  - platform: integration
+    source: sensor.smiubakken_termostat_power_filter
+    name: smiubakken_termostat_energy_filter
+    unit_prefix: k
+    round: 2
+
+  #OMREGNER: Regne om power til effekt - Gang Termostat FILTER
+  - platform: integration
+    source: sensor.gang_termostat_power_filter
+    name: gang_termostat_energy_filter
     unit_prefix: k
     round: 2
