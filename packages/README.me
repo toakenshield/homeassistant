@@ -183,12 +183,14 @@ PS: Den pakkene som er oppdatert er i formatet packages-navn. Jeg vil legge inn 
 ################################################################
 
 ################################################################
-## packages-energi_energy --> Versjon 1.1 --> 11/01-22
+## packages-energi_energy --> Versjon 1.2 --> 24/01-22
 ##
 ## BESKRIVELSE
 ##
 ## Her legger jeg på energy (kWh) på enheter som ikke
 ## har måler i seg. Det regnes ut fra strømforbruk (power).
+##
+## Jeg lager også egen energy (kWh) på enhet der jeg bruker filter.
 ##
 ################################################################
 
@@ -202,6 +204,18 @@ PS: Den pakkene som er oppdatert er i formatet packages-navn. Jeg vil legge inn 
 ##
 ## Jeg legger også sammen strømforbruk fra flere enheter
 ## slik at jeg har totalforbruk på all varmen
+##
+################################################################
+
+################################################################
+## packages-energi_filter --> Versjon 1.0 --> 24/01-22
+##
+## BESKRIVELSE
+##
+## Jeg har to termostater som av og til gir et peak i power.
+## Dette ødelegger verdiene når jeg skal bergene priser.
+##
+## Her legger jeg maks og min i filter range.
 ##
 ################################################################
 
