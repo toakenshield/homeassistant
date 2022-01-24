@@ -1,0 +1,77 @@
+################################################################
+## packages-energi_filter --> Versjon 1.0 --> 24/01-22
+##
+## BESKRIVELSE
+##
+## Jeg har to termostater som av og til gir et peak i power.
+## Dette ødelegger verdiene når jeg skal bergene priser.
+##
+## Her legger jeg maks og min i filter range.
+##
+################################################################
+
+################################################################
+## VERSJONLOG
+##
+## VERSJON 1.0 - Ny
+## 24/01-22
+## Laget infotekst
+##
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "packages-energi_filter"
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## SENSOR
+    ################################################
+
+    #SMIUBAKKEN HEAT-IT
+    sensor.smiubakken_termostat_power_filter:
+      friendly_name: "Smiubakken Termostat Power"
+      icon: mdi:floor-plan
+      entity_picture: /local/icons/icons8-central-heating-48.png
+    #GANG HEAT-IT
+    sensor.gang_termostat_power_filter:
+      friendly_name: "Gang Termostat Power"
+      icon: mdi:floor-plan
+      entity_picture: /local/icons/icons8-central-heating-48.png
+
+################################################
+## SENSOR
+################################################
+
+sensor:
+  #SMIUBAKKEN HEAT-IT
+  - platform: filter
+    name: "smiubakken_termostat_power_filter"
+    entity_id: sensor.smiubakken_termostat_power
+    filters:
+      - filter: range
+        lower_bound: 0
+        upper_bound: 2100
+
+  #GANG HEAT-IT
+  - platform: filter
+    name: "gang_termostat_power_filter"
+    entity_id: sensor.gang_termostat_power
+    filters:
+      - filter: range
+        lower_bound: 0
+        upper_bound: 1100
