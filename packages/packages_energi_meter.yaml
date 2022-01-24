@@ -367,16 +367,16 @@ utility_meter:
     cycle: monthly
   #Smiubakken Termostat
   smiubakken_termostat_hourly:
-    source: sensor.smiubakken_termostat_energy
+    source: sensor.smiubakken_termostat_energy_filter
     cycle: hourly
   smiubakken_termostat_daily:
-    source: sensor.smiubakken_termostat_energy
+    source: sensor.smiubakken_termostat_energy_filter
     cycle: daily
   smiubakken_termostat_weekly:
-    source: sensor.smiubakken_termostat_energy
+    source: sensor.smiubakken_termostat_energy_filter
     cycle: weekly
   smiubakken_termostat_monthly:
-    source: sensor.smiubakken_termostat_energy
+    source: sensor.smiubakken_termostat_energy_filter
     cycle: monthly
   #Bad Termostat
   bad_termostat_hourly:
@@ -393,16 +393,16 @@ utility_meter:
     cycle: monthly
   #Gang Termostat
   gang_termostat_hourly:
-    source: sensor.gang_termostat_energy
+    source: sensor.gang_termostat_energy_filter
     cycle: hourly
   gang_termostat_daily:
-    source: sensor.gang_termostat_energy
+    source: sensor.gang_termostat_energy_filter
     cycle: daily
   gang_termostat_weekly:
-    source: sensor.gang_termostat_energy
+    source: sensor.gang_termostat_energy_filter
     cycle: weekly
   gang_termostat_monthly:
-    source: sensor.gang_termostat_energy
+    source: sensor.gang_termostat_energy_filter
     cycle: monthly
   #Kjøkken Varmeovn
   kjokken_varmeovn_hourly:
