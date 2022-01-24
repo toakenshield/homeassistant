@@ -58,7 +58,7 @@ homeassistant:
 ################################################
 
 sensor:
-  #SMIUBAKKEN HEAT-IT
+  #SMIUBAKKEN HEAT-IT maks 2100w
   - platform: filter
     name: "smiubakken_termostat_power_filter"
     entity_id: sensor.smiubakken_termostat_power
@@ -67,7 +67,7 @@ sensor:
         lower_bound: 0
         upper_bound: 2100
 
-  #GANG HEAT-IT
+  #GANG HEAT-IT maks 1100w
   - platform: filter
     name: "gang_termostat_power_filter"
     entity_id: sensor.gang_termostat_power
