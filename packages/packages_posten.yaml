@@ -1,13 +1,19 @@
 ################################################################
-## packages-posten --> Versjon 1.1 --> 29/12-21
+## packages-posten --> Versjon 1.2 --> 25/01-22
 ##
 ## BESKRIVELSE
 ##
 ## Her får du to sensorer som henter informasjon fra Posten over
 ## når posten blir levert til din postadresse
 ##
-## sensor.posten vil ha attributes som forteller de neste dagene
-## Posten blir levert hos deg
+## sensor.posten vil være True om posten blir hentet i dag, og ha
+## attributes som forteller de neste dagene Posten blir levert
+##
+## sensor.postendeliverydays vil vise de neste dagene
+## Posten blir levert
+##
+## sensor.postlevering vil vise i dag, i morgen eller neste dato
+## Posten blir levert. Ikonet blir åpent om det er i dag.
 ##
 ## binary_sensor.posten vil endre farge (aktiveres) om
 ## posten blir levert i dag
@@ -23,6 +29,11 @@
 
 ################################################################
 ## VERSJONLOG
+##
+## VERSJON  1.2 - Nye sensorer
+## 25/01-22
+## Lagt inn PostenDeliveryDays (som kan brukes på Posten-kortet)
+## Lagt inn Postlevering (etter kode fra Simen Randen, HA Norge)
 ##
 ## VERSJON  1.1 - Posten
 ## 29/12-21
@@ -67,6 +78,7 @@ homeassistant:
 ################################################
 
 sensor:
+  # Sensor som er True når dagen er i dag
   # HER MÅ DU ENDRE TIL DITT POSTNUMMER FRA 2847
   - platform: command_line
     command: >-
@@ -80,7 +92,42 @@ sensor:
     scan_interval: 28800
     command_timeout: 30
 
+  # Sensor som brukes av blant annet Posten-Card og viser datoene
+  # HER MÅ DU ENDRE TIL DITT POSTNUMMER FRA 2847
+  - platform: rest
+    name: PostenDeliveryDays
+    resource: https://www.posten.no/levering-av-post/_/component/main/1/leftRegion/1?postCode=2847
+    headers:
+      x-requested-with: XMLHttpRequest
+    scan_interval: 28800
+    value_template: "{{ value_json.nextDeliveryDays }}"
+
+  # Sensor som gir forskjellig ikon og sier i dag, i morgen eller neste dag (bruker PostenDeliveryDays sensoren)
+  - platform: template
+    sensors:
+      post_levering:
+        friendly_name: Postlevering
+        value_template: >-
+          {% set neste = states('sensor.postendeliverydays').split("'")[1] %}
+          {% set post = neste.split()[0] %}
+          {% if post == 'i' %}
+          {% set post = neste.split()[0]+' '+neste.split()[1] %}
+          {% endif %}
+          {{(post)|capitalize}}
+        icon_template: >-
+          {% set neste = states('sensor.postendeliverydays').split("'")[1] %}
+          {% set post = neste.split()[0] %}
+          {% if post == 'i' %}
+          {% set post = neste.split()[0]+' '+neste.split()[1] %}
+          {% endif %}
+          {% if post == 'i dag' %}
+            mdi:mailbox-open
+          {% else %}
+            mdi:mailbox
+          {% endif %}
+
 binary_sensor:
+  # Binary sensor som er aktiv når det er levering
   - platform: template
     sensors:
       posten:
