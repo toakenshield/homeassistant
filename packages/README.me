@@ -36,15 +36,21 @@ PS: Den pakkene som er oppdatert er i formatet packages-navn. Jeg vil legge inn 
 ################################################################
 
 ################################################################
-## packages-posten --> Versjon 1.1 --> 29/12-21
+## packages-posten --> Versjon 1.2 --> 25/01-22
 ##
 ## BESKRIVELSE
 ##
 ## Her får du to sensorer som henter informasjon fra Posten over
 ## når posten blir levert til din postadresse
 ##
-## sensor.posten vil ha attributes som forteller de neste dagene
-## Posten blir levert hos deg
+## sensor.posten vil være True om posten blir hentet i dag, og ha
+## attributes som forteller de neste dagene Posten blir levert
+##
+## sensor.postendeliverydays vil vise de neste dagene
+## Posten blir levert
+##
+## sensor.postlevering vil vise i dag, i morgen eller neste dato
+## Posten blir levert. Ikonet blir åpent om det er i dag.
 ##
 ## binary_sensor.posten vil endre farge (aktiveres) om
 ## posten blir levert i dag
