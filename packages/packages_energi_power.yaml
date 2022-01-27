@@ -73,7 +73,7 @@ sensor:
       600w_power:
         friendly_name: Barneloft Varmeovn Power
         value_template: >
-          {{ 600 if is_state('climate.600w', 'heat')
+          {{ 600 if (state_attr('climate.600w', 'hvac_action') == 'heating')
           else 0 }}
         unit_of_measurement: W
 
@@ -112,7 +112,6 @@ sensor:
     sensors:
       varme_power:
         friendly_name: "Varme Power"
-        # Bruker denne sensoren: sensor.stue_varmepumpe_power
         # Bruker denne sensoren: sensor.bad_termostat_power
         # Bruker denne sensoren: sensor.gang_termostat_power_filter
         # Bruker denne sensoren: sensor.smiubakken_termostat_power_filter
@@ -126,5 +125,5 @@ sensor:
         # Bruker denne sensoren: sensor.wc_varmeovn_power
         # Bruker denne sensoren: sensor.kjeller_varmeovn_power
         # Bruker denne sensoren: sensor.neglestudio_varmeovn_power
-        value_template: "{{ ((states('sensor.stue_varmepumpe_power')|float)+ (states('sensor.bad_termostat_power')|float) + (states('sensor.gang_termostat_power_filter')|float)+ (states('sensor.smiubakken_termostat_power_filter')|float) + (states('sensor.lekerom_varmeovn_power')|float)  + (states('sensor.kontor_varmeovn_power')|float) + (states('sensor.600w_power')|float) + (states('sensor.kjokken_varmeovn_power')|float) + (states('sensor.soverom_varmeovn_power')|float) + (states('sensor.mathias_varmeovn_power')|float) + (states('sensor.sofie_varmeovn_power')|float) + (states('sensor.wc_varmeovn_power')|float) + (states('sensor.kjeller_varmeovn_power')|float) + (states('sensor.neglestudio_varmeovn_power')|float))|round(2) }}"
+        value_template: "{{ ((states('sensor.bad_termostat_power')|float) + (states('sensor.gang_termostat_power_filter')|float)+ (states('sensor.smiubakken_termostat_power_filter')|float) + (states('sensor.lekerom_varmeovn_power')|float)  + (states('sensor.kontor_varmeovn_power')|float) + (states('sensor.600w_power')|float) + (states('sensor.kjokken_varmeovn_power')|float) + (states('sensor.soverom_varmeovn_power')|float) + (states('sensor.mathias_varmeovn_power')|float) + (states('sensor.sofie_varmeovn_power')|float) + (states('sensor.wc_varmeovn_power')|float) + (states('sensor.kjeller_varmeovn_power')|float) + (states('sensor.neglestudio_varmeovn_power')|float))|round(2) }}"
         unit_of_measurement: "W"
