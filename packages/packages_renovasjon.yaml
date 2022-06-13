@@ -15,11 +15,16 @@
 ##
 ## Hentet fra eyesoft
 ## https://github.com/eyesoft/home-assistant-custom-components
+## https://github.com/Danielhiversen/home_assistant_min_renovasjon
 ##
 ################################################################
 
 ################################################################
 ## VERSJONLOG
+##
+## VERSJON  1.2
+## 13/06-22
+## Endret utregning dager
 ##
 ## VERSJON  1.1
 ## 07/01-22
@@ -128,12 +133,9 @@ sensor:
     sensors:
       restavfall_tomming:
         friendly_name: "Restavfall"
-        # SLETT?        entity_id:
-        # SLETT?          - sensor.restavfall
         value_template: >-
-          {% set date_in = states.sensor.restavfall.state|replace('\n', '') %}
-          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
-          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set date_in = as_timestamp(states.sensor.restavfall.state) %}
+          {% set diff = date_in  + 86400 - as_timestamp(now()) %}
           {% set days = (diff /86400) | int %}
           {% if days == 0 %}
             I dag
@@ -148,12 +150,9 @@ sensor:
     sensors:
       papir_tomming:
         friendly_name: "Papir"
-        # SLETT?        entity_id:
-        # SLETT?          - sensor.papir
         value_template: >-
-          {% set date_in = states.sensor.papir.state|replace('\n', '') %}
-          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
-          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set date_in = as_timestamp(states.sensor.papir.state) %}
+          {% set diff = date_in  + 86400 - as_timestamp(now()) %}
           {% set days = (diff /86400) | int %}
           {% if days == 0 %}
             I dag
@@ -168,12 +167,9 @@ sensor:
     sensors:
       matavfall_tomming:
         friendly_name: "Matavfall"
-        # SLETT?        entity_id:
-        # SLETT?          - sensor.matavfall
         value_template: >-
-          {% set date_in = states.sensor.matavfall.state|replace('\n', '') %}
-          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
-          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set date_in = as_timestamp(states.sensor.matavfall.state) %}
+          {% set diff = date_in  + 86400 - as_timestamp(now()) %}
           {% set days = (diff /86400) | int %}
           {% if days == 0 %}
             I dag
@@ -188,12 +184,9 @@ sensor:
     sensors:
       glass_metallemballasje_tomming:
         friendly_name: "Glass/Metallamballasje"
-        # SLETT?        entity_id:
-        # SLETT?          - sensor.glass_metallemballasje
         value_template: >-
-          {% set date_in = states.sensor.glass_metallemballasje.state|replace('\n', '') %}
-          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
-          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set date_in = as_timestamp(states.sensor.glass_metallemballasje.state) %}
+          {% set diff = date_in  + 86400 - as_timestamp(now()) %}
           {% set days = (diff /86400) | int %}
           {% if days == 0 %}
             I dag
@@ -208,12 +201,9 @@ sensor:
     sensors:
       plast_tomming:
         friendly_name: "Plast"
-        # SLETT?        entity_id:
-        # SLETT?          - sensor.plast
         value_template: >-
-          {% set date_in = states.sensor.plast.state|replace('\n', '') %}
-          {% set bin = strptime((date_in), "%a, %d %B %Y") %}
-          {% set diff = as_timestamp(bin) + 86400 - as_timestamp(now()) %}
+          {% set date_in = as_timestamp(states.sensor.plast.state) %}
+          {% set diff = date_in  + 86400 - as_timestamp(now()) %}
           {% set days = (diff /86400) | int %}
           {% if days == 0 %}
             I dag
